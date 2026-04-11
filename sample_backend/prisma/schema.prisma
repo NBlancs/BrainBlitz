@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scores    Score[]
+
+  @@index([username])
+}
+
+model Category {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  icon      String
+  questions Question[]
+  scores    Score[]
+
+  @@index([name])
+}
+
+model Question {
+  id         String   @id @default(uuid())
+  text       String
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  answers    Answer[]
+
+  @@index([categoryId])
+}
+
+model Answer {
+  id         String   @id @default(uuid())
+  text       String
+  isCorrect  Boolean
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId])
+}
+
+model Score {
+  id         String   @id @default(uuid())
+  userId     String
+  categoryId String
+  points     Int
+  correctAnswers Int
+  totalQuestions Int
+  speedBonus Int      @default(0)
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([categoryId, points(sort: Desc)])
+  @@index([userId])
+  @@index([createdAt(sort: Desc)])
+}
