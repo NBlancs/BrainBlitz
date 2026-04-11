@@ -37,3 +37,9 @@ export type RootStackParamList = {
   Game: { category: Category };
   Leaderboard: { category: Category; latestScore?: number };
 };
+
+export type MainTabParamList = {
+  HomeTab: undefined;
+  LeaderboardTab: undefined;
+  ProfileTab: undefined;
+};

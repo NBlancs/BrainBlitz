@@ -1,8 +1,10 @@
 import { useQuery } from "@apollo/client";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
+import { buildPixelAvatarUri, createUserAvatarSeed } from "../lib/avatar";
 import { GET_LEADERBOARD } from "../lib/queries";
+import { useSessionStore } from "../store/useSessionStore";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { RootStackParamList } from "../types";
 
@@ -24,6 +26,8 @@ type LeaderboardResponse = {
 
 export function LeaderboardScreen({ route, navigation }: Props) {
   const { category, latestScore } = route.params;
+  const sessionUserId = useSessionStore((state) => state.user?.id);
+  const selectedAvatarSeed = useSessionStore((state) => state.avatarSeed);
 
   const { data, loading, error, refetch } = useQuery<LeaderboardResponse>(GET_LEADERBOARD, {
     variables: {
@@ -80,6 +84,14 @@ export function LeaderboardScreen({ route, navigation }: Props) {
                   >
                     <Text style={styles.rank}>#{item.rank}</Text>
                   </View>
+                  {(() => {
+                    const seed =
+                      item.user.id === sessionUserId && selectedAvatarSeed
+                        ? selectedAvatarSeed
+                        : createUserAvatarSeed(item.user.id, item.user.username);
+
+                    return <Image source={{ uri: buildPixelAvatarUri(seed, 64) }} style={styles.rankAvatar} />;
+                  })()}
                   <View style={styles.rowBody}>
                     <Text style={styles.username}>{item.user.username}</Text>
                     <Text style={styles.date}>{new Date(item.createdAt).toLocaleString()}</Text>
@@ -174,15 +186,21 @@ const styles = StyleSheet.create({
     padding: 12,
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
+    gap: 8,
     ...arcadeShadow(4),
+  },
+  rankAvatar: {
+    width: 30,
+    height: 30,
+    ...pixelBorder(2),
+    backgroundColor: theme.colors.background,
   },
   rankBadge: {
     ...pixelBorder(3),
-    minWidth: 48,
+    minWidth: 44,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 6,
+    paddingVertical: 5,
   },
   rankFirst: {
     backgroundColor: theme.colors.warning,

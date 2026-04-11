@@ -5,7 +5,9 @@ import { User } from "../types";
 
 type SessionState = {
   user: User | null;
+  avatarSeed: string | null;
   setUser: (user: User) => void;
+  setAvatarSeed: (seed: string) => void;
   clearUser: () => void;
 };
 
@@ -13,8 +15,10 @@ export const useSessionStore = create<SessionState>()(
   persist(
     (set) => ({
       user: null,
+      avatarSeed: null,
       setUser: (user) => set({ user }),
-      clearUser: () => set({ user: null }),
+      setAvatarSeed: (seed) => set({ avatarSeed: seed }),
+      clearUser: () => set({ user: null, avatarSeed: null }),
     }),
     {
       name: "brainblitz-session",
