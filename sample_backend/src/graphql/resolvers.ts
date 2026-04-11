@@ -1,10 +1,72 @@
 import prisma from "../lib/prisma.js";
+import { randomUUID } from "node:crypto";
 
 type SubmittedAnswer = {
   questionId: string;
   answerId?: string | null;
   responseTimeMs: number;
 };
+
+type OpenTdbQuestion = {
+  question: string;
+  correct_answer: string;
+  incorrect_answers: string[];
+};
+
+type OpenTdbResponse = {
+  response_code: number;
+  results: OpenTdbQuestion[];
+};
+
+type RuntimeQuestionRecord = {
+  categoryId: string;
+  correctAnswerId: string;
+  expiresAt: number;
+};
+
+const OPEN_TDB_CATEGORY_BY_NAME: Record<string, number> = {
+  science: 17,
+  history: 23,
+  geography: 22,
+};
+
+const RUNTIME_QUESTION_TTL_MS = 60 * 60 * 1000;
+const runtimeQuestionMap = new Map<string, RuntimeQuestionRecord>();
+
+function purgeExpiredRuntimeQuestions() {
+  const now = Date.now();
+  for (const [questionId, record] of runtimeQuestionMap.entries()) {
+    if (record.expiresAt <= now) {
+      runtimeQuestionMap.delete(questionId);
+    }
+  }
+}
+
+function decodeOpenTdbValue(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+async function getLocalQuestions(categoryId: string, limit: number) {
+  const questions = await prisma.question.findMany({
+    where: { categoryId },
+    include: { answers: true },
+  });
+
+  return shuffle(questions)
+    .slice(0, Math.max(1, limit))
+    .map((question) => ({
+      ...question,
+      answers: shuffle(question.answers).map((answer) => ({
+        id: answer.id,
+        text: answer.text,
+        isCorrect: answer.isCorrect,
+      })),
+    }));
+}
 
 function shuffle<T>(items: T[]): T[] {
   const clone = [...items];
@@ -37,21 +99,80 @@ export const resolvers = {
       _root: unknown,
       { categoryId, limit = 10 }: { categoryId: string; limit?: number }
     ) => {
-      const questions = await prisma.question.findMany({
-        where: { categoryId },
-        include: { answers: true },
+      purgeExpiredRuntimeQuestions();
+
+      const category = await prisma.category.findUnique({
+        where: { id: categoryId },
       });
 
-      return shuffle(questions)
-        .slice(0, Math.max(1, limit))
-        .map((question) => ({
-          ...question,
-          answers: shuffle(question.answers).map((answer) => ({
-            id: answer.id,
+      if (!category) {
+        throw new Error("Category not found.");
+      }
+
+      const openTdbCategory = OPEN_TDB_CATEGORY_BY_NAME[category.name.toLowerCase()];
+      const normalizedLimit = Math.min(Math.max(1, limit), 50);
+      if (!openTdbCategory) {
+        return getLocalQuestions(categoryId, normalizedLimit);
+      }
+
+      const search = new URLSearchParams({
+        amount: String(normalizedLimit),
+        category: String(openTdbCategory),
+        type: "multiple",
+        encode: "url3986",
+      });
+
+      try {
+        const response = await fetch(`https://opentdb.com/api.php?${search.toString()}`);
+        if (!response.ok) {
+          return getLocalQuestions(categoryId, normalizedLimit);
+        }
+
+        const payload = (await response.json()) as OpenTdbResponse;
+        if (payload.response_code !== 0 || !payload.results.length) {
+          return getLocalQuestions(categoryId, normalizedLimit);
+        }
+
+        const questionExpiresAt = Date.now() + RUNTIME_QUESTION_TTL_MS;
+
+        return payload.results.map((item) => {
+          const questionId = randomUUID();
+          const options = shuffle([
+            {
+              text: decodeOpenTdbValue(item.correct_answer),
+              isCorrect: true,
+            },
+            ...item.incorrect_answers.map((answer) => ({
+              text: decodeOpenTdbValue(answer),
+              isCorrect: false,
+            })),
+          ]).map((answer) => ({
+            id: randomUUID(),
             text: answer.text,
             isCorrect: answer.isCorrect,
-          })),
-        }));
+          }));
+
+          const correctAnswer = options.find((answer) => answer.isCorrect);
+          if (!correctAnswer) {
+            throw new Error("Could not generate question answers.");
+          }
+
+          runtimeQuestionMap.set(questionId, {
+            categoryId,
+            correctAnswerId: correctAnswer.id,
+            expiresAt: questionExpiresAt,
+          });
+
+          return {
+            id: questionId,
+            text: decodeOpenTdbValue(item.question),
+            categoryId,
+            answers: options,
+          };
+        });
+      } catch {
+        return getLocalQuestions(categoryId, normalizedLimit);
+      }
     },
 
     getLeaderboard: async (
@@ -134,6 +255,8 @@ export const resolvers = {
         throw new Error("At least one answer is required.");
       }
 
+      purgeExpiredRuntimeQuestions();
+
       const [user, category] = await Promise.all([
         prisma.user.findUnique({ where: { id: userId } }),
         prisma.category.findUnique({ where: { id: categoryId } }),
@@ -147,28 +270,6 @@ export const resolvers = {
         throw new Error("Category not found.");
       }
 
-      const uniqueQuestionIds = [...new Set(answers.map((entry) => entry.questionId))];
-      const questions = await prisma.question.findMany({
-        where: {
-          id: { in: uniqueQuestionIds },
-          categoryId,
-        },
-        include: { answers: true },
-      });
-
-      if (questions.length !== uniqueQuestionIds.length) {
-        throw new Error("One or more submitted questions do not belong to this category.");
-      }
-
-      const answerLookup = new Map(
-        questions.map((question) => [
-          question.id,
-          new Map(
-            question.answers.map((answer) => [answer.id, { isCorrect: answer.isCorrect }])
-          ),
-        ])
-      );
-
       let totalResponseTimeMs = 0;
       let correctAnswers = 0;
 
@@ -176,13 +277,37 @@ export const resolvers = {
         const clampedResponseTime = Math.min(Math.max(entry.responseTimeMs, 0), 15000);
         totalResponseTimeMs += clampedResponseTime;
 
+        const runtimeQuestion = runtimeQuestionMap.get(entry.questionId);
+        if (runtimeQuestion) {
+          if (runtimeQuestion.categoryId !== categoryId) {
+            throw new Error("Submitted question does not belong to this category.");
+          }
+
+          if (entry.answerId && entry.answerId === runtimeQuestion.correctAnswerId) {
+            correctAnswers += 1;
+          }
+
+          continue;
+        }
+
         if (!entry.answerId) {
           continue;
         }
 
-        const questionAnswerMap = answerLookup.get(entry.questionId);
-        const selectedAnswer = questionAnswerMap?.get(entry.answerId);
-        if (selectedAnswer?.isCorrect) {
+        const answerRecord = await prisma.answer.findUnique({
+          where: { id: entry.answerId },
+          include: {
+            question: {
+              select: { categoryId: true },
+            },
+          },
+        });
+
+        if (!answerRecord || answerRecord.question.categoryId !== categoryId) {
+          throw new Error("One or more submitted questions do not belong to this category.");
+        }
+
+        if (answerRecord.isCorrect) {
           correctAnswers += 1;
         }
       }
