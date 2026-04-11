@@ -2,8 +2,10 @@ import { useMutation } from "@apollo/client";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { AnimatedReveal } from "../components/AnimatedReveal";
 import { CREATE_USER } from "../lib/queries";
 import { useSessionStore } from "../store/useSessionStore";
+import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { RootStackParamList, User } from "../types";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Username">;
@@ -46,24 +48,40 @@ export function UsernameScreen(_props: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>BrainBlitz</Text>
-      <Text style={styles.subtitle}>Set your player name to start your trivia session.</Text>
+      <AnimatedReveal style={styles.frame} duration={280} fromY={16}>
+        <Text style={styles.kicker}>ARCADE NET v1.0</Text>
+        <Text style={styles.title}>BRAINBLITZ</Text>
+        <Text style={styles.subtitle}>ENTER YOUR PLAYER HANDLE TO START.</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        autoCapitalize="none"
-        autoCorrect={false}
-        value={username}
-        onChangeText={setUsername}
-        maxLength={24}
-      />
+        <View style={styles.inputShell}>
+          <Text style={styles.inputPrefix}>{">"}</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="PLAYER_HANDLE"
+            placeholderTextColor="#5F5F5F"
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={username}
+            onChangeText={setUsername}
+            maxLength={24}
+          />
+          <View style={styles.cursorBlock} />
+        </View>
 
-      {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
+        {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
 
-      <Pressable style={styles.button} onPress={onContinue} disabled={loading}>
-        {loading ? <ActivityIndicator color="#ffffff" /> : <Text style={styles.buttonText}>Continue</Text>}
-      </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            pressed && styles.buttonPressed,
+            loading && styles.buttonDisabled,
+          ]}
+          onPress={onContinue}
+          disabled={loading}
+        >
+          {loading ? <ActivityIndicator color={theme.colors.white} /> : <Text style={styles.buttonText}>PRESS START</Text>}
+        </Pressable>
+      </AnimatedReveal>
     </View>
   );
 }
@@ -72,45 +90,88 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    padding: 24,
-    backgroundColor: "#f8fafc",
+    padding: 22,
+    backgroundColor: theme.colors.background,
+  },
+  frame: {
+    ...pixelBorder(4),
+    backgroundColor: theme.colors.background,
+    padding: 20,
     gap: 14,
   },
+  kicker: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 12,
+    color: theme.colors.border,
+    letterSpacing: 1,
+  },
   title: {
-    fontSize: 34,
+    fontFamily: theme.fonts.mono,
+    fontSize: 32,
     fontWeight: "700",
-    color: "#0f172a",
+    color: theme.colors.primary,
+    letterSpacing: 1,
   },
   subtitle: {
-    fontSize: 15,
-    color: "#475569",
-    marginBottom: 14,
+    fontFamily: theme.fonts.mono,
+    fontSize: 13,
+    color: theme.colors.border,
+    lineHeight: 18,
+  },
+  inputShell: {
+    ...pixelBorder(4),
+    backgroundColor: theme.colors.background,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    minHeight: 56,
+    gap: 8,
+  },
+  inputPrefix: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 20,
+    fontWeight: "700",
+    color: theme.colors.border,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#cbd5e1",
-    backgroundColor: "#ffffff",
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+    flex: 1,
+    backgroundColor: theme.colors.background,
+    paddingVertical: 8,
+    fontFamily: theme.fonts.mono,
     fontSize: 16,
-    color: "#0f172a",
+    color: theme.colors.border,
+  },
+  cursorBlock: {
+    width: 12,
+    height: 18,
+    backgroundColor: theme.colors.border,
   },
   button: {
-    backgroundColor: "#1d4ed8",
-    borderRadius: 12,
+    backgroundColor: theme.colors.primary,
+    ...pixelBorder(3),
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 13,
-    marginTop: 4,
+    paddingVertical: 14,
+    marginTop: 2,
+    ...arcadeShadow(4),
+  },
+  buttonPressed: {
+    transform: [{ translateY: 4 }],
+    ...pressedShadow,
+  },
+  buttonDisabled: {
+    opacity: 0.7,
   },
   buttonText: {
-    color: "#ffffff",
+    color: theme.colors.white,
+    fontFamily: theme.fonts.mono,
     fontSize: 16,
     fontWeight: "700",
+    letterSpacing: 1,
   },
   error: {
-    color: "#b91c1c",
-    fontSize: 14,
+    color: theme.colors.danger,
+    fontFamily: theme.fonts.mono,
+    fontSize: 13,
   },
 });

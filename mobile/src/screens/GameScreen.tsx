@@ -2,9 +2,11 @@ import { useMutation, useQuery } from "@apollo/client";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { AnimatedReveal } from "../components/AnimatedReveal";
 import { GET_QUESTIONS, SUBMIT_SCORE } from "../lib/queries";
 import { useGameStore } from "../store/useGameStore";
 import { useSessionStore } from "../store/useSessionStore";
+import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { Answer, Question, RootStackParamList } from "../types";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Game">;
@@ -24,6 +26,8 @@ type SubmitScoreResponse = {
 };
 
 const QUESTION_TIME_MS = 15000;
+const TIMER_BLOCK_COUNT = 10;
+const ANSWER_COLORS = ["#4CAF50", "#FFC107", "#F44336", "#0055FF"];
 
 export function GameScreen({ route, navigation }: Props) {
   const { category } = route.params;
@@ -44,6 +48,7 @@ export function GameScreen({ route, navigation }: Props) {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const questionStartRef = useRef<number>(Date.now());
   const answeredQuestionIdRef = useRef<string | null>(null);
+  const currentQuestion = questions[currentIndex];
 
   const { data, loading, error, refetch } = useQuery<QuestionsResponse>(GET_QUESTIONS, {
     variables: {
@@ -65,8 +70,6 @@ export function GameScreen({ route, navigation }: Props) {
       startRound(payload);
     }
   }, [data, status, startRound]);
-
-  const currentQuestion = questions[currentIndex];
 
   useEffect(() => {
     if (status !== "active" || !currentQuestion) {
@@ -201,8 +204,8 @@ export function GameScreen({ route, navigation }: Props) {
   if (loading || (status === "idle" && !data?.getQuestions?.length)) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator />
-        <Text style={styles.metaText}>Loading questions...</Text>
+        <ActivityIndicator color={theme.colors.primary} />
+        <Text style={styles.metaText}>SYNCING QUESTIONS...</Text>
       </View>
     );
   }
@@ -212,8 +215,8 @@ export function GameScreen({ route, navigation }: Props) {
       <View style={styles.center}>
         <Text style={styles.errorTitle}>Could not load questions</Text>
         <Text style={styles.errorMessage}>{error.message}</Text>
-        <Pressable style={styles.primaryButton} onPress={() => refetch()}>
-          <Text style={styles.primaryButtonText}>Retry</Text>
+        <Pressable style={({ pressed }) => [styles.primaryButton, pressed && styles.primaryButtonPressed]} onPress={() => refetch()}>
+          <Text style={styles.primaryButtonText}>RETRY</Text>
         </Pressable>
       </View>
     );
@@ -233,56 +236,96 @@ export function GameScreen({ route, navigation }: Props) {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Round Complete</Text>
-        <View style={styles.summaryCard}>
-          <Text style={styles.summaryLabel}>Correct Answers</Text>
-          <Text style={styles.summaryValue}>
-            {correctAnswers} / {submissions.length}
-          </Text>
-          <Text style={styles.summaryLabel}>Projected Total</Text>
-          <Text style={styles.summaryValue}>{projectedPoints} pts</Text>
-        </View>
+        <AnimatedReveal resetKey={`${status}-${currentQuestion?.id ?? "none"}`} duration={220} fromY={12}>
+          <Text style={styles.title}>MISSION COMPLETE</Text>
+          <View style={styles.summaryCard}>
+            <Text style={styles.summaryLabel}>CORRECT ANSWERS</Text>
+            <Text style={styles.summaryValue}>
+              {correctAnswers} / {submissions.length}
+            </Text>
+            <Text style={styles.summaryLabel}>PROJECTED TOTAL</Text>
+            <Text style={styles.summaryValue}>{projectedPoints} pts</Text>
+          </View>
 
-        {submitError ? <Text style={styles.errorMessage}>{submitError}</Text> : null}
+          {submitError ? <Text style={styles.errorMessage}>{submitError}</Text> : null}
 
-        <Pressable style={styles.primaryButton} onPress={onSubmitRound} disabled={submitLoading}>
-          {submitLoading ? <ActivityIndicator color="#ffffff" /> : <Text style={styles.primaryButtonText}>Submit Score</Text>}
-        </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.primaryButton,
+              pressed && styles.primaryButtonPressed,
+              submitLoading && styles.primaryButtonDisabled,
+            ]}
+            onPress={onSubmitRound}
+            disabled={submitLoading}
+          >
+            {submitLoading ? <ActivityIndicator color={theme.colors.white} /> : <Text style={styles.primaryButtonText}>SUBMIT SCORE</Text>}
+          </Pressable>
 
-        <Pressable style={styles.ghostButton} onPress={onQuitRound}>
-          <Text style={styles.ghostButtonText}>Back to Categories</Text>
-        </Pressable>
+          <Pressable style={({ pressed }) => [styles.ghostButton, pressed && styles.ghostButtonPressed]} onPress={onQuitRound}>
+            <Text style={styles.ghostButtonText}>BACK TO MISSIONS</Text>
+          </Pressable>
+        </AnimatedReveal>
       </View>
     );
   }
 
   const questionNumber = currentIndex + 1;
   const timerSeconds = Math.ceil(currentRemainingMs / 1000);
+  const timerBlocksFilled = Math.max(
+    0,
+    Math.min(TIMER_BLOCK_COUNT, Math.ceil((currentRemainingMs / QUESTION_TIME_MS) * TIMER_BLOCK_COUNT))
+  );
+  const timerVisual =
+    "■".repeat(timerBlocksFilled) + "□".repeat(Math.max(TIMER_BLOCK_COUNT - timerBlocksFilled, 0));
 
   return (
     <View style={styles.container}>
-      <View style={styles.topBar}>
-        <Text style={styles.progress}>Question {questionNumber} / {questions.length}</Text>
-        <Text style={styles.timer}>{timerSeconds}s</Text>
-      </View>
-
-      <Text style={styles.pointsText}>Current points: {currentPoints}</Text>
-
-      <ScrollView contentContainerStyle={styles.questionArea}>
-        <Text style={styles.questionText}>{currentQuestion?.text}</Text>
-
-        <View style={styles.answersList}>
-          {currentQuestion?.answers.map((answer) => (
-            <Pressable key={answer.id} style={styles.answerButton} onPress={() => onSelectAnswer(answer)}>
-              <Text style={styles.answerText}>{answer.text}</Text>
-            </Pressable>
-          ))}
+      <AnimatedReveal
+        style={styles.roundWrap}
+        resetKey={`${status}-${currentQuestion?.id ?? "none"}`}
+        duration={220}
+        fromY={12}
+      >
+        <View style={styles.hudCard}>
+          <View>
+            <Text style={styles.progressTitle}>ROUND STATUS</Text>
+            <Text style={styles.progress}>Q{questionNumber} / {questions.length}</Text>
+          </View>
+          <View style={styles.timerWrap}>
+            <Text style={styles.timerVisual}>{timerVisual}</Text>
+            <Text style={styles.timer}>{timerSeconds}s</Text>
+          </View>
         </View>
-      </ScrollView>
 
-      <Pressable style={styles.ghostButton} onPress={onQuitRound}>
-        <Text style={styles.ghostButtonText}>Quit Round</Text>
-      </Pressable>
+        <Text style={styles.pointsText}>CURRENT POINTS: {currentPoints}</Text>
+
+        <ScrollView contentContainerStyle={styles.questionArea}>
+          <View style={styles.questionCard}>
+            <Text style={styles.questionLabel}>QUESTION</Text>
+            <Text style={styles.questionText}>{currentQuestion?.text}</Text>
+          </View>
+
+          <View style={styles.answersList}>
+            {currentQuestion?.answers.map((answer, index) => (
+              <Pressable
+                key={answer.id}
+                style={({ pressed }) => [
+                  styles.answerButton,
+                  { backgroundColor: ANSWER_COLORS[index % ANSWER_COLORS.length] },
+                  pressed && styles.answerButtonPressed,
+                ]}
+                onPress={() => onSelectAnswer(answer)}
+              >
+                <Text style={styles.answerText}>{answer.text.toUpperCase()}</Text>
+              </Pressable>
+            ))}
+          </View>
+        </ScrollView>
+
+        <Pressable style={({ pressed }) => [styles.ghostButton, pressed && styles.ghostButtonPressed]} onPress={onQuitRound}>
+          <Text style={styles.ghostButtonText}>QUIT ROUND</Text>
+        </Pressable>
+      </AnimatedReveal>
     </View>
   );
 }
@@ -290,124 +333,195 @@ export function GameScreen({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8fafc",
+    backgroundColor: theme.colors.background,
     padding: 16,
+  },
+  roundWrap: {
+    flex: 1,
   },
   center: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 8,
+    gap: 10,
     padding: 24,
-    backgroundColor: "#f8fafc",
+    backgroundColor: theme.colors.background,
   },
   title: {
-    fontSize: 26,
+    fontFamily: theme.fonts.mono,
+    fontSize: 27,
     fontWeight: "700",
-    color: "#0f172a",
+    color: theme.colors.primary,
+    letterSpacing: 1,
     marginBottom: 10,
   },
-  topBar: {
+  hudCard: {
+    ...pixelBorder(4),
+    padding: 12,
+    backgroundColor: theme.colors.background,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
+  progressTitle: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 11,
+    color: theme.colors.border,
+    letterSpacing: 1,
+  },
   progress: {
-    fontSize: 16,
-    color: "#334155",
-    fontWeight: "600",
+    fontFamily: theme.fonts.mono,
+    fontSize: 18,
+    color: theme.colors.border,
+    fontWeight: "700",
+    marginTop: 3,
+  },
+  timerWrap: {
+    alignItems: "flex-end",
+  },
+  timerVisual: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 13,
+    color: theme.colors.border,
+    letterSpacing: 0.5,
   },
   timer: {
-    fontSize: 24,
+    fontFamily: theme.fonts.mono,
+    fontSize: 21,
     fontWeight: "700",
-    color: "#1d4ed8",
+    color: theme.colors.primary,
+    marginTop: 2,
   },
   pointsText: {
-    marginTop: 8,
-    color: "#0f172a",
+    marginTop: 10,
+    color: theme.colors.border,
+    fontFamily: theme.fonts.mono,
+    fontSize: 13,
     fontWeight: "600",
   },
   questionArea: {
     marginTop: 16,
-    gap: 14,
+    gap: 12,
+    paddingBottom: 8,
+  },
+  questionCard: {
+    ...pixelBorder(4),
+    padding: 14,
+    backgroundColor: theme.colors.background,
+  },
+  questionLabel: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 11,
+    color: theme.colors.border,
+    letterSpacing: 1,
+    marginBottom: 6,
   },
   questionText: {
-    fontSize: 22,
-    lineHeight: 31,
-    color: "#0f172a",
+    fontFamily: theme.fonts.mono,
+    fontSize: 20,
+    lineHeight: 30,
+    color: theme.colors.border,
     fontWeight: "700",
   },
   answersList: {
-    gap: 10,
-    marginTop: 8,
+    gap: 11,
+    marginTop: 2,
   },
   answerButton: {
-    backgroundColor: "#ffffff",
-    borderWidth: 1,
-    borderColor: "#e2e8f0",
-    borderRadius: 12,
-    paddingVertical: 14,
+    ...pixelBorder(3),
+    paddingVertical: 13,
     paddingHorizontal: 12,
+    ...arcadeShadow(4),
+  },
+  answerButtonPressed: {
+    transform: [{ translateY: 4 }],
+    ...pressedShadow,
   },
   answerText: {
-    fontSize: 16,
-    color: "#0f172a",
+    fontFamily: theme.fonts.mono,
+    fontSize: 14,
+    color: theme.colors.border,
+    fontWeight: "700",
   },
   summaryCard: {
-    backgroundColor: "#ffffff",
-    borderColor: "#e2e8f0",
-    borderWidth: 1,
-    borderRadius: 14,
+    backgroundColor: theme.colors.background,
+    ...pixelBorder(4),
     padding: 16,
     gap: 4,
     marginBottom: 14,
   },
   summaryLabel: {
-    fontSize: 13,
-    color: "#64748b",
+    fontFamily: theme.fonts.mono,
+    fontSize: 12,
+    color: theme.colors.border,
+    letterSpacing: 1,
   },
   summaryValue: {
-    fontSize: 22,
+    fontFamily: theme.fonts.mono,
+    fontSize: 23,
     fontWeight: "700",
-    color: "#0f172a",
+    color: theme.colors.primary,
     marginBottom: 4,
   },
   primaryButton: {
-    backgroundColor: "#1d4ed8",
-    borderRadius: 12,
-    paddingVertical: 13,
+    backgroundColor: theme.colors.primary,
+    ...pixelBorder(3),
+    paddingVertical: 14,
     alignItems: "center",
     marginTop: 6,
+    ...arcadeShadow(4),
+  },
+  primaryButtonPressed: {
+    transform: [{ translateY: 4 }],
+    ...pressedShadow,
+  },
+  primaryButtonDisabled: {
+    opacity: 0.7,
   },
   primaryButtonText: {
-    color: "#ffffff",
+    color: theme.colors.white,
+    fontFamily: theme.fonts.mono,
+    letterSpacing: 1,
     fontWeight: "700",
-    fontSize: 16,
+    fontSize: 15,
   },
   ghostButton: {
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#cbd5e1",
+    backgroundColor: theme.colors.danger,
+    ...pixelBorder(3),
     alignItems: "center",
-    paddingVertical: 12,
+    paddingVertical: 13,
     marginTop: 10,
+    ...arcadeShadow(4),
+  },
+  ghostButtonPressed: {
+    transform: [{ translateY: 4 }],
+    ...pressedShadow,
   },
   ghostButtonText: {
-    color: "#334155",
+    color: theme.colors.white,
+    fontFamily: theme.fonts.mono,
+    fontSize: 14,
+    letterSpacing: 1,
     fontWeight: "600",
   },
   errorTitle: {
+    fontFamily: theme.fonts.mono,
     fontSize: 18,
     fontWeight: "700",
-    color: "#0f172a",
+    color: theme.colors.border,
     textAlign: "center",
   },
   errorMessage: {
-    color: "#b91c1c",
+    color: theme.colors.danger,
+    fontFamily: theme.fonts.mono,
+    fontSize: 13,
     textAlign: "center",
     marginTop: 4,
   },
   metaText: {
-    color: "#475569",
+    color: theme.colors.border,
+    fontFamily: theme.fonts.mono,
+    fontSize: 12,
+    letterSpacing: 1,
   },
 });

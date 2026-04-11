@@ -4,6 +4,7 @@ import { GameScreen } from "../screens/GameScreen";
 import { LeaderboardScreen } from "../screens/LeaderboardScreen";
 import { UsernameScreen } from "../screens/UsernameScreen";
 import { useSessionStore } from "../store/useSessionStore";
+import { theme } from "../theme";
 import { RootStackParamList } from "../types";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -12,25 +13,41 @@ export function AppNavigator() {
   const user = useSessionStore((state) => state.user);
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: theme.colors.background,
+        },
+        contentStyle: {
+          backgroundColor: theme.colors.background,
+        },
+        headerShadowVisible: false,
+        headerTintColor: theme.colors.border,
+        headerTitleStyle: {
+          fontFamily: theme.fonts.mono,
+          fontSize: 14,
+          fontWeight: "700",
+        },
+      }}
+    >
       {!user ? (
         <Stack.Screen
           name="Username"
           component={UsernameScreen}
-          options={{ title: "Welcome to BrainBlitz", headerBackVisible: false }}
+          options={{ title: "BRAINBLITZ // LOGIN", headerBackVisible: false }}
         />
       ) : (
         <>
-          <Stack.Screen name="Categories" component={CategoryScreen} options={{ title: "Categories" }} />
+          <Stack.Screen name="Categories" component={CategoryScreen} options={{ title: "SELECT MISSION" }} />
           <Stack.Screen
             name="Game"
             component={GameScreen}
-            options={({ route }) => ({ title: route.params.category.name })}
+            options={({ route }) => ({ title: `${route.params.category.name.toUpperCase()} // ROUND` })}
           />
           <Stack.Screen
             name="Leaderboard"
             component={LeaderboardScreen}
-            options={({ route }) => ({ title: `${route.params.category.name} Leaderboard` })}
+            options={{ title: "GLOBAL LEADERBOARD" }}
           />
         </>
       )}
