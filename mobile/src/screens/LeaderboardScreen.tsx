@@ -4,6 +4,7 @@ import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View }
 import { AnimatedReveal } from "../components/AnimatedReveal";
 import { buildPixelAvatarUri, createUserAvatarSeed } from "../lib/avatar";
 import { GET_LEADERBOARD } from "../lib/queries";
+import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { RootStackParamList } from "../types";
@@ -58,7 +59,7 @@ export function LeaderboardScreen({ route, navigation }: Props) {
           <View style={styles.center}>
             <Text style={styles.errorTitle}>Could not load leaderboard</Text>
             <Text style={styles.errorMessage}>{error.message}</Text>
-            <Pressable style={({ pressed }) => [styles.primaryButton, pressed && styles.primaryButtonPressed]} onPress={() => refetch()}>
+            <Pressable style={({ pressed }) => [styles.primaryButton, pressed && styles.primaryButtonPressed]} onPress={withClickSound(() => refetch())}>
               <Text style={styles.primaryButtonText}>RETRY</Text>
             </Pressable>
           </View>
@@ -111,11 +112,11 @@ export function LeaderboardScreen({ route, navigation }: Props) {
         <View style={styles.buttonRow}>
           <Pressable
             style={({ pressed }) => [styles.primaryButton, pressed && styles.primaryButtonPressed]}
-            onPress={() => navigation.replace("Game", { category })}
+            onPress={withClickSound(() => navigation.replace("Game", { category }))}
           >
             <Text style={styles.primaryButtonText}>PLAY AGAIN</Text>
           </Pressable>
-          <Pressable style={({ pressed }) => [styles.ghostButton, pressed && styles.ghostButtonPressed]} onPress={() => navigation.popToTop()}>
+          <Pressable style={({ pressed }) => [styles.ghostButton, pressed && styles.ghostButtonPressed]} onPress={withClickSound(() => navigation.popToTop())}>
             <Text style={styles.ghostButtonText}>MISSIONS</Text>
           </Pressable>
         </View>

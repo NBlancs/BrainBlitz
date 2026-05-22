@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LeaderboardHubScreen } from "../screens/LeaderboardHubScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
+import { playClickSound } from "../lib/soundManager";
 import { theme } from "../theme";
 import { MainTabParamList } from "../types";
 import { HomeStackNavigator } from "./HomeStackNavigator";
@@ -109,6 +110,11 @@ export function MainTabNavigator() {
       <Tab.Screen
         name="HomeTab"
         component={HomeStackNavigator}
+        listeners={{
+          tabPress: () => {
+            void playClickSound();
+          },
+        }}
         options={{
           title: "HOME",
           headerShown: false,
@@ -117,6 +123,11 @@ export function MainTabNavigator() {
       <Tab.Screen
         name="LeaderboardTab"
         component={LeaderboardHubScreen}
+        listeners={{
+          tabPress: () => {
+            void playClickSound();
+          },
+        }}
         options={{
           title: "LEADERBOARD",
         }}
@@ -124,6 +135,11 @@ export function MainTabNavigator() {
       <Tab.Screen
         name="ProfileTab"
         component={ProfileScreen}
+        listeners={{
+          tabPress: () => {
+            void playClickSound();
+          },
+        }}
         options={{
           title: "PROFILE",
         }}

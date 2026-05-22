@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { buildPixelAvatarUri, createAvatarChoices, createRandomAvatarSeed } from "../lib/avatar";
+import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 
@@ -57,7 +58,7 @@ export function ProfileScreen() {
                   isSelected && styles.choiceButtonSelected,
                   pressed && styles.choiceButtonPressed,
                 ]}
-                onPress={() => setAvatarSeed(seed)}
+                onPress={withClickSound(() => setAvatarSeed(seed))}
               >
                 <Image source={{ uri: buildPixelAvatarUri(seed, 96) }} style={styles.choiceAvatar} />
               </Pressable>
@@ -66,19 +67,19 @@ export function ProfileScreen() {
         </View>
 
         <View style={styles.choiceActions}>
-          <Pressable style={({ pressed }) => [styles.secondaryButton, pressed && styles.secondaryButtonPressed]} onPress={generateChoices}>
+          <Pressable style={({ pressed }) => [styles.secondaryButton, pressed && styles.secondaryButtonPressed]} onPress={withClickSound(generateChoices)}>
             <Text style={styles.secondaryButtonText}>SHUFFLE CHARACTERS</Text>
           </Pressable>
           <Pressable
             style={({ pressed }) => [styles.secondaryButton, pressed && styles.secondaryButtonPressed]}
-            onPress={() => setAvatarSeed(createRandomAvatarSeed(baseSeed))}
+            onPress={withClickSound(() => setAvatarSeed(createRandomAvatarSeed(baseSeed)))}
           >
             <Text style={styles.secondaryButtonText}>USE RANDOM CHARACTER</Text>
           </Pressable>
         </View>
       </View>
 
-      <Pressable style={({ pressed }) => [styles.signOutButton, pressed && styles.signOutButtonPressed]} onPress={clearUser}>
+      <Pressable style={({ pressed }) => [styles.signOutButton, pressed && styles.signOutButtonPressed]} onPress={withClickSound(clearUser)}>
         <Text style={styles.signOutText}>SIGN OUT</Text>
       </Pressable>
     </ScrollView>

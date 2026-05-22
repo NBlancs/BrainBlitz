@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
 import { GET_QUESTIONS, SUBMIT_SCORE } from "../lib/queries";
+import { playClickSound, playCorrectSound, playWinnerSound, playWrongSound } from "../lib/soundManager";
 import { useGameStore } from "../store/useGameStore";
 import { useSessionStore } from "../store/useSessionStore";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
@@ -50,6 +51,7 @@ export function GameScreen({ route, navigation }: Props) {
   const questionStartRef = useRef<number>(Date.now());
   const answeredQuestionIdRef = useRef<string | null>(null);
   const correctFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const winnerPlayedRef = useRef(false);
   const currentQuestion = questions[currentIndex];
 
   const { data, loading, error, refetch } = useQuery<QuestionsResponse>(GET_QUESTIONS, {
@@ -65,6 +67,13 @@ export function GameScreen({ route, navigation }: Props) {
   useEffect(() => {
     resetRound();
   }, [category.id, resetRound]);
+
+  useEffect(() => {
+    if (status === "idle") {
+      winnerPlayedRef.current = false;
+      setShowCorrectFeedback(false);
+    }
+  }, [status]);
 
   useEffect(() => {
     return () => {
@@ -135,6 +144,15 @@ export function GameScreen({ route, navigation }: Props) {
     advanceQuestion,
   ]);
 
+  useEffect(() => {
+    if (status !== "complete" || winnerPlayedRef.current) {
+      return;
+    }
+
+    winnerPlayedRef.current = true;
+    void playWinnerSound();
+  }, [status]);
+
   const currentPoints = useMemo(
     () => submissions.reduce((total, item) => total + (item.isCorrect ? 100 : 0), 0),
     [submissions]
@@ -161,17 +179,23 @@ export function GameScreen({ route, navigation }: Props) {
 
     answeredQuestionIdRef.current = questionId;
 
-    if (answer.isCorrect) {
-      setShowCorrectFeedback(true);
-      if (correctFeedbackTimeoutRef.current) {
-        clearTimeout(correctFeedbackTimeoutRef.current);
-      }
+    void playClickSound();
 
-      correctFeedbackTimeoutRef.current = setTimeout(() => {
-        setShowCorrectFeedback(false);
-        correctFeedbackTimeoutRef.current = null;
-      }, 600);
+    if (answer.isCorrect) {
+      void playCorrectSound();
+      setShowCorrectFeedback(true);
+    } else {
+      void playWrongSound();
     }
+
+    if (correctFeedbackTimeoutRef.current) {
+      clearTimeout(correctFeedbackTimeoutRef.current);
+    }
+
+    correctFeedbackTimeoutRef.current = setTimeout(() => {
+      setShowCorrectFeedback(false);
+      correctFeedbackTimeoutRef.current = null;
+    }, 600);
 
     const elapsed = Math.min(Date.now() - questionStartRef.current, QUESTION_TIME_MS);
     submitAnswer({
@@ -195,6 +219,7 @@ export function GameScreen({ route, navigation }: Props) {
     }
 
     try {
+      void playClickSound();
       setSubmitError(null);
 
       const result = await submitScore({
@@ -221,6 +246,7 @@ export function GameScreen({ route, navigation }: Props) {
   };
 
   const onQuitRound = () => {
+    void playClickSound();
     resetRound();
     navigation.goBack();
   };
@@ -239,7 +265,7 @@ export function GameScreen({ route, navigation }: Props) {
       <View style={styles.center}>
         <Text style={styles.errorTitle}>Could not load questions</Text>
         <Text style={styles.errorMessage}>{error.message}</Text>
-        <Pressable style={({ pressed }) => [styles.primaryButton, pressed && styles.primaryButtonPressed]} onPress={() => refetch()}>
+        <Pressable style={({ pressed }) => [styles.primaryButton, pressed && styles.primaryButtonPressed]} onPress={() => { void playClickSound(); void refetch(); }}>
           <Text style={styles.primaryButtonText}>RETRY</Text>
         </Pressable>
       </View>

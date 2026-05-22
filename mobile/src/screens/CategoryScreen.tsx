@@ -3,6 +3,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
 import { GET_CATEGORIES } from "../lib/queries";
+import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { Category, RootStackParamList } from "../types";
@@ -45,7 +46,7 @@ export function CategoryScreen({ navigation }: Props) {
       <View style={styles.center}>
         <Text style={styles.errorTitle}>Could not load categories</Text>
         <Text style={styles.errorMessage}>{error.message}</Text>
-        <Pressable style={({ pressed }) => [styles.retryButton, pressed && styles.retryButtonPressed]} onPress={() => refetch()}>
+        <Pressable style={({ pressed }) => [styles.retryButton, pressed && styles.retryButtonPressed]} onPress={withClickSound(() => refetch())}>
           <Text style={styles.retryText}>RETRY</Text>
         </Pressable>
       </View>
@@ -61,7 +62,7 @@ export function CategoryScreen({ navigation }: Props) {
             <Text style={styles.welcome}>{user?.username}</Text>
             <Text style={styles.subtitle}>SELECT A MISSION TO START A 10-QUESTION ROUND.</Text>
           </View>
-          <Pressable style={({ pressed }) => [styles.signOutButton, pressed && styles.signOutButtonPressed]} onPress={clearUser}>
+          <Pressable style={({ pressed }) => [styles.signOutButton, pressed && styles.signOutButtonPressed]} onPress={withClickSound(clearUser)}>
             <Text style={styles.signOutText}>SIGN OUT</Text>
           </Pressable>
         </View>
@@ -78,7 +79,7 @@ export function CategoryScreen({ navigation }: Props) {
             <AnimatedReveal delay={120 + index * 70} duration={220} fromY={10}>
               <Pressable
                 style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
-                onPress={() => navigation.navigate("Game", { category: item })}
+                onPress={withClickSound(() => navigation.navigate("Game", { category: item }))}
               >
                 <View style={[styles.cardIconWrap, { backgroundColor: accentMap[item.icon] ?? theme.colors.primary }]}>
                   <Text style={styles.cardIcon}>{iconMap[item.icon] ?? "🧠"}</Text>

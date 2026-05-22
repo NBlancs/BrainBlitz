@@ -5,7 +5,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "icon": "./src/assets/brainblitz.png",
     "splash": {
+      "image": "./src/assets/brainblitz_splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#f3f4f6"
     },
@@ -17,6 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
+        "foregroundImage": "./src/assets/brainblitz.png",
         "backgroundColor": "#f3f4f6"
       }
     },

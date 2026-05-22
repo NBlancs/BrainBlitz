@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { buildPixelAvatarUri, createUserAvatarSeed } from "../lib/avatar";
 import { GET_CATEGORIES, GET_LEADERBOARD } from "../lib/queries";
+import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { Category } from "../types";
@@ -79,7 +80,7 @@ export function LeaderboardHubScreen() {
                     active && styles.categoryButtonActive,
                     pressed && styles.categoryButtonPressed,
                   ]}
-                  onPress={() => setSelectedCategoryId(category.id)}
+                  onPress={withClickSound(() => setSelectedCategoryId(category.id))}
                 >
                   <Text style={[styles.categoryButtonText, active && styles.categoryButtonTextActive]}>{category.name.toUpperCase()}</Text>
                 </Pressable>
@@ -100,7 +101,7 @@ export function LeaderboardHubScreen() {
         <View style={styles.center}>
           <Text style={styles.errorTitle}>Could not load leaderboard</Text>
           <Text style={styles.errorMessage}>{error.message}</Text>
-          <Pressable style={({ pressed }) => [styles.retryButton, pressed && styles.retryButtonPressed]} onPress={() => refetch()}>
+          <Pressable style={({ pressed }) => [styles.retryButton, pressed && styles.retryButtonPressed]} onPress={withClickSound(() => refetch())}>
             <Text style={styles.retryText}>RETRY</Text>
           </Pressable>
         </View>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
 import { CREATE_USER } from "../lib/queries";
+import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { RootStackParamList, User } from "../types";
@@ -75,7 +76,7 @@ export function UsernameScreen(_props: Props) {
             pressed && styles.buttonPressed,
             loading && styles.buttonDisabled,
           ]}
-          onPress={onContinue}
+          onPress={withClickSound(onContinue)}
           disabled={loading}
         >
           {loading ? <ActivityIndicator color={theme.colors.white} /> : <Text style={styles.buttonText}>PRESS START</Text>}
