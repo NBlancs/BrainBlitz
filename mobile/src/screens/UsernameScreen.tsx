@@ -49,7 +49,6 @@ export function UsernameScreen(_props: Props) {
   return (
     <View style={styles.container}>
       <AnimatedReveal style={styles.frame} duration={280} fromY={16}>
-        <Text style={styles.kicker}>ARCADE NET v1.0</Text>
         <Text style={styles.title}>BRAINBLITZ</Text>
         <Text style={styles.subtitle}>ENTER YOUR PLAYER HANDLE TO START.</Text>
 
@@ -57,7 +56,7 @@ export function UsernameScreen(_props: Props) {
           <Text style={styles.inputPrefix}>{">"}</Text>
           <TextInput
             style={styles.input}
-            placeholder="PLAYER_HANDLE"
+            placeholder="Username"
             placeholderTextColor="#5F5F5F"
             autoCapitalize="none"
             autoCorrect={false}
