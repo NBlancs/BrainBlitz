@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
 import { GET_QUESTIONS, SUBMIT_SCORE } from "../lib/queries";
 import { useGameStore } from "../store/useGameStore";
@@ -46,8 +46,10 @@ export function GameScreen({ route, navigation }: Props) {
   const resetRound = useGameStore((state) => state.resetRound);
 
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [showCorrectFeedback, setShowCorrectFeedback] = useState(false);
   const questionStartRef = useRef<number>(Date.now());
   const answeredQuestionIdRef = useRef<string | null>(null);
+  const correctFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const currentQuestion = questions[currentIndex];
 
   const { data, loading, error, refetch } = useQuery<QuestionsResponse>(GET_QUESTIONS, {
@@ -63,6 +65,14 @@ export function GameScreen({ route, navigation }: Props) {
   useEffect(() => {
     resetRound();
   }, [category.id, resetRound]);
+
+  useEffect(() => {
+    return () => {
+      if (correctFeedbackTimeoutRef.current) {
+        clearTimeout(correctFeedbackTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const payload = data?.getQuestions ?? [];
@@ -137,6 +147,8 @@ export function GameScreen({ route, navigation }: Props) {
     return Math.floor(unusedMs / 1000) * 10;
   }, [submissions]);
 
+  const currentScore = currentPoints + estimatedSpeedBonus;
+
   const onSelectAnswer = (answer: Answer) => {
     if (status !== "active" || !currentQuestion) {
       return;
@@ -148,6 +160,18 @@ export function GameScreen({ route, navigation }: Props) {
     }
 
     answeredQuestionIdRef.current = questionId;
+
+    if (answer.isCorrect) {
+      setShowCorrectFeedback(true);
+      if (correctFeedbackTimeoutRef.current) {
+        clearTimeout(correctFeedbackTimeoutRef.current);
+      }
+
+      correctFeedbackTimeoutRef.current = setTimeout(() => {
+        setShowCorrectFeedback(false);
+        correctFeedbackTimeoutRef.current = null;
+      }, 600);
+    }
 
     const elapsed = Math.min(Date.now() - questionStartRef.current, QUESTION_TIME_MS);
     submitAnswer({
@@ -280,6 +304,14 @@ export function GameScreen({ route, navigation }: Props) {
 
   return (
     <View style={styles.container}>
+      <Modal transparent visible={showCorrectFeedback} animationType="fade" statusBarTranslucent>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Image source={require("../assets/check.png")} style={styles.checkImage} resizeMode="contain" />
+          </View>
+        </View>
+      </Modal>
+
       <AnimatedReveal
         style={styles.roundWrap}
         resetKey={`${status}-${currentQuestion?.id ?? "none"}`}
@@ -297,7 +329,7 @@ export function GameScreen({ route, navigation }: Props) {
           </View>
         </View>
 
-        <Text style={styles.pointsText}>CURRENT POINTS: {currentPoints}</Text>
+        <Text style={styles.pointsText}>CURRENT SCORE: {currentScore}</Text>
 
         <ScrollView contentContainerStyle={styles.questionArea}>
           <View style={styles.questionCard}>
@@ -517,6 +549,22 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: "center",
     marginTop: 4,
+  },
+  modalOverlay: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.35)",
+  },
+  modalContent: {
+    width: 150,
+    height: 150,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  checkImage: {
+    width: 130,
+    height: 130,
   },
   metaText: {
     color: theme.colors.border,
