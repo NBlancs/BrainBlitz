@@ -1,9 +1,9 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { GRAPHQL_HTTP_URL } from "./network";
+import { getGraphqlHttpUrl } from "./network";
 
 export const apolloClient = new ApolloClient({
   link: new HttpLink({
-    uri: GRAPHQL_HTTP_URL,
+    uri: () => getGraphqlHttpUrl(),
   }),
   cache: new InMemoryCache(),
   defaultOptions: {

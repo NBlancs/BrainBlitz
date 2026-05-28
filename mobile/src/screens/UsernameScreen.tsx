@@ -1,11 +1,14 @@
 import { useMutation } from "@apollo/client";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState } from "react";
-import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View, Modal } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
 import { CREATE_USER } from "../lib/queries";
 import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
+import { useNetworkStore } from "../store/useNetworkStore";
+import { updateGraphqlHttpUrl } from "../lib/network";
+import { discoverLocalServer } from "../lib/serverDiscovery";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { RootStackParamList, User } from "../types";
 
@@ -21,6 +24,35 @@ export function UsernameScreen(_props: Props) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [createUser, { loading }] = useMutation<CreateUserResponse>(CREATE_USER);
+
+  const serverUrl = useNetworkStore((state) => state.serverUrl);
+  const [showSettings, setShowSettings] = useState(false);
+  const [inputUrl, setInputUrl] = useState(serverUrl);
+  const [discoveryStatus, setDiscoveryStatus] = useState<string | null>(null);
+  const [isDiscovering, setIsDiscovering] = useState(false);
+
+  const onSaveSettings = () => {
+    updateGraphqlHttpUrl(inputUrl);
+    setShowSettings(false);
+  };
+
+  const onAutoDiscover = async () => {
+    try {
+      setIsDiscovering(true);
+      setDiscoveryStatus("STARTING SCAN...");
+      const discovered = await discoverLocalServer((status) => setDiscoveryStatus(status));
+      if (discovered) {
+        setInputUrl(discovered);
+        setDiscoveryStatus("✅ FOUND SERVER!");
+      } else {
+        setDiscoveryStatus("❌ NOT FOUND (CHECK WI-FI)");
+      }
+    } catch {
+      setDiscoveryStatus("❌ ERROR DISCOVERING");
+    } finally {
+      setIsDiscovering(false);
+    }
+  };
 
   const onContinue = async () => {
     const normalized = username.trim();
@@ -49,6 +81,55 @@ export function UsernameScreen(_props: Props) {
 
   return (
     <View style={styles.container}>
+      <Modal visible={showSettings} transparent animationType="slide">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>SERVER CONFIG</Text>
+            <Text style={styles.modalLabel}>ENTER BACKEND GRAPHQL URL:</Text>
+            
+            <TextInput
+              style={styles.modalInput}
+              value={inputUrl}
+              onChangeText={setInputUrl}
+              placeholder="http://192.168.1.X:4000/graphql"
+              placeholderTextColor="#5F5F5F"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+
+            {discoveryStatus ? (
+              <Text style={styles.discoveryText}>{discoveryStatus}</Text>
+            ) : null}
+
+            <View style={styles.modalActions}>
+              <Pressable
+                style={({ pressed }) => [styles.modalButton, styles.discoverBtn, pressed && styles.modalButtonPressed]}
+                onPress={onAutoDiscover}
+                disabled={isDiscovering}
+              >
+                <Text style={styles.modalButtonText}>AUTO-DISCOVER</Text>
+              </Pressable>
+              
+              <View style={styles.rowActions}>
+                <Pressable
+                  style={({ pressed }) => [styles.modalButton, styles.cancelBtn, pressed && styles.modalButtonPressed]}
+                  onPress={() => setShowSettings(false)}
+                >
+                  <Text style={styles.modalButtonText}>CANCEL</Text>
+                </Pressable>
+                
+                <Pressable
+                  style={({ pressed }) => [styles.modalButton, styles.saveBtn, pressed && styles.modalButtonPressed]}
+                  onPress={onSaveSettings}
+                >
+                  <Text style={styles.modalButtonText}>SAVE</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <AnimatedReveal style={styles.frame} duration={280} fromY={16}>
         <Text style={styles.title}>BRAINBLITZ</Text>
         <Text style={styles.subtitle}>ENTER YOUR PLAYER HANDLE TO START.</Text>
@@ -80,6 +161,17 @@ export function UsernameScreen(_props: Props) {
           disabled={loading}
         >
           {loading ? <ActivityIndicator color={theme.colors.white} /> : <Text style={styles.buttonText}>PRESS START</Text>}
+        </Pressable>
+
+        <Pressable
+          style={({ pressed }) => [styles.settingsButton, pressed && styles.settingsButtonPressed]}
+          onPress={() => {
+            setInputUrl(useNetworkStore.getState().serverUrl);
+            setDiscoveryStatus(null);
+            setShowSettings(true);
+          }}
+        >
+          <Text style={styles.settingsButtonText}>⚙️ CONFIGURE SERVER</Text>
         </Pressable>
       </AnimatedReveal>
     </View>
@@ -173,5 +265,97 @@ const styles = StyleSheet.create({
     color: theme.colors.danger,
     fontFamily: theme.fonts.mono,
     fontSize: 13,
+  },
+  settingsButton: {
+    marginTop: 10,
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  settingsButtonPressed: {
+    opacity: 0.7,
+  },
+  settingsButtonText: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 12,
+    color: theme.colors.border,
+    textDecorationLine: "underline",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  modalContent: {
+    ...pixelBorder(4),
+    backgroundColor: theme.colors.background,
+    width: "100%",
+    maxWidth: 340,
+    padding: 20,
+    gap: 12,
+  },
+  modalTitle: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 20,
+    fontWeight: "700",
+    color: theme.colors.primary,
+    marginBottom: 4,
+  },
+  modalLabel: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 12,
+    color: theme.colors.border,
+  },
+  modalInput: {
+    ...pixelBorder(3),
+    fontFamily: theme.fonts.mono,
+    fontSize: 13,
+    color: theme.colors.border,
+    padding: 10,
+    backgroundColor: theme.colors.background,
+  },
+  discoveryText: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 11,
+    color: theme.colors.warning,
+    textAlign: "center",
+    marginVertical: 4,
+  },
+  modalActions: {
+    gap: 8,
+    marginTop: 6,
+  },
+  rowActions: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  modalButton: {
+    ...pixelBorder(3),
+    paddingVertical: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    ...arcadeShadow(3),
+  },
+  discoverBtn: {
+    backgroundColor: theme.colors.warning,
+    flex: 0,
+  },
+  cancelBtn: {
+    backgroundColor: theme.colors.danger,
+  },
+  saveBtn: {
+    backgroundColor: theme.colors.success,
+  },
+  modalButtonText: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 12,
+    fontWeight: "700",
+    color: theme.colors.white,
+  },
+  modalButtonPressed: {
+    transform: [{ translateY: 3 }],
+    shadowOffset: { width: 0, height: 0 },
   },
 });

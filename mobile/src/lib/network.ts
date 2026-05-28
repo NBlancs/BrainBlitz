@@ -1,4 +1,5 @@
 import Constants from "expo-constants";
+import { useNetworkStore } from "../store/useNetworkStore";
 
 function getHostFromExpo(): string | null {
   const hostUri =
@@ -14,6 +15,11 @@ function getHostFromExpo(): string | null {
 }
 
 export function getGraphqlHttpUrl(): string {
+  const storeUrl = useNetworkStore.getState().serverUrl;
+  if (storeUrl && storeUrl !== "http://localhost:4000/graphql") {
+    return storeUrl;
+  }
+
   const envUrl = process.env.EXPO_PUBLIC_GRAPHQL_HTTP_URL;
   if (envUrl) {
     return envUrl;
@@ -25,6 +31,10 @@ export function getGraphqlHttpUrl(): string {
   }
 
   return "http://localhost:4000/graphql";
+}
+
+export function updateGraphqlHttpUrl(url: string) {
+  useNetworkStore.getState().setServerUrl(url);
 }
 
 export const GRAPHQL_HTTP_URL = getGraphqlHttpUrl();
