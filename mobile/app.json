@@ -22,14 +22,21 @@
         "foregroundImage": "./src/assets/brainblitz.png",
         "backgroundColor": "#f3f4f6"
       },
-      "usesCleartextTraffic": true,
       "package": "com.nol67.brainblitz"
     },
     "web": {
       "bundler": "metro"
     },
     "plugins": [
-      "expo-asset"
+      "expo-asset",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {
