@@ -22,6 +22,7 @@
         "foregroundImage": "./src/assets/brainblitz.png",
         "backgroundColor": "#f3f4f6"
       },
+      "usesCleartextTraffic": true,
       "package": "com.nol67.brainblitz"
     },
     "web": {
