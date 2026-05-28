@@ -21,13 +21,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/brainblitz.png",
         "backgroundColor": "#f3f4f6"
-      }
+      },
+      "package": "com.nol67.brainblitz"
     },
     "web": {
       "bundler": "metro"
     },
     "plugins": [
       "expo-asset"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "590f1101-fd86-487c-a178-6af986dc18d2"
+      }
+    }
   }
 }

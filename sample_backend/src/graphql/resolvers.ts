@@ -28,6 +28,16 @@ const OPEN_TDB_CATEGORY_BY_NAME: Record<string, number> = {
   science: 17,
   history: 23,
   geography: 22,
+  books: 10,
+  film: 11,
+  music: 12,
+  television: 14,
+  "video games": 15,
+  mythology: 20,
+  sports: 21,
+  art: 25,
+  animals: 27,
+  vehicles: 28,
 };
 
 const RUNTIME_QUESTION_TTL_MS = 60 * 60 * 1000;
@@ -81,7 +91,6 @@ export const resolvers = {
   Query: {
     getCategories: async () => {
       const categories = await prisma.category.findMany({
-        orderBy: { name: "asc" },
         include: {
           _count: {
             select: { questions: true },
@@ -89,7 +98,7 @@ export const resolvers = {
         },
       });
 
-      return categories.map((category) => ({
+      return shuffle(categories).map((category) => ({
         ...category,
         questionCount: category._count.questions,
       }));

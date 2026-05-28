@@ -2,6 +2,7 @@ import "dotenv/config";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import mercurius from "mercurius";
+import { ensureDatabaseReady } from "./lib/databaseBootstrap.js";
 import { schema } from "./graphql/schema.js";
 import { resolvers } from "./graphql/resolvers.js";
 
@@ -9,6 +10,8 @@ const PORT = Number(process.env.PORT) || 4000;
 const isDev = process.env.NODE_ENV !== "production";
 
 async function main() {
+  await ensureDatabaseReady();
+
   const app = Fastify({
     logger: {
       level: isDev ? "info" : "warn",

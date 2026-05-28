@@ -18,12 +18,32 @@ const iconMap: Record<string, string> = {
   microscope: "🔬",
   landmark: "🏛️",
   globe: "🌍",
+  book: "📚",
+  film: "🎬",
+  music: "🎵",
+  tv: "📺",
+  gamepad: "🎮",
+  scroll: "🐉",
+  trophy: "🏆",
+  palette: "🎨",
+  paw: "🐾",
+  car: "🚗",
 };
 
 const accentMap: Record<string, string> = {
   microscope: theme.colors.success,
   landmark: theme.colors.warning,
   globe: theme.colors.danger,
+  book: theme.colors.primary,
+  film: theme.colors.success,
+  music: theme.colors.warning,
+  tv: theme.colors.danger,
+  gamepad: theme.colors.success,
+  scroll: theme.colors.warning,
+  trophy: theme.colors.danger,
+  palette: theme.colors.primary,
+  paw: theme.colors.success,
+  car: theme.colors.danger,
 };
 
 export function CategoryScreen({ navigation }: Props) {

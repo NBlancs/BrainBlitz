@@ -47,7 +47,7 @@ export function GameScreen({ route, navigation }: Props) {
   const resetRound = useGameStore((state) => state.resetRound);
 
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [showCorrectFeedback, setShowCorrectFeedback] = useState(false);
+  const [feedbackType, setFeedbackType] = useState<"correct" | "wrong" | null>(null);
   const questionStartRef = useRef<number>(Date.now());
   const answeredQuestionIdRef = useRef<string | null>(null);
   const correctFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -71,7 +71,7 @@ export function GameScreen({ route, navigation }: Props) {
   useEffect(() => {
     if (status === "idle") {
       winnerPlayedRef.current = false;
-      setShowCorrectFeedback(false);
+      setFeedbackType(null);
     }
   }, [status]);
 
@@ -183,9 +183,10 @@ export function GameScreen({ route, navigation }: Props) {
 
     if (answer.isCorrect) {
       void playCorrectSound();
-      setShowCorrectFeedback(true);
+      setFeedbackType("correct");
     } else {
       void playWrongSound();
+      setFeedbackType("wrong");
     }
 
     if (correctFeedbackTimeoutRef.current) {
@@ -193,7 +194,7 @@ export function GameScreen({ route, navigation }: Props) {
     }
 
     correctFeedbackTimeoutRef.current = setTimeout(() => {
-      setShowCorrectFeedback(false);
+      setFeedbackType(null);
       correctFeedbackTimeoutRef.current = null;
     }, 600);
 
@@ -330,10 +331,14 @@ export function GameScreen({ route, navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <Modal transparent visible={showCorrectFeedback} animationType="fade" statusBarTranslucent>
+      <Modal transparent visible={feedbackType !== null} animationType="fade" statusBarTranslucent>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Image source={require("../assets/check.png")} style={styles.checkImage} resizeMode="contain" />
+            {feedbackType === "correct" ? (
+              <Image source={require("../assets/check.png")} style={styles.checkImage} resizeMode="contain" />
+            ) : (
+              <Image source={require("../assets/wrong.png")} style={styles.checkImage} resizeMode="contain" />
+            )}
           </View>
         </View>
       </Modal>
