@@ -8,7 +8,7 @@ import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
 import { useNetworkStore } from "../store/useNetworkStore";
 import { updateGraphqlHttpUrl } from "../lib/network";
-import { discoverLocalServer } from "../lib/serverDiscovery";
+import { discoverLocalServer, probeServer, normalizeServerUrl } from "../lib/serverDiscovery";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { RootStackParamList, User } from "../types";
 
@@ -30,10 +30,28 @@ export function UsernameScreen(_props: Props) {
   const [inputUrl, setInputUrl] = useState(serverUrl);
   const [discoveryStatus, setDiscoveryStatus] = useState<string | null>(null);
   const [isDiscovering, setIsDiscovering] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const onSaveSettings = () => {
-    updateGraphqlHttpUrl(inputUrl);
-    setShowSettings(false);
+  const onSaveSettings = async () => {
+    setDiscoveryStatus(null);
+    setIsSaving(true);
+    setDiscoveryStatus("VERIFYING CONNECTION...");
+    try {
+      const validUrl = await probeServer(inputUrl);
+      if (validUrl) {
+        updateGraphqlHttpUrl(validUrl);
+        setInputUrl(validUrl);
+        setDiscoveryStatus("✅ CONNECTED!");
+        // Brief delay to show success before closing
+        setTimeout(() => setShowSettings(false), 600);
+      } else {
+        setDiscoveryStatus("❌ NOT FOUND (CHECK WI-FI)");
+      }
+    } catch {
+      setDiscoveryStatus("❌ CONNECTION ERROR");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const onAutoDiscover = async () => {
@@ -105,7 +123,7 @@ export function UsernameScreen(_props: Props) {
               <Pressable
                 style={({ pressed }) => [styles.modalButton, styles.discoverBtn, pressed && styles.modalButtonPressed]}
                 onPress={onAutoDiscover}
-                disabled={isDiscovering}
+                disabled={isDiscovering || isSaving}
               >
                 <Text style={styles.modalButtonText}>AUTO-DISCOVER</Text>
               </Pressable>
@@ -114,15 +132,17 @@ export function UsernameScreen(_props: Props) {
                 <Pressable
                   style={({ pressed }) => [styles.modalButton, styles.cancelBtn, pressed && styles.modalButtonPressed]}
                   onPress={() => setShowSettings(false)}
+                  disabled={isSaving}
                 >
                   <Text style={styles.modalButtonText}>CANCEL</Text>
                 </Pressable>
                 
                 <Pressable
-                  style={({ pressed }) => [styles.modalButton, styles.saveBtn, pressed && styles.modalButtonPressed]}
+                  style={({ pressed }) => [styles.modalButton, styles.saveBtn, pressed && styles.modalButtonPressed, (isSaving) && styles.buttonDisabled]}
                   onPress={onSaveSettings}
+                  disabled={isSaving}
                 >
-                  <Text style={styles.modalButtonText}>SAVE</Text>
+                  {isSaving ? <ActivityIndicator size="small" color={theme.colors.white} /> : <Text style={styles.modalButtonText}>SAVE</Text>}
                 </Pressable>
               </View>
             </View>

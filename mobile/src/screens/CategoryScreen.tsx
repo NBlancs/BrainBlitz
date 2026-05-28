@@ -8,7 +8,7 @@ import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
 import { useNetworkStore } from "../store/useNetworkStore";
 import { updateGraphqlHttpUrl } from "../lib/network";
-import { discoverLocalServer } from "../lib/serverDiscovery";
+import { discoverLocalServer, probeServer } from "../lib/serverDiscovery";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { Category, RootStackParamList } from "../types";
 
@@ -59,11 +59,30 @@ export function CategoryScreen({ navigation }: Props) {
   const [inputUrl, setInputUrl] = useState(serverUrl);
   const [discoveryStatus, setDiscoveryStatus] = useState<string | null>(null);
   const [isDiscovering, setIsDiscovering] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const onSaveSettings = () => {
-    updateGraphqlHttpUrl(inputUrl);
-    setShowSettings(false);
-    void refetch();
+  const onSaveSettings = async () => {
+    setDiscoveryStatus(null);
+    setIsSaving(true);
+    setDiscoveryStatus("VERIFYING CONNECTION...");
+    try {
+      const validUrl = await probeServer(inputUrl);
+      if (validUrl) {
+        updateGraphqlHttpUrl(validUrl);
+        setInputUrl(validUrl);
+        setDiscoveryStatus("✅ CONNECTED!");
+        setTimeout(() => {
+          setShowSettings(false);
+          void refetch();
+        }, 600);
+      } else {
+        setDiscoveryStatus("❌ NOT FOUND (CHECK WI-FI)");
+      }
+    } catch {
+      setDiscoveryStatus("❌ CONNECTION ERROR");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const onAutoDiscover = async () => {
@@ -122,7 +141,7 @@ export function CategoryScreen({ navigation }: Props) {
                 <Pressable
                   style={({ pressed }) => [styles.modalButton, styles.discoverBtn, pressed && styles.modalButtonPressed]}
                   onPress={onAutoDiscover}
-                  disabled={isDiscovering}
+                  disabled={isDiscovering || isSaving}
                 >
                   <Text style={styles.modalButtonText}>AUTO-DISCOVER</Text>
                 </Pressable>
@@ -131,15 +150,17 @@ export function CategoryScreen({ navigation }: Props) {
                   <Pressable
                     style={({ pressed }) => [styles.modalButton, styles.cancelBtn, pressed && styles.modalButtonPressed]}
                     onPress={() => setShowSettings(false)}
+                    disabled={isSaving}
                   >
                     <Text style={styles.modalButtonText}>CANCEL</Text>
                   </Pressable>
                   
                   <Pressable
-                    style={({ pressed }) => [styles.modalButton, styles.saveBtn, pressed && styles.modalButtonPressed]}
+                    style={({ pressed }) => [styles.modalButton, styles.saveBtn, pressed && styles.modalButtonPressed, isSaving && { opacity: 0.7 }]}
                     onPress={onSaveSettings}
+                    disabled={isSaving}
                   >
-                    <Text style={styles.modalButtonText}>SAVE</Text>
+                    {isSaving ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.modalButtonText}>SAVE</Text>}
                   </Pressable>
                 </View>
               </View>
