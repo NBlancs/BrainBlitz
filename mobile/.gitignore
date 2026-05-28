@@ -18,3 +18,6 @@ prisma/*.db-journal
 # OS
 .DS_Store
 Thumbs.db
+
+# Expo
+.expo/
