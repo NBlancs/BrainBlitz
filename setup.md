@@ -4,7 +4,7 @@ Welcome to the local setup and execution guide for **BrainBlitz Trivia**! This d
 
 ---
 
-## 🏗️ Prerequisites
+## Prerequisites
 
 Make sure you have the following installed on your machine:
 1. **Node.js** (v18 or higher recommended; v22 is verified).
@@ -33,7 +33,7 @@ The application uses PostgreSQL with Prisma ORM.
 
 ---
 
-## ⚙️ Step 2: Backend Setup (Fastify + GraphQL)
+## Step 2: Backend Setup (Fastify + GraphQL)
 
 1. Open your terminal and navigate to the backend directory:
    ```bash
@@ -67,7 +67,7 @@ The application uses PostgreSQL with Prisma ORM.
 
 ---
 
-## 📱 Step 3: Mobile Frontend Setup (React Native + Expo)
+## Step 3: Mobile Frontend Setup (React Native + Expo)
 
 1. Open a new terminal window and navigate to the mobile directory:
    ```bash
@@ -100,7 +100,7 @@ The application uses PostgreSQL with Prisma ORM.
 
 ---
 
-## 🛠️ Troubleshooting & Tips
+## Troubleshooting & Tips
 
 ### 1. Mobile Client cannot connect to Backend
 If the mobile app starts but shows network errors or cannot fetch categories:
