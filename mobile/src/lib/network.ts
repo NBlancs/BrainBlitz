@@ -1,7 +1,7 @@
 import { useNetworkStore } from "../store/useNetworkStore";
 import { normalizeServerUrl } from "./serverDiscovery";
 
-const DEFAULT_FALLBACK = "http://localhost:4000/graphql";
+const DEFAULT_FALLBACK = "https://brainblitz-production.up.railway.app/graphql";
 
 export function getGraphqlHttpUrl(): string {
   const storeUrl = useNetworkStore.getState().serverUrl;

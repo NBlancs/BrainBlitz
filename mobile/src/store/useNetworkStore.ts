@@ -10,11 +10,11 @@ type NetworkState = {
 export const useNetworkStore = create<NetworkState>()(
   persist(
     (set) => ({
-      serverUrl: "http://localhost:4000/graphql",
+      serverUrl: "https://brainblitz-production.up.railway.app/graphql",
       setServerUrl: (url) => set({ serverUrl: url }),
     }),
     {
-      name: "brainblitz-network",
+      name: "brainblitz-network-v2",
       storage: createJSONStorage(() => AsyncStorage),
     }
   )

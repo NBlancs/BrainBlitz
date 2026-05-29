@@ -41,7 +41,7 @@ export function UsernameScreen(_props: Props) {
       if (validUrl) {
         updateGraphqlHttpUrl(validUrl);
         setInputUrl(validUrl);
-        setDiscoveryStatus("✅ CONNECTED!");
+        setDiscoveryStatus("✅ SERVER DETECTED!");
         // Brief delay to show success before closing
         setTimeout(() => setShowSettings(false), 600);
       } else {

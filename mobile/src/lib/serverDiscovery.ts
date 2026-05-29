@@ -32,21 +32,40 @@ function promiseAny<T>(promises: Promise<T>[]): Promise<T> {
  * e.g. "192.168.1.57" => "http://192.168.1.57:4000/graphql"
  *      "http://192.168.1.57" => "http://192.168.1.57:4000/graphql"
  *      "http://192.168.1.57:4000" => "http://192.168.1.57:4000/graphql"
+ *      "brainblitz-production.up.railway.app" => "https://brainblitz-production.up.railway.app/graphql"
  */
 export function normalizeServerUrl(raw: string): string {
   let url = raw.trim().replace(/\/+$/, "");
 
+  const isHttps = /^https:\/\//i.test(url);
+  const isRailway = /railway\.app/i.test(url);
+
   // Add protocol if missing
-  if (!/^https?:\/\//.test(url)) {
-    url = `http://${url}`;
+  if (!/^https?:\/\//i.test(url)) {
+    // If it's a railway URL or looks like a public domain, default to https
+    if (isRailway || (!/^(localhost|127\.0\.0\.1|192\.168\.|10\.|172\.)/i.test(url) && url.includes('.'))) {
+      url = `https://${url}`;
+    } else {
+      url = `http://${url}`;
+    }
   }
 
   try {
     const parsed = new URL(url);
-    // Add default port if none specified
-    if (!parsed.port) {
+    const hostname = parsed.hostname;
+    
+    // Determine if we should append the default port 4000.
+    // We should NOT append port 4000 if:
+    // 1. A port is already specified
+    // 2. The URL is https:// (usually standard 443)
+    // 3. It's a Railway app or public domain (does not look like localhost/IP)
+    const isLocalHostOrIp = /^(localhost|127\.0\.0\.1|192\.168\.|10\.|172\.)/i.test(hostname);
+    const isPublicDomain = hostname.includes('.') && !isLocalHostOrIp;
+    
+    if (!parsed.port && parsed.protocol !== "https:" && !isPublicDomain && !isRailway) {
       parsed.port = String(DEFAULT_PORT);
     }
+    
     // Ensure the path ends with /graphql
     if (!parsed.pathname.includes("graphql")) {
       parsed.pathname = GRAPHQL_PATH;
@@ -54,7 +73,7 @@ export function normalizeServerUrl(raw: string): string {
     return parsed.toString().replace(/\/+$/, "");
   } catch {
     // If URL parsing fails, try a basic approach
-    if (!url.includes(`:${DEFAULT_PORT}`)) {
+    if (!url.includes(`:${DEFAULT_PORT}`) && !isHttps && !isRailway) {
       url += `:${DEFAULT_PORT}`;
     }
     if (!url.includes("/graphql")) {
@@ -70,7 +89,18 @@ export function normalizeServerUrl(raw: string): string {
 function getBaseUrl(fullUrl: string): string {
   try {
     const parsed = new URL(fullUrl);
-    return `${parsed.protocol}//${parsed.hostname}:${parsed.port || DEFAULT_PORT}`;
+    const hostname = parsed.hostname;
+    const isLocalHostOrIp = /^(localhost|127\.0\.0\.1|192\.168\.|10\.|172\.)/i.test(hostname);
+    const isRailway = /railway\.app/i.test(hostname);
+    const isPublicDomain = hostname.includes('.') && !isLocalHostOrIp;
+    
+    if (parsed.port) {
+      return `${parsed.protocol}//${parsed.hostname}:${parsed.port}`;
+    } else if (parsed.protocol === "https:" || isPublicDomain || isRailway) {
+      return `${parsed.protocol}//${parsed.hostname}`;
+    } else {
+      return `${parsed.protocol}//${parsed.hostname}:${DEFAULT_PORT}`;
+    }
   } catch {
     return fullUrl.replace(/\/graphql.*$/, "");
   }

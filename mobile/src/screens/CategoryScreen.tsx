@@ -70,7 +70,7 @@ export function CategoryScreen({ navigation }: Props) {
       if (validUrl) {
         updateGraphqlHttpUrl(validUrl);
         setInputUrl(validUrl);
-        setDiscoveryStatus("✅ CONNECTED!");
+        setDiscoveryStatus("✅ SERVER DETECTED!");
         setTimeout(() => {
           setShowSettings(false);
           void refetch();
