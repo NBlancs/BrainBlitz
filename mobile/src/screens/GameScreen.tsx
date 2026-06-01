@@ -67,10 +67,12 @@ export function GameScreen({ route, navigation }: Props) {
   const latestScoreRef = useRef(0);
 
   const difficulty = useGameStore((state) => state.difficulty) || "EASY";
+  const country = useGameStore((state) => state.country) || "PHILIPPINES";
   const { data, loading, error, refetch } = useQuery<QuestionsResponse>(GET_QUESTIONS, {
     variables: {
       categoryId: category.id,
       difficulty,
+      country,
     },
     fetchPolicy: "network-only",
   });

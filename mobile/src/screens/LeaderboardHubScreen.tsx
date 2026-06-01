@@ -28,6 +28,25 @@ type LeaderboardResponse = {
   getLeaderboard: LeaderboardEntry[];
 };
 
+const getBadgeColor = (badge: string) => {
+  switch (badge) {
+    case "BRONZE":
+      return "#CD7F32";
+    case "SILVER":
+      return "#C0C0C0";
+    case "GOLD":
+      return "#FFD700";
+    case "SCHOLAR":
+      return "#9B5DE5";
+    default:
+      return theme.colors.primary;
+  }
+};
+
+const formatBadgeName = (badge: string) => {
+  return badge.charAt(0) + badge.slice(1).toLowerCase();
+};
+
 export function LeaderboardHubScreen() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const sessionUserId = useSessionStore((state) => state.user?.id);
@@ -121,13 +140,20 @@ export function LeaderboardHubScreen() {
                     ? selectedAvatarSeed
                     : createUserAvatarSeed(item.user.id, item.user.username);
 
-                return <Image source={{ uri: buildPixelAvatarUri(seed, 64) }} style={styles.rankAvatar} />;
+                return (
+                  <View style={styles.avatarWrap}>
+                    <Image source={{ uri: buildPixelAvatarUri(seed, 128) }} style={styles.rankAvatar} />
+                    <BadgeIcon badge={item.user.badge} size={16} />
+                  </View>
+                );
               })()}
               <View style={styles.rowBody}>
                 <View style={styles.usernameRow}>
                   <Text style={styles.username}>{item.user.username}</Text>
-                  <BadgeIcon badge={item.user.badge} size={16} />
                 </View>
+                <Text style={[styles.rankNameText, { color: getBadgeColor(item.user.badge) }]}>
+                  {formatBadgeName(item.user.badge)}
+                </Text>
                 <Text style={styles.date}>{new Date(item.createdAt).toLocaleString()}</Text>
               </View>
               <Text style={styles.points}>{item.points}</Text>
@@ -239,9 +265,14 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     width: 40,
   },
+  avatarWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
   rankAvatar: {
-    width: 28,
-    height: 28,
+    width: 56,
+    height: 56,
     ...pixelBorder(2),
     backgroundColor: theme.colors.background,
   },
@@ -258,6 +289,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: theme.colors.border,
     fontWeight: "700",
+  },
+  rankNameText: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 10,
+    fontWeight: "700",
+    marginTop: 2,
+    textTransform: "uppercase",
   },
   date: {
     marginTop: 2,

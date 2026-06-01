@@ -6,6 +6,7 @@ import { AnimatedReveal } from "../components/AnimatedReveal";
 import { DifficultyModal } from "../components/DifficultyModal";
 import { BadgeIcon } from "../components/BadgeIcon";
 import { HeartsGoneModal } from "../components/HeartsGoneModal";
+import { CountryModal } from "../components/CountryModal";
 import { GET_CATEGORIES } from "../lib/queries";
 import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
@@ -84,6 +85,7 @@ export function CategoryScreen({ navigation }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [showHeartsGone, setShowHeartsGone] = useState(false);
   const [cooldownText, setCooldownText] = useState("00:59:59");
+  const [showCountryModal, setShowCountryModal] = useState(false);
 
   const hearts = useGameStore((state) => state.hearts);
   const heartsDepletedAt = useGameStore((state) => state.heartsDepletedAt);
@@ -324,16 +326,31 @@ export function CategoryScreen({ navigation }: Props) {
       </AnimatedReveal>
 
       <DifficultyModal
-        visible={selectedCategory !== null}
+        visible={selectedCategory !== null && !showCountryModal}
         onSelect={(difficulty) => {
           if (selectedCategory) {
             useGameStore.getState().setDifficulty(difficulty);
+            setShowCountryModal(true);
+          }
+        }}
+        onClose={() => setSelectedCategory(null)}
+      />
+
+      <CountryModal
+        visible={selectedCategory !== null && showCountryModal}
+        onSelect={(country) => {
+          if (selectedCategory) {
+            useGameStore.getState().setCountry(country);
             const category = selectedCategory;
+            setShowCountryModal(false);
             setSelectedCategory(null);
             navigation.navigate("Game", { category });
           }
         }}
-        onClose={() => setSelectedCategory(null)}
+        onClose={() => {
+          setShowCountryModal(false);
+          setSelectedCategory(null);
+        }}
       />
 
       <HeartsGoneModal

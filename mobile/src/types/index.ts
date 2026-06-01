@@ -48,3 +48,5 @@ export type MainTabParamList = {
   LeaderboardTab: undefined;
   ProfileTab: undefined;
 };
+
+export type Country = "PHILIPPINES" | "UNITED_STATES" | "GREAT_BRITAIN" | "CHINA" | "JAPAN" | "SOUTH_KOREA";

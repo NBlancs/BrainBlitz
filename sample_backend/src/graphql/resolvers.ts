@@ -67,30 +67,50 @@ function computeBadge(totalPoints: number): "BRONZE" | "SILVER" | "GOLD" | "SCHO
   return "BRONZE";
 }
 
-async function getLocalQuestions(categoryId: string, difficulty: string) {
-  const rawQuestions = await prisma.$queryRaw<{ id: string }[]>`
-    SELECT id FROM "Question"
-    WHERE "categoryId" = ${categoryId} AND "difficulty"::text = ${difficulty}
-    ORDER BY RANDOM() LIMIT 10
-  `;
-  const ids = rawQuestions.map((q) => q.id);
-  const questions = await prisma.question.findMany({
-    where: { id: { in: ids } },
+async function getLocalQuestions(
+  categoryId: string,
+  difficulty: "EASY" | "MEDIUM" | "HARD",
+  country: "PHILIPPINES" | "UNITED_STATES" | "GREAT_BRITAIN" | "CHINA" | "JAPAN" | "SOUTH_KOREA"
+) {
+  // 1. Fetch up to 10 random questions matching country, categoryId, and difficulty
+  // Since we want to order randomly, we can use raw query or fetch and shuffle.
+  // Since there are only a few questions, findMany and shuffling in memory is very efficient and works perfectly.
+  const primaryQuestions = await prisma.question.findMany({
+    where: {
+      categoryId,
+      country: country as any,
+      difficulty: difficulty as any,
+    },
     include: { answers: true },
   });
 
-  const questionMap = new Map(questions.map((q) => [q.id, q]));
-  return ids
-    .map((id) => questionMap.get(id))
-    .filter((q): q is typeof questions[number] => !!q)
-    .map((question) => ({
-      ...question,
-      answers: shuffle(question.answers).map((answer) => ({
-        id: answer.id,
-        text: answer.text,
-        isCorrect: answer.isCorrect,
-      })),
-    }));
+  let selectedQuestions = [...primaryQuestions];
+
+  // 2. If we have less than 10, fetch remaining from the same country and category but other difficulties
+  if (selectedQuestions.length < 10) {
+    const remainingCount = 10 - selectedQuestions.length;
+    const primaryIds = primaryQuestions.map((q) => q.id);
+    const fallbackQuestions = await prisma.question.findMany({
+      where: {
+        categoryId,
+        country: country as any,
+        id: { notIn: primaryIds },
+      },
+      include: { answers: true },
+      take: remainingCount,
+    });
+    selectedQuestions = [...selectedQuestions, ...fallbackQuestions];
+  }
+
+  // Shuffle selected questions list and their answers
+  return shuffle(selectedQuestions).map((question) => ({
+    ...question,
+    answers: shuffle(question.answers).map((answer) => ({
+      id: answer.id,
+      text: answer.text,
+      isCorrect: answer.isCorrect,
+    })),
+  }));
 }
 
 function shuffle<T>(items: T[]): T[] {
@@ -121,10 +141,16 @@ export const resolvers = {
 
     getQuestions: async (
       _root: unknown,
-      { categoryId, difficulty }: { categoryId: string; difficulty: "EASY" | "MEDIUM" | "HARD" }
+      {
+        categoryId,
+        difficulty,
+        country,
+      }: {
+        categoryId: string;
+        difficulty: "EASY" | "MEDIUM" | "HARD";
+        country: "PHILIPPINES" | "UNITED_STATES" | "GREAT_BRITAIN" | "CHINA" | "JAPAN" | "SOUTH_KOREA";
+      }
     ) => {
-      purgeExpiredRuntimeQuestions();
-
       const category = await prisma.category.findUnique({
         where: { id: categoryId },
       });
@@ -133,70 +159,8 @@ export const resolvers = {
         throw new Error("Category not found.");
       }
 
-      const openTdbCategory = OPEN_TDB_CATEGORY_BY_NAME[category.name.toLowerCase()];
-      if (!openTdbCategory) {
-        return getLocalQuestions(categoryId, difficulty);
-      }
-
-      const search = new URLSearchParams({
-        amount: "10",
-        category: String(openTdbCategory),
-        difficulty: difficulty.toLowerCase(),
-        type: "multiple",
-        encode: "url3986",
-      });
-
-      try {
-        const response = await fetch(`https://opentdb.com/api.php?${search.toString()}`);
-        if (!response.ok) {
-          return getLocalQuestions(categoryId, difficulty);
-        }
-
-        const payload = (await response.json()) as OpenTdbResponse;
-        if (payload.response_code !== 0 || !payload.results.length) {
-          return getLocalQuestions(categoryId, difficulty);
-        }
-
-        const questionExpiresAt = Date.now() + RUNTIME_QUESTION_TTL_MS;
-
-        return payload.results.map((item) => {
-          const questionId = randomUUID();
-          const options = shuffle([
-            {
-              text: decodeOpenTdbValue(item.correct_answer),
-              isCorrect: true,
-            },
-            ...item.incorrect_answers.map((answer) => ({
-              text: decodeOpenTdbValue(answer),
-              isCorrect: false,
-            })),
-          ]).map((answer) => ({
-            id: randomUUID(),
-            text: answer.text,
-            isCorrect: answer.isCorrect,
-          }));
-
-          const correctAnswer = options.find((answer) => answer.isCorrect);
-          if (!correctAnswer) {
-            throw new Error("Could not generate question answers.");
-          }
-
-          runtimeQuestionMap.set(questionId, {
-            categoryId,
-            correctAnswerId: correctAnswer.id,
-            expiresAt: questionExpiresAt,
-          });
-
-          return {
-            id: questionId,
-            text: decodeOpenTdbValue(item.question),
-            categoryId,
-            answers: options,
-          };
-        });
-      } catch {
-        return getLocalQuestions(categoryId, difficulty);
-      }
+      // Always return country-specific local questions
+      return getLocalQuestions(categoryId, difficulty, country);
     },
 
     getLeaderboard: async (

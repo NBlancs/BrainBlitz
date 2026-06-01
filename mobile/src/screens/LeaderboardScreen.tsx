@@ -27,6 +27,25 @@ type LeaderboardResponse = {
   getLeaderboard: LeaderboardEntry[];
 };
 
+const getBadgeColor = (badge: string) => {
+  switch (badge) {
+    case "BRONZE":
+      return "#CD7F32";
+    case "SILVER":
+      return "#C0C0C0";
+    case "GOLD":
+      return "#FFD700";
+    case "SCHOLAR":
+      return "#9B5DE5";
+    default:
+      return theme.colors.primary;
+  }
+};
+
+const formatBadgeName = (badge: string) => {
+  return badge.charAt(0) + badge.slice(1).toLowerCase();
+};
+
 export function LeaderboardScreen({ route, navigation }: Props) {
   const { category, latestScore } = route.params;
   const sessionUserId = useSessionStore((state) => state.user?.id);
@@ -93,13 +112,20 @@ export function LeaderboardScreen({ route, navigation }: Props) {
                         ? selectedAvatarSeed
                         : createUserAvatarSeed(item.user.id, item.user.username);
 
-                    return <Image source={{ uri: buildPixelAvatarUri(seed, 64) }} style={styles.rankAvatar} />;
+                    return (
+                      <View style={styles.avatarWrap}>
+                        <Image source={{ uri: buildPixelAvatarUri(seed, 128) }} style={styles.rankAvatar} />
+                        <BadgeIcon badge={item.user.badge} size={18} />
+                      </View>
+                    );
                   })()}
                   <View style={styles.rowBody}>
                     <View style={styles.usernameRow}>
                       <Text style={styles.username}>{item.user.username}</Text>
-                      <BadgeIcon badge={item.user.badge} size={18} />
                     </View>
+                    <Text style={[styles.rankNameText, { color: getBadgeColor(item.user.badge) }]}>
+                      {formatBadgeName(item.user.badge)}
+                    </Text>
                     <Text style={styles.date}>{new Date(item.createdAt).toLocaleString()}</Text>
                   </View>
                   <Text style={styles.points}>{item.points}</Text>
@@ -195,9 +221,14 @@ const styles = StyleSheet.create({
     gap: 8,
     ...arcadeShadow(4),
   },
+  avatarWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
   rankAvatar: {
-    width: 30,
-    height: 30,
+    width: 60,
+    height: 60,
     ...pixelBorder(2),
     backgroundColor: theme.colors.background,
   },
@@ -239,6 +270,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
     color: theme.colors.border,
+  },
+  rankNameText: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 12,
+    fontWeight: "700",
+    marginTop: 2,
+    textTransform: "uppercase",
   },
   date: {
     marginTop: 3,

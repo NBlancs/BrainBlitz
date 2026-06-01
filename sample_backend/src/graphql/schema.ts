@@ -18,6 +18,15 @@ export const schema = /* GraphQL */ `
     HARD
   }
 
+  enum Country {
+    PHILIPPINES
+    UNITED_STATES
+    GREAT_BRITAIN
+    CHINA
+    JAPAN
+    SOUTH_KOREA
+  }
+
   type User {
     id: ID!
     username: String!
@@ -79,7 +88,7 @@ export const schema = /* GraphQL */ `
     getCategories: [Category!]!
 
     """Fetch 10 random questions for a category at a specific difficulty."""
-    getQuestions(categoryId: ID!, difficulty: Difficulty!): [Question!]!
+    getQuestions(categoryId: ID!, difficulty: Difficulty!, country: Country!): [Question!]!
 
     """Fetch top player high scores for a specific category."""
     getLeaderboard(categoryId: ID!): [LeaderboardEntry!]!

@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { Question, SubmittedAnswer } from "../types";
+import { Country, Question, SubmittedAnswer } from "../types";
 
 type GameStatus = "idle" | "active" | "complete";
 
@@ -12,6 +12,7 @@ type GameState = {
   currentRemainingMs: number;
   submissions: SubmittedAnswer[];
   difficulty: "EASY" | "MEDIUM" | "HARD" | null;
+  country: Country | null;
   hearts: number;
   heartsDepletedAt: number | null;
   startRound: (questions: Question[]) => void;
@@ -21,6 +22,7 @@ type GameState = {
   completeRound: () => void;
   resetRound: () => void;
   setDifficulty: (diff: "EASY" | "MEDIUM" | "HARD" | null) => void;
+  setCountry: (country: Country | null) => void;
   decrementHeart: () => void;
   checkRefill: () => boolean;
 };
@@ -36,6 +38,7 @@ export const useGameStore = create<GameState>()(
       currentRemainingMs: QUESTION_TIME_MS,
       submissions: [],
       difficulty: null,
+      country: null,
       hearts: 3,
       heartsDepletedAt: null,
 
@@ -87,9 +90,11 @@ export const useGameStore = create<GameState>()(
           currentRemainingMs: QUESTION_TIME_MS,
           submissions: [],
           difficulty: null,
+          country: null,
         }),
 
       setDifficulty: (difficulty) => set({ difficulty }),
+      setCountry: (country) => set({ country }),
 
       decrementHeart: () =>
         set((state) => {

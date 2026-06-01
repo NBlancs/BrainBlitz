@@ -12,8 +12,8 @@ export const GET_CATEGORIES = gql`
 `;
 
 export const GET_QUESTIONS = gql`
-  query GetQuestions($categoryId: ID!, $difficulty: Difficulty!) {
-    getQuestions(categoryId: $categoryId, difficulty: $difficulty) {
+  query GetQuestions($categoryId: ID!, $difficulty: Difficulty!, $country: Country!) {
+    getQuestions(categoryId: $categoryId, difficulty: $difficulty, country: $country) {
       id
       text
       categoryId
