@@ -17,7 +17,18 @@ const PORT = Number(process.env.PORT) || 4000;
 const isDev = process.env.NODE_ENV !== "production";
 
 async function main() {
-  await ensureDatabaseReady();
+  let dbReady = false;
+  let dbError: Error | null = null;
+
+  ensureDatabaseReady()
+    .then(() => {
+      dbReady = true;
+      console.log("🚀 Database is fully ready.");
+    })
+    .catch((err) => {
+      dbError = err instanceof Error ? err : new Error(String(err));
+      console.error("❌ Database failed to initialize:", err);
+    });
 
   const app = Fastify({
     logger: {
@@ -58,7 +69,15 @@ async function main() {
   });
 
   // Health check endpoint
-  app.get("/health", async () => ({ status: "ok", timestamp: new Date().toISOString() }));
+  app.get("/health", async (request, reply) => {
+    if (dbError) {
+      return reply.status(500).send({ status: "error", error: dbError.message });
+    }
+    if (!dbReady) {
+      return reply.status(200).send({ status: "bootstrapping", message: "Database is initializing in the background..." });
+    }
+    return { status: "ok", timestamp: new Date().toISOString() };
+  });
 
   // Start
   try {
