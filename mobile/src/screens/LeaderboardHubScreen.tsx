@@ -48,7 +48,7 @@ const formatBadgeName = (badge: string) => {
 };
 
 export function LeaderboardHubScreen() {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>("overall");
   const sessionUserId = useSessionStore((state) => state.user?.id);
   const selectedAvatarSeed = useSessionStore((state) => state.avatarSeed);
 
@@ -57,13 +57,16 @@ export function LeaderboardHubScreen() {
   const categories = categoryData?.getCategories ?? [];
 
   useEffect(() => {
-    if (!selectedCategoryId && categories.length > 0) {
-      setSelectedCategoryId(categories[0].id);
+    if (!selectedCategoryId) {
+      setSelectedCategoryId("overall");
     }
-  }, [categories, selectedCategoryId]);
+  }, [selectedCategoryId]);
 
   const selectedCategoryName = useMemo(
-    () => categories.find((category) => category.id === selectedCategoryId)?.name ?? "",
+    () => {
+      if (selectedCategoryId === "overall") return "Overall Score";
+      return categories.find((category) => category.id === selectedCategoryId)?.name ?? "";
+    },
     [categories, selectedCategoryId]
   );
 
@@ -91,6 +94,18 @@ export function LeaderboardHubScreen() {
           <ActivityIndicator color={theme.colors.primary} />
         ) : (
           <View style={styles.pickerRow}>
+            <Pressable
+              key="overall"
+              style={({ pressed }) => [
+                styles.categoryButton,
+                selectedCategoryId === "overall" && styles.categoryButtonActive,
+                pressed && styles.categoryButtonPressed,
+              ]}
+              onPress={withClickSound(() => setSelectedCategoryId("overall"))}
+            >
+              <Text style={[styles.categoryButtonText, selectedCategoryId === "overall" && styles.categoryButtonTextActive]}>OVERALL SCORE</Text>
+            </Pressable>
+
             {categories.map((category) => {
               const active = category.id === selectedCategoryId;
               return (

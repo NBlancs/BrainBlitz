@@ -8,7 +8,10 @@ import { RootStackParamList } from "../types";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function AppNavigator() {
+  const token = useSessionStore((state) => state.token);
   const user = useSessionStore((state) => state.user);
+
+  const isAuthenticated = !!token && !!user;
 
   return (
     <Stack.Navigator
@@ -28,7 +31,7 @@ export function AppNavigator() {
         },
       }}
     >
-      {!user ? (
+      {!isAuthenticated ? (
         <Stack.Screen
           name="Username"
           component={UsernameScreen}

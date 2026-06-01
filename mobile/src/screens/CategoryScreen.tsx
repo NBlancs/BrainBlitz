@@ -98,7 +98,7 @@ export function CategoryScreen({ navigation }: Props) {
       checkRefill();
       if (hearts === 0 && heartsDepletedAt) {
         const elapsed = Date.now() - heartsDepletedAt;
-        const remainingMs = Math.max(0, 3600000 - elapsed);
+        const remainingMs = Math.max(0, 300000 - elapsed);
         const hours = Math.floor(remainingMs / 3600000);
         const minutes = Math.floor((remainingMs % 3600000) / 60000);
         const seconds = Math.floor((remainingMs % 60000) / 1000);

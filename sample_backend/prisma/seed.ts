@@ -1,4 +1,5 @@
 import prisma from "../src/lib/prisma.js";
+import bcrypt from "bcryptjs";
 
 type SeedQuestion = {
   text: string;
@@ -1556,9 +1557,9 @@ const questionBank: SeedQuestion[] = [
 ];
 
 function computeBadge(totalPoints: number) {
-  if (totalPoints >= 2500) return "SCHOLAR";
-  if (totalPoints >= 1000) return "GOLD";
-  if (totalPoints >= 500) return "SILVER";
+  if (totalPoints >= 30001) return "SCHOLAR";
+  if (totalPoints >= 20001) return "GOLD";
+  if (totalPoints >= 10001) return "SILVER";
   return "BRONZE";
 }
 
@@ -1632,6 +1633,7 @@ async function main() {
   console.log("Questions and answers seeded successfully.");
 
   console.log("Seeding users...");
+  const passwordHash = bcrypt.hashSync("password123", 10);
   const seedUsersData = [
     { username: "ace", name: "Ace", age: 10, ageGroup: "KIDS" as const },
     { username: "nova", name: "Nova", age: 15, ageGroup: "TEEN" as const },
@@ -1645,6 +1647,7 @@ async function main() {
       prisma.user.create({
         data: {
           username: u.username,
+          passwordHash,
           name: u.name,
           age: u.age,
           ageGroup: u.ageGroup,
@@ -1658,11 +1661,23 @@ async function main() {
 
   console.log("Seeding mock scores history...");
   const dbCategories = await prisma.category.findMany();
-  for (const category of dbCategories) {
-    for (const user of users) {
-      const correctAnswers = 6 + Math.floor(Math.random() * 5); // 6-10 correct
+
+  // Custom round counts per user to hit target points/badges
+  const userRounds: Record<string, number> = {
+    ace: 3,     // ~2,700 points (BRONZE)
+    nova: 15,   // ~13,500 points (SILVER)
+    pixel: 25,  // ~22,500 points (GOLD)
+    astro: 36,  // ~34,200 points (SCHOLAR)
+    quark: 2,   // ~1,800 points (BRONZE)
+  };
+
+  for (const user of users) {
+    const roundsCount = userRounds[user.username] || 5;
+    for (let i = 0; i < roundsCount; i++) {
+      const category = dbCategories[i % dbCategories.length];
+      const correctAnswers = 7 + Math.floor(Math.random() * 4); // 7-10 correct
       const totalQuestions = 10;
-      const usedTimeMs = 60000 + Math.floor(Math.random() * 50000);
+      const usedTimeMs = 40000 + Math.floor(Math.random() * 40000);
       const speedBonus = Math.floor(Math.max(totalQuestions * 15000 - usedTimeMs, 0) / 1000) * 10;
       const points = correctAnswers * 100 + speedBonus;
 

@@ -5,6 +5,13 @@ import mercurius from "mercurius";
 import { ensureDatabaseReady } from "./lib/databaseBootstrap.js";
 import { schema } from "./graphql/schema.js";
 import { resolvers } from "./graphql/resolvers.js";
+import jwt from "jsonwebtoken";
+
+declare module "mercurius" {
+  interface MercuriusContext {
+    userId?: string;
+  }
+}
 
 const PORT = Number(process.env.PORT) || 4000;
 const isDev = process.env.NODE_ENV !== "production";
@@ -32,6 +39,22 @@ async function main() {
     resolvers,
     graphiql: isDev, // GraphiQL UI at /graphiql in development
     subscription: true,
+    context: async (request) => {
+      const authHeader = request.headers.authorization;
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.substring(7);
+        try {
+          const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET || "brainblitz-super-secret-key-123"
+          ) as { userId: string };
+          return { userId: decoded.userId };
+        } catch {
+          // Token is invalid/expired, proceed with empty context
+        }
+      }
+      return {};
+    },
   });
 
   // Health check endpoint

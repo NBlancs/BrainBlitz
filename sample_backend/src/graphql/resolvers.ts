@@ -1,5 +1,13 @@
 import prisma from "../lib/prisma.js";
 import { randomUUID } from "node:crypto";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = process.env.JWT_SECRET || "brainblitz-super-secret-key-123";
+
+function generateToken(userId: string): string {
+  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "30d" });
+}
 
 type SubmittedAnswer = {
   questionId: string;
@@ -61,9 +69,9 @@ function decodeOpenTdbValue(value: string): string {
 }
 
 function computeBadge(totalPoints: number): "BRONZE" | "SILVER" | "GOLD" | "SCHOLAR" {
-  if (totalPoints >= 2500) return "SCHOLAR";
-  if (totalPoints >= 1000) return "GOLD";
-  if (totalPoints >= 500) return "SILVER";
+  if (totalPoints >= 30001) return "SCHOLAR";
+  if (totalPoints >= 20001) return "GOLD";
+  if (totalPoints >= 10001) return "SILVER";
   return "BRONZE";
 }
 
@@ -124,6 +132,10 @@ function shuffle<T>(items: T[]): T[] {
 
 export const resolvers = {
   Query: {
+    me: async (_root: unknown, _args: unknown, context: { userId?: string }) => {
+      if (!context.userId) return null;
+      return prisma.user.findUnique({ where: { id: context.userId } });
+    },
     getCategories: async () => {
       const categories = await prisma.category.findMany({
         include: {
@@ -167,6 +179,23 @@ export const resolvers = {
       _root: unknown,
       { categoryId }: { categoryId: string }
     ) => {
+      if (categoryId === "overall") {
+        const topUsers = await prisma.user.findMany({
+          orderBy: [
+            { totalPoints: "desc" },
+            { createdAt: "asc" },
+          ],
+          take: 20,
+        });
+
+        return topUsers.map((user, idx) => ({
+          rank: idx + 1,
+          user,
+          points: user.totalPoints,
+          createdAt: user.createdAt.toISOString(),
+        }));
+      }
+
       const bestScores = await prisma.$queryRaw<
         { id: string; userId: string; points: number; createdAt: Date; rank: number }[]
       >`
@@ -208,6 +237,67 @@ export const resolvers = {
   },
 
   Mutation: {
+    register: async (
+      _root: unknown,
+      { username, password, name, age }: { username: string; password: string; name: string; age: number }
+    ) => {
+      const normalizedUsername = username.trim().toLowerCase();
+      const normalizedName = name.trim();
+
+      if (!normalizedUsername) throw new Error("Username cannot be empty.");
+      if (!password || password.length < 6) throw new Error("Password must be at least 6 characters.");
+      if (!normalizedName) throw new Error("Name cannot be empty.");
+      if (age < 1 || age > 120) throw new Error("Age must be between 1 and 120.");
+
+      let ageGroup: "KIDS" | "TEEN" | "ADULT" = "ADULT";
+      if (age <= 12) {
+        ageGroup = "KIDS";
+      } else if (age >= 13 && age <= 17) {
+        ageGroup = "TEEN";
+      }
+
+      const existing = await prisma.user.findUnique({ where: { username: normalizedUsername } });
+      if (existing) {
+        throw new Error("Username is already taken.");
+      }
+
+      const passwordHash = bcrypt.hashSync(password, 10);
+
+      const user = await prisma.user.create({
+        data: {
+          username: normalizedUsername,
+          passwordHash,
+          name: normalizedName,
+          age,
+          ageGroup,
+          totalPoints: 0,
+          badge: "BRONZE",
+        },
+      });
+
+      const token = generateToken(user.id);
+      return { token, user };
+    },
+
+    login: async (
+      _root: unknown,
+      { username, password }: { username: string; password: string }
+    ) => {
+      const normalizedUsername = username.trim().toLowerCase();
+      const user = await prisma.user.findUnique({ where: { username: normalizedUsername } });
+      if (!user) {
+        throw new Error("Invalid username or password.");
+      }
+
+      const isMatch = bcrypt.compareSync(password, user.passwordHash);
+      if (!isMatch) {
+        throw new Error("Invalid username or password.");
+      }
+
+      const token = generateToken(user.id);
+      return { token, user };
+    },
+
     createUser: async (
       _root: unknown,
       { username, name, age }: { username: string; name: string; age: number }
@@ -235,6 +325,7 @@ export const resolvers = {
       return prisma.user.create({
         data: {
           username: normalizedUsername,
+          passwordHash: bcrypt.hashSync("password123", 10),
           name: normalizedName,
           age,
           ageGroup,
@@ -269,8 +360,12 @@ export const resolvers = {
         userId,
         categoryId,
         answers,
-      }: { userId: string; categoryId: string; answers: SubmittedAnswer[] }
+      }: { userId: string; categoryId: string; answers: SubmittedAnswer[] },
+      context: { userId?: string }
     ) => {
+      if (!context.userId || context.userId !== userId) {
+        throw new Error("Unauthorized score submission. Please log in.");
+      }
       if (!answers.length) {
         throw new Error("At least one answer is required.");
       }

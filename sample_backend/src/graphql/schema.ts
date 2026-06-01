@@ -39,6 +39,11 @@ export const schema = /* GraphQL */ `
     scores: [Score!]!
   }
 
+  type AuthResponse {
+    token: String!
+    user: User!
+  }
+
   type Category {
     id: ID!
     name: String!
@@ -84,6 +89,9 @@ export const schema = /* GraphQL */ `
   }
 
   type Query {
+    """Fetch the currently authenticated user session."""
+    me: User
+
     """Fetch all available trivia categories."""
     getCategories: [Category!]!
 
@@ -98,10 +106,16 @@ export const schema = /* GraphQL */ `
   }
 
   type Mutation {
-    """Create or return an existing user by username with name and age profile."""
+    """Register a new player account with password."""
+    register(username: String!, password: String!, name: String!, age: Int!): AuthResponse!
+
+    """Log in an existing player with username and password."""
+    login(username: String!, password: String!): AuthResponse!
+
+    """Create or return an existing user by username with name and age profile (Legacy/Unauthenticated)."""
     createUser(username: String!, name: String!, age: Int!): User!
 
-    """Submit answers and compute final score server-side."""
+    """Submit answers and compute final score server-side (Authenticated)."""
     submitScore(userId: ID!, categoryId: ID!, answers: [SubmittedAnswerInput!]!): Score!
   }
 `;

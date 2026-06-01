@@ -95,3 +95,51 @@ export const SUBMIT_SCORE = gql`
     }
   }
 `;
+
+export const REGISTER_MUTATION = gql`
+  mutation Register($username: String!, $password: String!, $name: String!, $age: Int!) {
+    register(username: $username, password: $password, name: $name, age: $age) {
+      token
+      user {
+        id
+        username
+        name
+        age
+        ageGroup
+        totalPoints
+        badge
+      }
+    }
+  }
+`;
+
+export const LOGIN_MUTATION = gql`
+  mutation Login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      token
+      user {
+        id
+        username
+        name
+        age
+        ageGroup
+        totalPoints
+        badge
+      }
+    }
+  }
+`;
+
+export const ME_QUERY = gql`
+  query Me {
+    me {
+      id
+      username
+      name
+      age
+      ageGroup
+      totalPoints
+      badge
+    }
+  }
+`;

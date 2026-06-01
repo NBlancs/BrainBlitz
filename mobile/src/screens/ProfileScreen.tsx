@@ -25,7 +25,7 @@ export function ProfileScreen() {
   const user = useSessionStore((state) => state.user);
   const avatarSeed = useSessionStore((state) => state.avatarSeed);
   const setAvatarSeed = useSessionStore((state) => state.setAvatarSeed);
-  const clearUser = useSessionStore((state) => state.clearUser);
+  const logout = useSessionStore((state) => state.logout);
   const [avatarChoices, setAvatarChoices] = useState<string[]>([]);
 
   const baseSeed = useMemo(() => user?.id ?? user?.username ?? "guest", [user?.id, user?.username]);
@@ -115,7 +115,7 @@ export function ProfileScreen() {
         </View>
       </View>
 
-      <Pressable style={({ pressed }) => [styles.signOutButton, pressed && styles.signOutButtonPressed]} onPress={withClickSound(clearUser)}>
+      <Pressable style={({ pressed }) => [styles.signOutButton, pressed && styles.signOutButtonPressed]} onPress={withClickSound(logout)}>
         <Text style={styles.signOutText}>SIGN OUT</Text>
       </Pressable>
     </ScrollView>

@@ -3,8 +3,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState, useRef, useEffect } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View, Modal, Animated } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
-import { CREATE_USER, USER_BY_USERNAME } from "../lib/queries";
-import { OnboardingModal } from "../components/OnboardingModal";
+import { LOGIN_MUTATION, REGISTER_MUTATION } from "../lib/queries";
+import { AuthModal } from "../components/AuthModal";
 import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
 import { useNetworkStore } from "../store/useNetworkStore";
@@ -21,13 +21,14 @@ type CreateUserResponse = {
 
 export function UsernameScreen(_props: Props) {
   const setUser = useSessionStore((state) => state.setUser);
+  const setToken = useSessionStore((state) => state.setToken);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const client = useApolloClient();
-  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [createUser] = useMutation<CreateUserResponse>(CREATE_USER);
+  const [loginMutation] = useMutation(LOGIN_MUTATION);
+  const [registerMutation] = useMutation(REGISTER_MUTATION);
 
   const serverUrl = useNetworkStore((state) => state.serverUrl);
   const [showSettings, setShowSettings] = useState(false);
@@ -88,59 +89,56 @@ export function UsernameScreen(_props: Props) {
     }
   };
 
-  const onPlayerAuthSubmit = async (usernameInput: string, nameInput: string, ageInputStr: string) => {
-    const handle = usernameInput.trim();
-    if (!handle) {
-      setErrorMessage("Enter a player handle.");
-      return;
-    }
+  const handleLogin = async (usernameInput: string, passwordInput: string) => {
+    try {
+      setErrorMessage(null);
+      setLoading(true);
+      const { data } = await loginMutation({
+        variables: {
+          username: usernameInput,
+          password: passwordInput,
+        },
+      });
 
+      if (data?.login) {
+        setToken(data.login.token);
+        setUser(data.login.user);
+        setShowAuth(false);
+      }
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Invalid username or password.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegister = async (
+    usernameInput: string,
+    passwordInput: string,
+    nameInput: string,
+    ageInputStr: string
+  ) => {
     try {
       setErrorMessage(null);
       setLoading(true);
 
-      const { data } = await client.query({
-        query: USER_BY_USERNAME,
-        variables: { username: handle },
-        fetchPolicy: "network-only",
+      const age = parseInt(ageInputStr.trim(), 10);
+      const { data } = await registerMutation({
+        variables: {
+          username: usernameInput,
+          password: passwordInput,
+          name: nameInput,
+          age,
+        },
       });
 
-      if (data?.userByUsername) {
-        // User exists! Sign in.
-        setUser(data.userByUsername);
-        setShowOnboarding(false);
-      } else {
-        // New user! Must fill Name and Age.
-        const name = nameInput.trim();
-        if (!name) {
-          setErrorMessage("New player handle! Enter Name and Age to register.");
-          return;
-        }
-
-        const age = parseInt(ageInputStr.trim(), 10);
-        if (isNaN(age) || age < 1 || age > 120) {
-          setErrorMessage("Enter a valid Age (1-120) to register.");
-          return;
-        }
-
-        // Create new user profile
-        const result = await createUser({
-          variables: {
-            username: handle,
-            name,
-            age,
-          },
-        });
-
-        if (!result.data?.createUser) {
-          throw new Error("Could not create player profile.");
-        }
-
-        setUser(result.data.createUser);
-        setShowOnboarding(false);
+      if (data?.register) {
+        setToken(data.register.token);
+        setUser(data.register.user);
+        setShowAuth(false);
       }
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Something went wrong.");
+      setErrorMessage(error instanceof Error ? error.message : "Failed to register profile.");
     } finally {
       setLoading(false);
     }
@@ -210,7 +208,7 @@ export function UsernameScreen(_props: Props) {
           ]}
           onPress={withClickSound(() => {
             setErrorMessage(null);
-            setShowOnboarding(true);
+            setShowAuth(true);
           })}
         >
           <Animated.Text style={[styles.buttonText, { opacity: blinkAnim }]}>
@@ -230,12 +228,13 @@ export function UsernameScreen(_props: Props) {
         </Pressable>
       </AnimatedReveal>
 
-      <OnboardingModal
-        visible={showOnboarding}
+      <AuthModal
+        visible={showAuth}
         loading={loading}
         errorMessage={errorMessage}
-        onSubmit={onPlayerAuthSubmit}
-        onCancel={() => setShowOnboarding(false)}
+        onLogin={handleLogin}
+        onRegister={handleRegister}
+        onCancel={() => setShowAuth(false)}
       />
     </View>
   );

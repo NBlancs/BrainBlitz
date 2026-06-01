@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  username    String   @unique
-  name        String
-  age         Int
-  ageGroup    AgeGroup
-  totalPoints Int      @default(0)
-  badge       Badge    @default(BRONZE)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  scores      Score[]
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  name         String
+  age          Int
+  ageGroup     AgeGroup
+  totalPoints  Int      @default(0)
+  badge        Badge    @default(BRONZE)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  scores       Score[]
 
   @@index([username])
 }

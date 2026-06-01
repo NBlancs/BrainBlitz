@@ -108,7 +108,7 @@ export const useGameStore = create<GameState>()(
 
       checkRefill: () => {
         const { heartsDepletedAt } = get();
-        if (heartsDepletedAt && Date.now() - heartsDepletedAt >= 3600000) {
+        if (heartsDepletedAt && Date.now() - heartsDepletedAt >= 300000) {
           set({ hearts: 3, heartsDepletedAt: null });
           return true;
         }
