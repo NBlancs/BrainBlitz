@@ -11,7 +11,8 @@ CREATE TYPE "Country" AS ENUM ('PHILIPPINES', 'UNITED_STATES', 'GREAT_BRITAIN', 
 DROP INDEX "Question_categoryId_idx";
 
 -- AlterTable
-ALTER TABLE "Question" ADD COLUMN     "country" "Country" NOT NULL;
+ALTER TABLE "Question" ADD COLUMN     "country" "Country" NOT NULL DEFAULT 'PHILIPPINES';
+ALTER TABLE "Question" ALTER COLUMN "country" DROP DEFAULT;
 
 -- CreateIndex
 CREATE INDEX "Question_categoryId_country_difficulty_idx" ON "Question"("categoryId", "country", "difficulty");

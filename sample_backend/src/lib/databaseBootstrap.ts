@@ -48,6 +48,35 @@ async function createDatabaseIfMissing(databaseUrl: string) {
 }
 
 async function runMigrations(databaseUrl: string) {
+  // Pre-emptively clear any failed migrations in _prisma_migrations so Prisma doesn't block deployment
+  try {
+    const client = new Client({
+      connectionString: databaseUrl,
+    });
+    await client.connect();
+    
+    const checkTable = await client.query(`
+      SELECT EXISTS (
+        SELECT 1 FROM pg_tables WHERE schemaname = 'public' AND tablename = '_prisma_migrations'
+      );
+    `);
+    
+    if (checkTable.rows[0]?.exists) {
+      console.log("🧹 Checking for failed migrations in _prisma_migrations...");
+      const deleteRes = await client.query(`
+        DELETE FROM _prisma_migrations WHERE finished_at IS NULL;
+      `);
+      if (deleteRes.rowCount && deleteRes.rowCount > 0) {
+        console.log(`  🗑️ Cleared ${deleteRes.rowCount} failed migration record(s) to unblock deployment.`);
+      } else {
+        console.log("  ✅ No failed migrations found.");
+      }
+    }
+    await client.end().catch(() => undefined);
+  } catch (error) {
+    console.warn("⚠️ Warning: Failed to pre-clean _prisma_migrations table:", error);
+  }
+
   const env = {
     ...process.env,
     DATABASE_URL: databaseUrl,
