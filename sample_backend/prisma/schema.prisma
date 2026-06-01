@@ -8,11 +8,16 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  scores    Score[]
+  id          String   @id @default(uuid())
+  username    String   @unique
+  name        String
+  age         Int
+  ageGroup    AgeGroup
+  totalPoints Int      @default(0)
+  badge       Badge    @default(BRONZE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  scores      Score[]
 
   @@index([username])
 }
@@ -28,13 +33,15 @@ model Category {
 }
 
 model Question {
-  id         String   @id @default(uuid())
+  id         String     @id @default(uuid())
   text       String
+  difficulty Difficulty
+  country    Country
   categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category   Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   answers    Answer[]
 
-  @@index([categoryId])
+  @@index([categoryId, country, difficulty])
 }
 
 model Answer {
@@ -62,4 +69,32 @@ model Score {
   @@index([categoryId, points(sort: Desc)])
   @@index([userId])
   @@index([createdAt(sort: Desc)])
+}
+
+enum AgeGroup {
+  KIDS
+  TEEN
+  ADULT
+}
+
+enum Badge {
+  BRONZE
+  SILVER
+  GOLD
+  SCHOLAR
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum Country {
+  PHILIPPINES
+  UNITED_STATES
+  GREAT_BRITAIN
+  CHINA
+  JAPAN
+  SOUTH_KOREA
 }

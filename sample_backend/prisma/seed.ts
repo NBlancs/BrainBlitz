@@ -743,9 +743,17 @@ const categories: SeedCategory[] = [
   },
 ];
 
+function computeBadge(totalPoints: number) {
+  if (totalPoints >= 2500) return "SCHOLAR";
+  if (totalPoints >= 1000) return "GOLD";
+  if (totalPoints >= 500) return "SILVER";
+  return "BRONZE";
+}
+
 async function main() {
   await prisma.$transaction([
     prisma.score.deleteMany(),
+    prisma.user.deleteMany(),
     prisma.answer.deleteMany(),
     prisma.question.deleteMany(),
     prisma.category.deleteMany(),
@@ -757,27 +765,48 @@ async function main() {
         name: category.name,
         icon: category.icon,
         questions: {
-          create: category.questions.map((question) => ({
-            text: question.text,
-            answers: {
-              create: question.answers.map((answerText, index) => ({
-                text: answerText,
-                isCorrect: index === question.correctIndex,
-              })),
-            },
-          })),
+          create: category.questions.map((question, qIndex) => {
+            let difficulty = "EASY";
+            if (qIndex >= 4 && qIndex < 7) {
+              difficulty = "MEDIUM";
+            } else if (qIndex >= 7) {
+              difficulty = "HARD";
+            }
+            return {
+              text: question.text,
+              difficulty,
+              answers: {
+                create: question.answers.map((answerText, index) => ({
+                  text: answerText,
+                  isCorrect: index === question.correctIndex,
+                })),
+              },
+            };
+          }),
         },
       },
     });
   }
 
-  const usernames = ["ace", "nova", "pixel", "astro", "quark"];
+  const seedUsersData = [
+    { username: "ace", name: "Ace", age: 10, ageGroup: "KIDS" as const },
+    { username: "nova", name: "Nova", age: 15, ageGroup: "TEEN" as const },
+    { username: "pixel", name: "Pixel", age: 25, ageGroup: "ADULT" as const },
+    { username: "astro", name: "Astro", age: 30, ageGroup: "ADULT" as const },
+    { username: "quark", name: "Quark", age: 12, ageGroup: "KIDS" as const },
+  ];
+
   const users = await Promise.all(
-    usernames.map((username) =>
-      prisma.user.upsert({
-        where: { username },
-        update: {},
-        create: { username },
+    seedUsersData.map((u) =>
+      prisma.user.create({
+        data: {
+          username: u.username,
+          name: u.name,
+          age: u.age,
+          ageGroup: u.ageGroup,
+          totalPoints: 0,
+          badge: "BRONZE",
+        },
       })
     )
   );
@@ -805,6 +834,19 @@ async function main() {
         },
       });
     }
+  }
+
+  for (const user of users) {
+    const scores = await prisma.score.findMany({
+      where: { userId: user.id },
+      select: { points: true },
+    });
+    const totalPoints = scores.reduce((sum, s) => sum + s.points, 0);
+    const badge = computeBadge(totalPoints);
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { totalPoints, badge },
+    });
   }
 
   console.log("Seed complete: categories, questions, answers, users, and sample scores created.");

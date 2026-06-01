@@ -12,8 +12,8 @@ export const GET_CATEGORIES = gql`
 `;
 
 export const GET_QUESTIONS = gql`
-  query GetQuestions($categoryId: ID!, $limit: Int) {
-    getQuestions(categoryId: $categoryId, limit: $limit) {
+  query GetQuestions($categoryId: ID!, $difficulty: Difficulty!) {
+    getQuestions(categoryId: $categoryId, difficulty: $difficulty) {
       id
       text
       categoryId
@@ -27,24 +27,44 @@ export const GET_QUESTIONS = gql`
 `;
 
 export const GET_LEADERBOARD = gql`
-  query GetLeaderboard($categoryId: ID!, $limit: Int) {
-    getLeaderboard(categoryId: $categoryId, limit: $limit) {
+  query GetLeaderboard($categoryId: ID!) {
+    getLeaderboard(categoryId: $categoryId) {
       rank
       points
       createdAt
       user {
         id
         username
+        badge
       }
     }
   }
 `;
 
-export const CREATE_USER = gql`
-  mutation CreateUser($username: String!) {
-    createUser(username: $username) {
+export const USER_BY_USERNAME = gql`
+  query UserByUsername($username: String!) {
+    userByUsername(username: $username) {
       id
       username
+      name
+      age
+      ageGroup
+      totalPoints
+      badge
+    }
+  }
+`;
+
+export const CREATE_USER = gql`
+  mutation CreateUser($username: String!, $name: String!, $age: Int!) {
+    createUser(username: $username, name: $name, age: $age) {
+      id
+      username
+      name
+      age
+      ageGroup
+      totalPoints
+      badge
       createdAt
     }
   }
@@ -62,6 +82,11 @@ export const SUBMIT_SCORE = gql`
       user {
         id
         username
+        name
+        age
+        ageGroup
+        badge
+        totalPoints
       }
       category {
         id

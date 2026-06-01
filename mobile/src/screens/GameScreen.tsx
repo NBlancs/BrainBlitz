@@ -3,12 +3,15 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
+import { HeartsDisplay } from "../components/HeartsDisplay";
+import { HeartsGoneModal } from "../components/HeartsGoneModal";
+import { BadgeCelebrationModal } from "../components/BadgeCelebrationModal";
 import { GET_QUESTIONS, SUBMIT_SCORE } from "../lib/queries";
 import { playClickSound, playCorrectSound, playWinnerSound, playWrongSound } from "../lib/soundManager";
 import { useGameStore } from "../store/useGameStore";
 import { useSessionStore } from "../store/useSessionStore";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
-import { Answer, Question, RootStackParamList } from "../types";
+import { Answer, Question, RootStackParamList, User } from "../types";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Game">;
 
@@ -23,6 +26,7 @@ type SubmitScoreResponse = {
     correctAnswers: number;
     totalQuestions: number;
     speedBonus: number;
+    user: User;
   };
 };
 
@@ -33,6 +37,7 @@ const ANSWER_COLORS = ["#4CAF50", "#FFC107", "#F44336", "#0055FF"];
 export function GameScreen({ route, navigation }: Props) {
   const { category } = route.params;
   const user = useSessionStore((state) => state.user);
+  const setUser = useSessionStore((state) => state.setUser);
 
   const status = useGameStore((state) => state.status);
   const questions = useGameStore((state) => state.questions);
@@ -46,6 +51,8 @@ export function GameScreen({ route, navigation }: Props) {
   const completeRound = useGameStore((state) => state.completeRound);
   const resetRound = useGameStore((state) => state.resetRound);
 
+  const hearts = useGameStore((state) => state.hearts);
+
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [feedbackType, setFeedbackType] = useState<"correct" | "wrong" | null>(null);
   const questionStartRef = useRef<number>(Date.now());
@@ -54,10 +61,16 @@ export function GameScreen({ route, navigation }: Props) {
   const winnerPlayedRef = useRef(false);
   const currentQuestion = questions[currentIndex];
 
+  const [showHeartsGone, setShowHeartsGone] = useState(false);
+  const [showUpgrade, setShowUpgrade] = useState(false);
+  const [upgradeBadge, setUpgradeBadge] = useState<"BRONZE" | "SILVER" | "GOLD" | "SCHOLAR">("BRONZE");
+  const latestScoreRef = useRef(0);
+
+  const difficulty = useGameStore((state) => state.difficulty) || "EASY";
   const { data, loading, error, refetch } = useQuery<QuestionsResponse>(GET_QUESTIONS, {
     variables: {
       categoryId: category.id,
-      limit: 10,
+      difficulty,
     },
     fetchPolicy: "network-only",
   });
@@ -74,6 +87,12 @@ export function GameScreen({ route, navigation }: Props) {
       setFeedbackType(null);
     }
   }, [status]);
+
+  useEffect(() => {
+    if (hearts === 0 && status === "active") {
+      setShowHeartsGone(true);
+    }
+  }, [hearts, status]);
 
   useEffect(() => {
     return () => {
@@ -123,7 +142,10 @@ export function GameScreen({ route, navigation }: Props) {
         isCorrect: false,
       });
 
-      if (isLastQuestion) {
+      const currentHearts = useGameStore.getState().hearts;
+      if (currentHearts === 0) {
+        completeRound();
+      } else if (isLastQuestion) {
         completeRound();
       } else {
         advanceQuestion();
@@ -206,6 +228,12 @@ export function GameScreen({ route, navigation }: Props) {
       isCorrect: answer.isCorrect,
     });
 
+    const currentHearts = useGameStore.getState().hearts;
+    if (currentHearts === 0) {
+      completeRound();
+      return;
+    }
+
     const isLastQuestion = currentIndex >= questions.length - 1;
     if (isLastQuestion) {
       completeRound();
@@ -236,14 +264,41 @@ export function GameScreen({ route, navigation }: Props) {
       });
 
       const latestScore = result.data?.submitScore.points ?? currentPoints + estimatedSpeedBonus;
-      resetRound();
-      navigation.replace("Leaderboard", {
-        category,
-        latestScore,
-      });
+      latestScoreRef.current = latestScore;
+
+      const updatedUser = result.data?.submitScore.user;
+      if (user && updatedUser && user.badge !== updatedUser.badge) {
+        setUpgradeBadge(updatedUser.badge);
+        setUser(updatedUser);
+        setShowUpgrade(true);
+      } else {
+        if (updatedUser) {
+          setUser(updatedUser);
+        }
+        resetRound();
+        navigation.replace("Leaderboard", {
+          category,
+          latestScore,
+        });
+      }
     } catch (mutationError) {
       setSubmitError(mutationError instanceof Error ? mutationError.message : "Could not submit score.");
     }
+  };
+
+  const onDismissHeartsGone = () => {
+    setShowHeartsGone(false);
+    resetRound();
+    navigation.goBack();
+  };
+
+  const onDismissUpgrade = () => {
+    setShowUpgrade(false);
+    resetRound();
+    navigation.replace("Leaderboard", {
+      category,
+      latestScore: latestScoreRef.current,
+    });
   };
 
   const onQuitRound = () => {
@@ -316,6 +371,12 @@ export function GameScreen({ route, navigation }: Props) {
             <Text style={styles.ghostButtonText}>BACK TO MISSIONS</Text>
           </Pressable>
         </AnimatedReveal>
+
+        <BadgeCelebrationModal
+          visible={showUpgrade}
+          badge={upgradeBadge}
+          onClose={onDismissUpgrade}
+        />
       </View>
     );
   }
@@ -350,12 +411,15 @@ export function GameScreen({ route, navigation }: Props) {
         fromY={12}
       >
         <View style={styles.hudCard}>
-          <View>
+          <View style={styles.hudLeft}>
             <Text style={styles.progressTitle}>ROUND STATUS</Text>
             <Text style={styles.progress}>Q{questionNumber} / {questions.length}</Text>
           </View>
-          <View style={styles.timerWrap}>
-            <Text style={styles.timerVisual}>{timerVisual}</Text>
+          <View style={styles.hudCenter}>
+            <HeartsDisplay hearts={hearts} />
+          </View>
+          <View style={[styles.timerWrap, styles.hudRight]}>
+            <Text style={styles.timerVisual} numberOfLines={1} ellipsizeMode="clip">{timerVisual}</Text>
             <Text style={styles.timer}>{timerSeconds}s</Text>
           </View>
         </View>
@@ -389,6 +453,11 @@ export function GameScreen({ route, navigation }: Props) {
           <Text style={styles.ghostButtonText}>QUIT ROUND</Text>
         </Pressable>
       </AnimatedReveal>
+
+      <HeartsGoneModal
+        visible={showHeartsGone}
+        onClose={onDismissHeartsGone}
+      />
     </View>
   );
 }
@@ -420,21 +489,35 @@ const styles = StyleSheet.create({
   },
   hudCard: {
     ...pixelBorder(4),
-    padding: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
     backgroundColor: theme.colors.background,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
+  },
+  hudLeft: {
+    flex: 1.1,
+    alignItems: "flex-start",
+  },
+  hudCenter: {
+    flex: 0.9,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  hudRight: {
+    flex: 1.3,
+    alignItems: "flex-end",
   },
   progressTitle: {
     fontFamily: theme.fonts.mono,
-    fontSize: 11,
+    fontSize: 10,
     color: theme.colors.border,
-    letterSpacing: 1,
+    letterSpacing: 0.8,
   },
   progress: {
     fontFamily: theme.fonts.mono,
-    fontSize: 18,
+    fontSize: 16,
     color: theme.colors.border,
     fontWeight: "700",
     marginTop: 3,
@@ -444,13 +527,13 @@ const styles = StyleSheet.create({
   },
   timerVisual: {
     fontFamily: theme.fonts.mono,
-    fontSize: 13,
+    fontSize: 9,
     color: theme.colors.border,
     letterSpacing: 0.5,
   },
   timer: {
     fontFamily: theme.fonts.mono,
-    fontSize: 21,
+    fontSize: 18,
     fontWeight: "700",
     color: theme.colors.primary,
     marginTop: 2,

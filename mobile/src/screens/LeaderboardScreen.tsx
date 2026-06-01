@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
+import { BadgeIcon } from "../components/BadgeIcon";
 import { buildPixelAvatarUri, createUserAvatarSeed } from "../lib/avatar";
 import { GET_LEADERBOARD } from "../lib/queries";
 import { withClickSound } from "../lib/soundManager";
@@ -18,6 +19,7 @@ type LeaderboardEntry = {
   user: {
     id: string;
     username: string;
+    badge: "BRONZE" | "SILVER" | "GOLD" | "SCHOLAR";
   };
 };
 
@@ -94,7 +96,10 @@ export function LeaderboardScreen({ route, navigation }: Props) {
                     return <Image source={{ uri: buildPixelAvatarUri(seed, 64) }} style={styles.rankAvatar} />;
                   })()}
                   <View style={styles.rowBody}>
-                    <Text style={styles.username}>{item.user.username}</Text>
+                    <View style={styles.usernameRow}>
+                      <Text style={styles.username}>{item.user.username}</Text>
+                      <BadgeIcon badge={item.user.badge} size={18} />
+                    </View>
                     <Text style={styles.date}>{new Date(item.createdAt).toLocaleString()}</Text>
                   </View>
                   <Text style={styles.points}>{item.points}</Text>
@@ -223,6 +228,11 @@ const styles = StyleSheet.create({
   },
   rowBody: {
     flex: 1,
+  },
+  usernameRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
   },
   username: {
     fontFamily: theme.fonts.mono,

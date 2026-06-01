@@ -1,6 +1,11 @@
 export type User = {
   id: string;
   username: string;
+  name: string;
+  age: number;
+  ageGroup: "KIDS" | "TEEN" | "ADULT";
+  totalPoints: number;
+  badge: "BRONZE" | "SILVER" | "GOLD" | "SCHOLAR";
   createdAt?: string;
 };
 

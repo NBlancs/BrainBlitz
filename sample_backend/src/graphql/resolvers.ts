@@ -60,14 +60,29 @@ function decodeOpenTdbValue(value: string): string {
   }
 }
 
-async function getLocalQuestions(categoryId: string, limit: number) {
+function computeBadge(totalPoints: number): "BRONZE" | "SILVER" | "GOLD" | "SCHOLAR" {
+  if (totalPoints >= 2500) return "SCHOLAR";
+  if (totalPoints >= 1000) return "GOLD";
+  if (totalPoints >= 500) return "SILVER";
+  return "BRONZE";
+}
+
+async function getLocalQuestions(categoryId: string, difficulty: string) {
+  const rawQuestions = await prisma.$queryRaw<{ id: string }[]>`
+    SELECT id FROM "Question"
+    WHERE "categoryId" = ${categoryId} AND "difficulty"::text = ${difficulty}
+    ORDER BY RANDOM() LIMIT 10
+  `;
+  const ids = rawQuestions.map((q) => q.id);
   const questions = await prisma.question.findMany({
-    where: { categoryId },
+    where: { id: { in: ids } },
     include: { answers: true },
   });
 
-  return shuffle(questions)
-    .slice(0, Math.max(1, limit))
+  const questionMap = new Map(questions.map((q) => [q.id, q]));
+  return ids
+    .map((id) => questionMap.get(id))
+    .filter((q): q is typeof questions[number] => !!q)
     .map((question) => ({
       ...question,
       answers: shuffle(question.answers).map((answer) => ({
@@ -106,7 +121,7 @@ export const resolvers = {
 
     getQuestions: async (
       _root: unknown,
-      { categoryId, limit = 10 }: { categoryId: string; limit?: number }
+      { categoryId, difficulty }: { categoryId: string; difficulty: "EASY" | "MEDIUM" | "HARD" }
     ) => {
       purgeExpiredRuntimeQuestions();
 
@@ -119,14 +134,14 @@ export const resolvers = {
       }
 
       const openTdbCategory = OPEN_TDB_CATEGORY_BY_NAME[category.name.toLowerCase()];
-      const normalizedLimit = Math.min(Math.max(1, limit), 50);
       if (!openTdbCategory) {
-        return getLocalQuestions(categoryId, normalizedLimit);
+        return getLocalQuestions(categoryId, difficulty);
       }
 
       const search = new URLSearchParams({
-        amount: String(normalizedLimit),
+        amount: "10",
         category: String(openTdbCategory),
+        difficulty: difficulty.toLowerCase(),
         type: "multiple",
         encode: "url3986",
       });
@@ -134,12 +149,12 @@ export const resolvers = {
       try {
         const response = await fetch(`https://opentdb.com/api.php?${search.toString()}`);
         if (!response.ok) {
-          return getLocalQuestions(categoryId, normalizedLimit);
+          return getLocalQuestions(categoryId, difficulty);
         }
 
         const payload = (await response.json()) as OpenTdbResponse;
         if (payload.response_code !== 0 || !payload.results.length) {
-          return getLocalQuestions(categoryId, normalizedLimit);
+          return getLocalQuestions(categoryId, difficulty);
         }
 
         const questionExpiresAt = Date.now() + RUNTIME_QUESTION_TTL_MS;
@@ -180,13 +195,13 @@ export const resolvers = {
           };
         });
       } catch {
-        return getLocalQuestions(categoryId, normalizedLimit);
+        return getLocalQuestions(categoryId, difficulty);
       }
     },
 
     getLeaderboard: async (
       _root: unknown,
-      { categoryId, limit = 10 }: { categoryId: string; limit?: number }
+      { categoryId }: { categoryId: string }
     ) => {
       const bestScores = await prisma.$queryRaw<
         { id: string; userId: string; points: number; createdAt: Date; rank: number }[]
@@ -206,7 +221,7 @@ export const resolvers = {
         )
         SELECT * FROM ranked
         ORDER BY rank ASC
-        LIMIT ${limit}
+        LIMIT 20
       `;
 
       const userIds = bestScores.map((entry) => entry.userId);
@@ -229,26 +244,58 @@ export const resolvers = {
   },
 
   Mutation: {
-    createUser: async (_root: unknown, { username }: { username: string }) => {
-      const normalized = username.trim();
-      if (!normalized) {
+    createUser: async (
+      _root: unknown,
+      { username, name, age }: { username: string; name: string; age: number }
+    ) => {
+      const normalizedUsername = username.trim();
+      const normalizedName = name.trim();
+
+      if (!normalizedUsername) {
         throw new Error("Username cannot be empty.");
+      }
+      if (!normalizedName) {
+        throw new Error("Name cannot be empty.");
+      }
+      if (age < 1 || age > 120) {
+        throw new Error("Age must be between 1 and 120.");
+      }
+
+      let ageGroup: "KIDS" | "TEEN" | "ADULT" = "ADULT";
+      if (age <= 12) {
+        ageGroup = "KIDS";
+      } else if (age >= 13 && age <= 17) {
+        ageGroup = "TEEN";
       }
 
       return prisma.user.create({
-        data: { username: normalized },
+        data: {
+          username: normalizedUsername,
+          name: normalizedName,
+          age,
+          ageGroup,
+          totalPoints: 0,
+          badge: "BRONZE",
+        },
       }).catch(async (error: unknown) => {
         const message = error instanceof Error ? error.message : "";
         if (!message.includes("Unique constraint")) {
           throw error;
         }
 
-        const existing = await prisma.user.findUnique({ where: { username: normalized } });
+        const existing = await prisma.user.findUnique({ where: { username: normalizedUsername } });
         if (!existing) {
           throw error;
         }
 
-        return existing;
+        return prisma.user.update({
+          where: { id: existing.id },
+          data: {
+            name: normalizedName,
+            age,
+            ageGroup,
+          },
+        });
       });
     },
 
@@ -327,6 +374,20 @@ export const resolvers = {
       const unusedTimeMs = Math.max(maxRoundTimeMs - totalResponseTimeMs, 0);
       const speedBonus = Math.floor(unusedTimeMs / 1000) * 10;
       const points = basePoints + speedBonus;
+
+      // Update user's total points and badge tier
+      const updatedUser = await prisma.user.findUnique({ where: { id: userId } });
+      if (updatedUser) {
+        const newTotal = updatedUser.totalPoints + points;
+        const newBadge = computeBadge(newTotal);
+        await prisma.user.update({
+          where: { id: userId },
+          data: {
+            totalPoints: newTotal,
+            badge: newBadge,
+          },
+        });
+      }
 
       return prisma.score.create({
         data: {

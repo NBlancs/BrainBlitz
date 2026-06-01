@@ -1,14 +1,15 @@
-import { useMutation } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useState } from "react";
-import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View, Modal } from "react-native";
+import { useState, useRef, useEffect } from "react";
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View, Modal, Animated } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
-import { CREATE_USER } from "../lib/queries";
+import { CREATE_USER, USER_BY_USERNAME } from "../lib/queries";
+import { OnboardingModal } from "../components/OnboardingModal";
 import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
 import { useNetworkStore } from "../store/useNetworkStore";
 import { updateGraphqlHttpUrl } from "../lib/network";
-import { discoverLocalServer, probeServer, normalizeServerUrl } from "../lib/serverDiscovery";
+import { discoverLocalServer, probeServer } from "../lib/serverDiscovery";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
 import { RootStackParamList, User } from "../types";
 
@@ -20,10 +21,13 @@ type CreateUserResponse = {
 
 export function UsernameScreen(_props: Props) {
   const setUser = useSessionStore((state) => state.setUser);
-  const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const [createUser, { loading }] = useMutation<CreateUserResponse>(CREATE_USER);
+  const client = useApolloClient();
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [createUser] = useMutation<CreateUserResponse>(CREATE_USER);
 
   const serverUrl = useNetworkStore((state) => state.serverUrl);
   const [showSettings, setShowSettings] = useState(false);
@@ -31,6 +35,19 @@ export function UsernameScreen(_props: Props) {
   const [discoveryStatus, setDiscoveryStatus] = useState<string | null>(null);
   const [isDiscovering, setIsDiscovering] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  const blinkAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const animation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(blinkAnim, { toValue: 0.15, duration: 600, useNativeDriver: true }),
+        Animated.timing(blinkAnim, { toValue: 1, duration: 600, useNativeDriver: true }),
+      ])
+    );
+    animation.start();
+    return () => animation.stop();
+  }, [blinkAnim]);
 
   const onSaveSettings = async () => {
     setDiscoveryStatus(null);
@@ -42,7 +59,6 @@ export function UsernameScreen(_props: Props) {
         updateGraphqlHttpUrl(validUrl);
         setInputUrl(validUrl);
         setDiscoveryStatus("✅ SERVER DETECTED!");
-        // Brief delay to show success before closing
         setTimeout(() => setShowSettings(false), 600);
       } else {
         setDiscoveryStatus("❌ NOT FOUND (CHECK WI-FI)");
@@ -72,28 +88,61 @@ export function UsernameScreen(_props: Props) {
     }
   };
 
-  const onContinue = async () => {
-    const normalized = username.trim();
-    if (!normalized) {
-      setErrorMessage("Enter a username to continue.");
+  const onPlayerAuthSubmit = async (usernameInput: string, nameInput: string, ageInputStr: string) => {
+    const handle = usernameInput.trim();
+    if (!handle) {
+      setErrorMessage("Enter a player handle.");
       return;
     }
 
     try {
       setErrorMessage(null);
-      const result = await createUser({
-        variables: {
-          username: normalized,
-        },
+      setLoading(true);
+
+      const { data } = await client.query({
+        query: USER_BY_USERNAME,
+        variables: { username: handle },
+        fetchPolicy: "network-only",
       });
 
-      if (!result.data?.createUser) {
-        throw new Error("User could not be created.");
-      }
+      if (data?.userByUsername) {
+        // User exists! Sign in.
+        setUser(data.userByUsername);
+        setShowOnboarding(false);
+      } else {
+        // New user! Must fill Name and Age.
+        const name = nameInput.trim();
+        if (!name) {
+          setErrorMessage("New player handle! Enter Name and Age to register.");
+          return;
+        }
 
-      setUser(result.data.createUser);
+        const age = parseInt(ageInputStr.trim(), 10);
+        if (isNaN(age) || age < 1 || age > 120) {
+          setErrorMessage("Enter a valid Age (1-120) to register.");
+          return;
+        }
+
+        // Create new user profile
+        const result = await createUser({
+          variables: {
+            username: handle,
+            name,
+            age,
+          },
+        });
+
+        if (!result.data?.createUser) {
+          throw new Error("Could not create player profile.");
+        }
+
+        setUser(result.data.createUser);
+        setShowOnboarding(false);
+      }
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -152,35 +201,21 @@ export function UsernameScreen(_props: Props) {
 
       <AnimatedReveal style={styles.frame} duration={280} fromY={16}>
         <Text style={styles.title}>BRAINBLITZ</Text>
-        <Text style={styles.subtitle}>ENTER YOUR PLAYER HANDLE TO START.</Text>
-
-        <View style={styles.inputShell}>
-          <Text style={styles.inputPrefix}>{">"}</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Username"
-            placeholderTextColor="#5F5F5F"
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={username}
-            onChangeText={setUsername}
-            maxLength={24}
-          />
-          <View style={styles.cursorBlock} />
-        </View>
-
-        {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
+        <Text style={styles.subtitle}>A RETRO PIXEL ART TRIVIA CHALLENGE</Text>
 
         <Pressable
           style={({ pressed }) => [
             styles.button,
             pressed && styles.buttonPressed,
-            loading && styles.buttonDisabled,
           ]}
-          onPress={withClickSound(onContinue)}
-          disabled={loading}
+          onPress={withClickSound(() => {
+            setErrorMessage(null);
+            setShowOnboarding(true);
+          })}
         >
-          {loading ? <ActivityIndicator color={theme.colors.white} /> : <Text style={styles.buttonText}>PRESS START</Text>}
+          <Animated.Text style={[styles.buttonText, { opacity: blinkAnim }]}>
+            PRESS START
+          </Animated.Text>
         </Pressable>
 
         <Pressable
@@ -194,6 +229,14 @@ export function UsernameScreen(_props: Props) {
           <Text style={styles.settingsButtonText}>⚙️ CONFIGURE SERVER</Text>
         </Pressable>
       </AnimatedReveal>
+
+      <OnboardingModal
+        visible={showOnboarding}
+        loading={loading}
+        errorMessage={errorMessage}
+        onSubmit={onPlayerAuthSubmit}
+        onCancel={() => setShowOnboarding(false)}
+      />
     </View>
   );
 }

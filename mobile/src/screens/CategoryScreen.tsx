@@ -1,12 +1,16 @@
 import { useQuery } from "@apollo/client";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useState } from "react";
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View, Modal, TextInput } from "react-native";
+import { useState, useEffect } from "react";
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View, Modal, TextInput, AppState } from "react-native";
 import { AnimatedReveal } from "../components/AnimatedReveal";
+import { DifficultyModal } from "../components/DifficultyModal";
+import { BadgeIcon } from "../components/BadgeIcon";
+import { HeartsGoneModal } from "../components/HeartsGoneModal";
 import { GET_CATEGORIES } from "../lib/queries";
 import { withClickSound } from "../lib/soundManager";
 import { useSessionStore } from "../store/useSessionStore";
 import { useNetworkStore } from "../store/useNetworkStore";
+import { useGameStore } from "../store/useGameStore";
 import { updateGraphqlHttpUrl } from "../lib/network";
 import { discoverLocalServer, probeServer } from "../lib/serverDiscovery";
 import { arcadeShadow, pixelBorder, pressedShadow, theme } from "../theme";
@@ -50,6 +54,21 @@ const accentMap: Record<string, string> = {
   car: theme.colors.danger,
 };
 
+const getBadgeColor = (badge: string) => {
+  switch (badge) {
+    case "BRONZE":
+      return "#CD7F32";
+    case "SILVER":
+      return "#C0C0C0";
+    case "GOLD":
+      return "#FFD700";
+    case "SCHOLAR":
+      return "#9B5DE5";
+    default:
+      return theme.colors.primary;
+  }
+};
+
 export function CategoryScreen({ navigation }: Props) {
   const user = useSessionStore((state) => state.user);
   const clearUser = useSessionStore((state) => state.clearUser);
@@ -60,6 +79,51 @@ export function CategoryScreen({ navigation }: Props) {
   const [discoveryStatus, setDiscoveryStatus] = useState<string | null>(null);
   const [isDiscovering, setIsDiscovering] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  // Difficulty & Hearts Lockout States
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [showHeartsGone, setShowHeartsGone] = useState(false);
+  const [cooldownText, setCooldownText] = useState("00:59:59");
+
+  const hearts = useGameStore((state) => state.hearts);
+  const heartsDepletedAt = useGameStore((state) => state.heartsDepletedAt);
+  const checkRefill = useGameStore((state) => state.checkRefill);
+
+  // Check heart refills periodically and on navigation focus
+  useEffect(() => {
+    checkRefill();
+    const interval = setInterval(() => {
+      checkRefill();
+      if (hearts === 0 && heartsDepletedAt) {
+        const elapsed = Date.now() - heartsDepletedAt;
+        const remainingMs = Math.max(0, 3600000 - elapsed);
+        const hours = Math.floor(remainingMs / 3600000);
+        const minutes = Math.floor((remainingMs % 3600000) / 60000);
+        const seconds = Math.floor((remainingMs % 60000) / 1000);
+        setCooldownText(
+          [hours, minutes, seconds].map((v) => String(v).padStart(2, "0")).join(":")
+        );
+      }
+    }, 1000);
+
+    const subscription = AppState.addEventListener("change", (nextState) => {
+      if (nextState === "active") {
+        checkRefill();
+      }
+    });
+
+    return () => {
+      clearInterval(interval);
+      subscription.remove();
+    };
+  }, [hearts, heartsDepletedAt, checkRefill]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      checkRefill();
+    });
+    return unsubscribe;
+  }, [navigation, checkRefill]);
 
   const onSaveSettings = async () => {
     setDiscoveryStatus(null);
@@ -191,11 +255,30 @@ export function CategoryScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <AnimatedReveal>
+        {user?.badge ? (
+          <View style={styles.rankSection}>
+            <Text style={styles.rankLabel}>CURRENT RANK</Text>
+            <View style={styles.rankContent}>
+              <BadgeIcon badge={user.badge} size={72} />
+              <Text style={[styles.rankValue, { color: getBadgeColor(user.badge) }]}>
+                {user.badge}
+              </Text>
+            </View>
+          </View>
+        ) : null}
+
         <View style={styles.headerCard}>
           <View>
             <Text style={styles.kicker}>PLAYER</Text>
             <Text style={styles.welcome}>{user?.username}</Text>
-            <Text style={styles.subtitle}>SELECT A MISSION TO START A 10-QUESTION ROUND.</Text>
+            {hearts === 0 ? (
+              <View style={styles.lockoutContainer}>
+                <Text style={styles.lockoutTitle}>⚠️ LOCKOUT ACTIVE ⚠️</Text>
+                <Text style={styles.lockoutSubtitle}>RECHARGING LIVES IN: {cooldownText}</Text>
+              </View>
+            ) : (
+              <Text style={styles.subtitle}>SELECT A MISSION TO START A 10-QUESTION ROUND.</Text>
+            )}
           </View>
           <Pressable style={({ pressed }) => [styles.signOutButton, pressed && styles.signOutButtonPressed]} onPress={withClickSound(clearUser)}>
             <Text style={styles.signOutText}>SIGN OUT</Text>
@@ -213,8 +296,18 @@ export function CategoryScreen({ navigation }: Props) {
           renderItem={({ item, index }) => (
             <AnimatedReveal delay={120 + index * 70} duration={220} fromY={10}>
               <Pressable
-                style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
-                onPress={withClickSound(() => navigation.navigate("Game", { category: item }))}
+                style={({ pressed }) => [
+                  styles.card,
+                  pressed && hearts > 0 && styles.cardPressed,
+                  hearts === 0 && { opacity: 0.45 },
+                ]}
+                onPress={withClickSound(() => {
+                  if (hearts === 0) {
+                    setShowHeartsGone(true);
+                  } else {
+                    setSelectedCategory(item);
+                  }
+                })}
               >
                 <View style={[styles.cardIconWrap, { backgroundColor: accentMap[item.icon] ?? theme.colors.primary }]}>
                   <Text style={styles.cardIcon}>{iconMap[item.icon] ?? "🧠"}</Text>
@@ -229,6 +322,24 @@ export function CategoryScreen({ navigation }: Props) {
           )}
         />
       </AnimatedReveal>
+
+      <DifficultyModal
+        visible={selectedCategory !== null}
+        onSelect={(difficulty) => {
+          if (selectedCategory) {
+            useGameStore.getState().setDifficulty(difficulty);
+            const category = selectedCategory;
+            setSelectedCategory(null);
+            navigation.navigate("Game", { category });
+          }
+        }}
+        onClose={() => setSelectedCategory(null)}
+      />
+
+      <HeartsGoneModal
+        visible={showHeartsGone}
+        onClose={() => setShowHeartsGone(false)}
+      />
     </View>
   );
 }
@@ -482,5 +593,47 @@ const styles = StyleSheet.create({
   modalButtonPressed: {
     transform: [{ translateY: 3 }],
     shadowOffset: { width: 0, height: 0 },
+  },
+  lockoutContainer: {
+    marginTop: 8,
+    gap: 4,
+  },
+  lockoutTitle: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 12,
+    fontWeight: "700",
+    color: theme.colors.danger,
+  },
+  lockoutSubtitle: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 10,
+    color: theme.colors.border,
+  },
+  rankSection: {
+    ...pixelBorder(3),
+    backgroundColor: theme.colors.background,
+    padding: 12,
+    marginBottom: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
+  },
+  rankLabel: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 9,
+    color: theme.colors.border,
+    letterSpacing: 1.5,
+  },
+  rankContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginTop: 2,
+  },
+  rankValue: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 20,
+    fontWeight: "700",
+    letterSpacing: 1,
   },
 });
