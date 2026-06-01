@@ -55,11 +55,37 @@ async function runMigrations(databaseUrl: string) {
 
   const command = process.platform === "win32" ? "npx.cmd" : "npx";
 
-  await execFileAsync(command, ["prisma", "migrate", "deploy"], {
-    env,
-    cwd: process.cwd(),
-    shell: true
-  });
+  try {
+    console.log("🚜 Running prisma migrate deploy...");
+    await execFileAsync(command, ["prisma", "migrate", "deploy"], {
+      env,
+      cwd: process.cwd(),
+      shell: true
+    });
+    console.log("  ✅ Migrations deployed successfully.");
+  } catch (error) {
+    console.warn("⚠️ Migration deploy failed. Database might be in a failed migration state. Attempting automatic reset...", error);
+    try {
+      await execFileAsync(command, ["prisma", "migrate", "reset", "--force"], {
+        env,
+        cwd: process.cwd(),
+        shell: true
+      });
+      console.log("  ✅ Database reset and migrations applied successfully.");
+
+      console.log("🌱 Seeding database after reset...");
+      const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+      await execFileAsync(npmCommand, ["run", "db:seed"], {
+        env,
+        cwd: process.cwd(),
+        shell: true
+      });
+      console.log("  ✅ Seeding complete.");
+    } catch (resetError) {
+      console.error("❌ Database reset/seeding failed:", resetError);
+      throw resetError;
+    }
+  }
 }
 
 export async function ensureDatabaseReady(databaseUrl = process.env.DATABASE_URL) {
