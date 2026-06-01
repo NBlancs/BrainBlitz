@@ -1,6 +1,7 @@
 import { Client } from "pg";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
+import { seedDatabase } from "./seedHelper.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -72,16 +73,7 @@ async function syncCategoriesIfDirty(databaseUrl: string) {
       
       if (hasExtra || hasMissing) {
         console.log("⚠️ Database categories are out of sync with seed data. Triggering seeding...");
-        const env = {
-          ...process.env,
-          DATABASE_URL: databaseUrl,
-        };
-        const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
-        await execFileAsync(npmCommand, ["run", "db:seed"], {
-          env,
-          cwd: process.cwd(),
-          shell: true
-        });
+        await seedDatabase();
         console.log("  ✅ Seeding complete. Database categories are now in sync.");
       } else {
         console.log("  ✅ Database categories are in sync.");
@@ -152,12 +144,7 @@ async function runMigrations(databaseUrl: string) {
       console.log("  ✅ Database reset and migrations applied successfully.");
 
       console.log("🌱 Seeding database after reset...");
-      const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
-      await execFileAsync(npmCommand, ["run", "db:seed"], {
-        env,
-        cwd: process.cwd(),
-        shell: true
-      });
+      await seedDatabase();
       console.log("  ✅ Seeding complete.");
     } catch (resetError) {
       console.error("❌ Database reset/seeding failed:", resetError);
