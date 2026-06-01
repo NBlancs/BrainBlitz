@@ -71,12 +71,22 @@ async function syncCategoriesIfDirty(databaseUrl: string) {
       const hasExtra = existingCategories.some((cat: string) => !allowedCategories.includes(cat));
       const hasMissing = allowedCategories.some((cat: string) => !existingCategories.includes(cat));
       
-      if (hasExtra || hasMissing) {
-        console.log("⚠️ Database categories are out of sync with seed data. Triggering seeding...");
+      let questionCount = 0;
+      try {
+        const qCheck = await client.query(`
+          SELECT COUNT(*)::integer FROM "Question";
+        `);
+        questionCount = qCheck.rows[0]?.count || 0;
+      } catch (qErr) {
+        console.warn("⚠️ Failed to check Question count, defaulting to 0:", qErr);
+      }
+      
+      if (hasExtra || hasMissing || questionCount < 360) {
+        console.log(`⚠️ Database categories/questions are out of sync (expected 360 questions, found ${questionCount}). Triggering seeding...`);
         await seedDatabase();
         console.log("  ✅ Seeding complete. Database categories are now in sync.");
       } else {
-        console.log("  ✅ Database categories are in sync.");
+        console.log("  ✅ Database categories and questions are in sync.");
       }
     }
   } catch (error) {
