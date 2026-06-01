@@ -47,6 +47,53 @@ async function createDatabaseIfMissing(databaseUrl: string) {
   }
 }
 
+async function syncCategoriesIfDirty(databaseUrl: string) {
+  const client = new Client({
+    connectionString: databaseUrl,
+  });
+  try {
+    await client.connect();
+    
+    const checkTable = await client.query(`
+      SELECT EXISTS (
+        SELECT 1 FROM pg_tables WHERE schemaname = 'public' AND tablename = 'Category'
+      );
+    `);
+    
+    if (checkTable.rows[0]?.exists) {
+      const allowedCategories = ['Science', 'History', 'Geography', 'Mythology', 'Art', 'Animals'];
+      const res = await client.query(`
+        SELECT name FROM "Category";
+      `);
+      const existingCategories = res.rows.map((row: any) => row.name);
+      
+      const hasExtra = existingCategories.some((cat: string) => !allowedCategories.includes(cat));
+      const hasMissing = allowedCategories.some((cat: string) => !existingCategories.includes(cat));
+      
+      if (hasExtra || hasMissing) {
+        console.log("⚠️ Database categories are out of sync with seed data. Triggering seeding...");
+        const env = {
+          ...process.env,
+          DATABASE_URL: databaseUrl,
+        };
+        const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+        await execFileAsync(npmCommand, ["run", "db:seed"], {
+          env,
+          cwd: process.cwd(),
+          shell: true
+        });
+        console.log("  ✅ Seeding complete. Database categories are now in sync.");
+      } else {
+        console.log("  ✅ Database categories are in sync.");
+      }
+    }
+  } catch (error) {
+    console.warn("⚠️ Warning: Failed to verify/sync database categories:", error);
+  } finally {
+    await client.end().catch(() => undefined);
+  }
+}
+
 async function runMigrations(databaseUrl: string) {
   // Pre-emptively clear any failed migrations in _prisma_migrations so Prisma doesn't block deployment
   try {
@@ -92,6 +139,8 @@ async function runMigrations(databaseUrl: string) {
       shell: true
     });
     console.log("  ✅ Migrations deployed successfully.");
+    
+    await syncCategoriesIfDirty(databaseUrl);
   } catch (error) {
     console.warn("⚠️ Migration deploy failed. Database might be in a failed migration state. Attempting automatic reset...", error);
     try {
