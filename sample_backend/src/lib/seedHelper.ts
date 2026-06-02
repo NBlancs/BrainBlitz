@@ -1,6 +1,15 @@
 import prisma from "./prisma.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const fetchedQuestionsPath = path.resolve(__dirname, "./fetched-questions.json");
+const fetchedQuestions: SeedQuestion[] = JSON.parse(fs.readFileSync(fetchedQuestionsPath, "utf8"));
 
 type SeedQuestion = {
   text: string;
@@ -1564,6 +1573,8 @@ function computeBadge(totalPoints: number) {
   return "BRONZE";
 }
 
+export const expectedQuestionCount = questionBank.length + fetchedQuestions.length;
+
 export async function seedDatabase() {
   console.log("Starting database truncation...");
   await prisma.$transaction([
@@ -1589,15 +1600,16 @@ export async function seedDatabase() {
   }
   console.log("Categories seeded successfully.");
 
-  console.log(`Seeding ${questionBank.length} questions and answers...`);
+  const fullQuestionBank = [...questionBank, ...fetchedQuestions];
+  console.log(`Seeding ${fullQuestionBank.length} questions and answers...`);
 
   const categoryNames = ["Science", "History", "Geography", "Mythology", "Art", "Animals"];
   const questionData: any[] = [];
   const answerData: any[] = [];
 
-  for (let i = 0; i < questionBank.length; i++) {
-    const q = questionBank[i];
-    const categoryIndex = Math.floor(i / 60);
+  for (let i = 0; i < fullQuestionBank.length; i++) {
+    const q = fullQuestionBank[i];
+    const categoryIndex = Math.floor((i % 360) / 60);
     const catName = categoryNames[categoryIndex];
     const categoryId = seededCategories[catName.toUpperCase()];
 

@@ -1,0 +1,4322 @@
+[
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "How many moons does the Earth have?",
+    "answers": [
+      "0",
+      "2",
+      "1",
+      "3"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "How many planets are there in the Solar System?",
+    "answers": [
+      "8",
+      "11",
+      "10",
+      "9"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "Dry ice is the solid form of what substance?",
+    "answers": [
+      "Oxygen",
+      "Ammonia",
+      "Carbon dioxide",
+      "Nitrogen"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "What organelle aids in synthesis of DNA in cells?",
+    "answers": [
+      "Nuclei",
+      "Ribosomes",
+      "Mitochondria",
+      "Lysosomes"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "What is the half-life of Uranium-235?",
+    "answers": [
+      "1,260,900,000 years",
+      "4,300,400,000 years",
+      "703,800,000 years",
+      "Uranium-235 is a stable isotope"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "Which planet did the \"Viking 1\" spacecraft send surface images of, starting in 1976?",
+    "answers": [
+      "Venus",
+      "Jupiter",
+      "Mars",
+      "Saturn"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "What is the Linnean name of the domestic apple tree?",
+    "answers": [
+      "Appelus delectica",
+      "Malus americana",
+      "Pomus domestica",
+      "Malus pumila"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "In the Scoville scale, what is the hottest chemical?",
+    "answers": [
+      "Resiniferatoxin",
+      "Tinyatoxin",
+      "Dihydrocapsaicin",
+      "Capsaicin"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "Which major extinction event was caused by an asteroid collision and eliminated the majority of non-avian dinosaurs?",
+    "answers": [
+      "Triassic-Jurassic",
+      "Ordovician-Silurian",
+      "Cretaceous-Paleogene",
+      "Permian-Triassic"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "How many types of quarks are there in the standard model of physics?",
+    "answers": [
+      "6",
+      "2",
+      "3",
+      "4"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "What is the standard SI unit for temperature?",
+    "answers": [
+      "Celsius",
+      "Rankine",
+      "Kelvin",
+      "Fahrenheit"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "What produces the green colour of most plant leaves?",
+    "answers": [
+      "Natural pigments",
+      "Chlorophyll",
+      "Light refraction",
+      "UV radiation"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Which of the following blood vessels carries deoxygenated blood?",
+    "answers": [
+      "Coronary Artery",
+      "Aorta",
+      "Pulmonary Vein",
+      "Pulmonary Artery"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "What is the chemical makeup of water?",
+    "answers": [
+      "H",
+      "C12H6O2",
+      "CO2",
+      "H20"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "On the periodic table of elements, what is the symbol for Tin?",
+    "answers": [
+      "Na",
+      "Sn",
+      "Ni",
+      "Ti"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "What is the molecular formula of the active component of chili peppers(Capsaicin)?",
+    "answers": [
+      "C18H27NO3",
+      "C6H4Cl2",
+      "C13H25NO4",
+      "C21H23NO3"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "What stage of development do the majority of eukaryotic cells remain in for most of their life?",
+    "answers": [
+      "Stasis",
+      "Telophase",
+      "Prophase",
+      "Interphase"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "What does the scientific name of the Cambrian-Period sea creature Anomalocaris mean?",
+    "answers": [
+      "Abnormal Shrimp",
+      "Deformed Fish",
+      "Strange Crab",
+      "Anomalous Clam"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "The 'Islets of Langerhans' is found in which human organ?",
+    "answers": [
+      "Brain",
+      "Liver",
+      "Pancreas",
+      "Kidney"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "Autosomal-dominant Compelling Helio-Ophthalmic Outburst syndrome is the need to do what when seeing the Sun?",
+    "answers": [
+      "Yawn",
+      "Hiccup",
+      "Cough",
+      "Sneeze"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Which of the following is not one of the groups on the periodic table?",
+    "answers": [
+      "Alkali Metals",
+      "Halogens",
+      "Noble Gases",
+      "Fluorines"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "What does LASER stand for?",
+    "answers": [
+      "Light amplifier by standby energy of radio",
+      "Lite analysing by stereo ecorazer",
+      "Light amplification by stimulated emission of radiation",
+      "Life antimatter by standing entry of range"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Who discovered the Law of Gravity?",
+    "answers": [
+      "Sir Isaac Newton",
+      "Albert Einstein",
+      "Charles Darwin",
+      "Galileo Galilei"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Which of the following bones is not in the leg?",
+    "answers": [
+      "Tibia",
+      "Radius",
+      "Fibula ",
+      "Patella"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "What is radiation measured in?",
+    "answers": [
+      "Watt",
+      "Decibel",
+      "Gray ",
+      "Kelvin"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "What is the mathematical formula of Ohm's law?",
+    "answers": [
+      "V = I / R",
+      "I = V*R",
+      "V = I*R",
+      "R = V*I"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "What mineral has the lowest number on the Mohs scale?",
+    "answers": [
+      "Talc",
+      "Quartz",
+      "Diamond",
+      "Gypsum"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "All of the following human genetic haplogroup names are shared between Y-chromosome and mitochondrial DNA haplogroups EXCEPT:",
+    "answers": [
+      "Haplogroup L",
+      "Haplogroup J",
+      "Haplogroup T",
+      "Haplogroup U"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "Coulrophobia is the irrational fear of what?",
+    "answers": [
+      "Clowns",
+      "Tunnels",
+      "Needles",
+      "Cemeteries"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "In physics, conservation of energy and conservation of momentum are both consequences of which of the following?",
+    "answers": [
+      "Wick's Theorem",
+      "Noether's Theorem",
+      "Carnot's Theorem",
+      "Bell's Theorem"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "What is the standard SI unit for time?",
+    "answers": [
+      "Day",
+      "Hour",
+      "Minute",
+      "Second"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "What is the common name of the chemical compound \"dihydrogen monoxide\"?",
+    "answers": [
+      "Laughing Gas",
+      "Methane",
+      "Ammonia ",
+      "Water"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "What is the primary addictive substance found in tobacco?",
+    "answers": [
+      "Cathinone",
+      "Nicotine",
+      "Glaucine",
+      "Ephedrine"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "How many bones are in the human body?",
+    "answers": [
+      "203",
+      "206",
+      "209",
+      "200"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "Tetsuya Fujita was a scientist that developed the scale for which natural disaster?",
+    "answers": [
+      "Hurricanes",
+      "Tornadoes",
+      "Earthquakes",
+      "Volcanoes"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "The Axiom of Preventive Medicine states that people with ___ risk for a disease should be screened and we should treat ___ of those people.",
+    "answers": [
+      "low, some",
+      "low, all",
+      "high, all",
+      "high, some"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "What is the standard SI unit for electric current?",
+    "answers": [
+      "Watt",
+      "Ampere",
+      "Volt",
+      "Ohm"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "What physics principle relates the net electric flux out of a closed surface to the charge enclosed by that surface?",
+    "answers": [
+      "Faraday's Law",
+      "Biot-Savart Law",
+      "Gauss's Law",
+      "Ampere's Law"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Which is not a type of neuron?",
+    "answers": [
+      "Motor Neuron",
+      "Sensory Neuron",
+      "Perceptual Neuron",
+      "Interneuron"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Which of the following is NOT a word used to describe an earthquake?",
+    "answers": [
+      "Drop-slide",
+      "Foreshock",
+      "Temblor",
+      "Strike-slip"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "What is the speed of light in a vacuum?",
+    "answers": [
+      "299,792,458 m/s",
+      "50,461 m/s",
+      "308,215,043 m/s",
+      "751,665,014,151 m/s"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "What is the largest animal currently on Earth?",
+    "answers": [
+      "Giraffe",
+      "Orca",
+      "Blue Whale",
+      "Colossal Squid"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "Which noble gas has the lowest atomic number?",
+    "answers": [
+      "Helium",
+      "Krypton",
+      "Argon",
+      "Neon"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "What is the atomic mass of Carbon?",
+    "answers": [
+      "16",
+      "10",
+      "12",
+      "14"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "What causes Lyme disease?",
+    "answers": [
+      "A bacteria",
+      "A virus",
+      "A parasitic worm",
+      "An amoeba"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "Along with Oxygen, which element is primarily responsible for the sky appearing blue?",
+    "answers": [
+      "Hydrogen",
+      "Carbon",
+      "Helium",
+      "Nitrogen"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "What is the largest living organism currently known to man?",
+    "answers": [
+      "Honey Fungus",
+      "Blue Whale",
+      "Redwood Tree",
+      "The Coral Reef"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Which horizon in a soil profile consists of bedrock?",
+    "answers": [
+      "R",
+      "D",
+      "O",
+      "B"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "The word \"science\" stems from the word \"scire\" meaning what?",
+    "answers": [
+      "To live",
+      "To count",
+      "To measure",
+      "To know"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "What is the same in Celsius and Fahrenheit?",
+    "answers": [
+      "-42",
+      "-39",
+      "32",
+      "-40"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "What is the hottest planet in the Solar System?",
+    "answers": [
+      "Jupiter",
+      "Mars",
+      "Mercury",
+      "Venus"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "Rhinoplasty is a surgical procedure on what part of the human body?",
+    "answers": [
+      "Ears",
+      "Chin",
+      "Neck",
+      "Nose"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "The human heart has how many chambers?",
+    "answers": [
+      "2",
+      "6",
+      "4",
+      "3"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "The biggest distinction between a eukaryotic cell and a prokaryotic cell is:",
+    "answers": [
+      "The presence or absence of a nucleus",
+      "The presence or absence of certain organelles",
+      "The overall size",
+      "The mode of reproduction"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "How many hearts does an octopus have?",
+    "answers": [
+      "One",
+      "Two",
+      "Three",
+      "Four"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Which of these stars is the largest?",
+    "answers": [
+      "VY Canis Majoris",
+      "RW Cephei",
+      "Betelgeuse",
+      "UY Scuti"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "The human right lung has how many lobes?",
+    "answers": [
+      "2",
+      "1",
+      "3",
+      "4"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "Where is the Gluteus Maximus muscle located?",
+    "answers": [
+      "Torso",
+      "Head",
+      "Butt",
+      "Arm"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "Muscle fiber is constructed of bundles small long organelles called what?",
+    "answers": [
+      "Myocardium",
+      "Myofiaments",
+      "Myofibrils",
+      "Epimysium"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "Botanically speaking, which of these fruits is NOT a berry?",
+    "answers": [
+      "Concord Grape",
+      "Banana",
+      "Blueberry",
+      "Strawberry"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "Which of these landmarks is not included in the original 'Seven Wonders of the Ancient World'?",
+    "answers": [
+      "Great Pyramid of Giza",
+      "Hanging Gardens of Babylon",
+      "Colossus of Rhodes",
+      "Great Wall of China"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "When did the Byzantine Empire collapse?",
+    "answers": [
+      "1498",
+      "1299",
+      "1353",
+      "1453"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "In 1939, Britain and France declared war on Germany after it invaded which country?",
+    "answers": [
+      "Czechoslovakia",
+      "Austria",
+      "Poland",
+      "Hungary"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "How old was Adolf Hitler when he died?",
+    "answers": [
+      "65",
+      "56",
+      "43",
+      "47"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "What year was the Italian firearms manufacturer Beretta founded?",
+    "answers": [
+      "1998",
+      "1776",
+      "1526",
+      "1923"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "When was \"The Gadget\", the first nuclear device to be detonated, tested?",
+    "answers": [
+      "April 5, 1945",
+      "July 16, 1945",
+      "August 6, 1945",
+      "June 22, 1945"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "Who was the only US President to be elected four times?",
+    "answers": [
+      "Abraham Lincoln",
+      "Franklin Roosevelt",
+      "Theodore Roosevelt",
+      "George Washington"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "After the 1516 Battle of Marj Dabiq, the Ottoman Empire took control of Jerusalem from which sultanate?",
+    "answers": [
+      "Mamluk",
+      "Ayyubid",
+      "Seljuq",
+      "Ummayyad"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "What age was King Henry V when he died?",
+    "answers": [
+      "87",
+      "35",
+      "73",
+      "62"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "During World War I, which nation's monarchs were blood related?",
+    "answers": [
+      "England, Germany, Russia",
+      "France, Russia, Germany",
+      "Serbia, Russia, Croatia",
+      "Germany, Spain, Austria"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "The original Roman alphabet lacked the following letters EXCEPT:",
+    "answers": [
+      "W",
+      "U",
+      "X",
+      "J"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Pol Pot was the former dictator of which country?",
+    "answers": [
+      "Laos",
+      "Vietnam",
+      "North Korea",
+      "Cambodia"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Which game was the Game of the Year in 2018?",
+    "answers": [
+      "Red Dead Redemption 2",
+      "Detroit: Become Human",
+      "God of War",
+      "A Way Out"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "How many manned moon landings have there been?",
+    "answers": [
+      "1",
+      "7",
+      "3",
+      "6"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "Which of the following snipers has the highest amount of confirmed kills?",
+    "answers": [
+      "Craig Harrison",
+      "Vasily Zaytsev",
+      "Chris Kyle",
+      "Simo H&auml;yh&auml;"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "When did the British hand-over sovereignty of Hong Kong back to China?",
+    "answers": [
+      "1997",
+      "1841",
+      "1900",
+      "1999"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "Who led France during the \"Reign of Terror\" ?",
+    "answers": [
+      "Napoleon Bonaparte",
+      "Jean-Paul Marat",
+      "Maximilien Robespierre",
+      "Louis XVI"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "How many women joined the United States Armed Services during World War II?",
+    "answers": [
+      "225,000",
+      "500,000",
+      "100,000",
+      "350,000"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "The Hagia Sophia was commissioned by which emperor of the Byzantine Empire?",
+    "answers": [
+      "Constantine IV",
+      "Theodosius the Great",
+      "Arcadius",
+      "Justinian I"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "What was the real name of the Albanian national leader Skanderbeg?",
+    "answers": [
+      "Iskander Bejko",
+      "Mirash Krasniki",
+      "Diturak Zhulati",
+      "Gjergj Kastrioti"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Who was the Prime Minister of Japan when Japan declared war on the US?",
+    "answers": [
+      "Isoroku Yamamoto",
+      "Fumimaro Konoe",
+      "Hideki Tojo",
+      "Michinomiya Hirohito"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "King Henry VIII was the second monarch of which European royal house?",
+    "answers": [
+      "Lancaster",
+      "Tudor",
+      "York",
+      "Stuart"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Which modern day country is the region that was known as Phrygia in ancient times?",
+    "answers": [
+      "Greece",
+      "Syria",
+      "Egypt",
+      "Turkey"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Who was the first president of Kenya?",
+    "answers": [
+      "Tom Mboya",
+      "Daniel Moi",
+      "Oginga Odinga",
+      "Jomo Kenyatta"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "What year were the Marian Reforms instituted in the Roman Republic?",
+    "answers": [
+      "107 BCE",
+      "102 CE",
+      "264 BCE",
+      "42 BCE"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "Which U.S. President was in office when the Gulf War began?",
+    "answers": [
+      "Richard Nixon",
+      "George W. Bush ",
+      "George H. W. Bush",
+      "Ronald Regan"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "Who was the first president born in the independent United States?",
+    "answers": [
+      "James Monroe ",
+      "Martin Van Buren",
+      "John Adams",
+      "George Washington"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "When did Canada leave the confederation to become their own nation?",
+    "answers": [
+      "July 1st, 1832",
+      "July 1st, 1763",
+      "July 1st, 1902",
+      "July 1st, 1867"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "Which day did World War I begin?",
+    "answers": [
+      "July 28",
+      "January 28",
+      "April 28",
+      "June 28"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "What did the abbreviation \"RMS\" stand for in the RMS Titanic in 1912?",
+    "answers": [
+      "Regulated Maelstrom Sensor",
+      "Regular Maritime Schedule ",
+      "Royal Majesty Service",
+      "Royal Mail Ship"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "How long did World War II last?",
+    "answers": [
+      "5 years",
+      "6 years",
+      "4 years",
+      "7 years"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "Which one of these tanks was designed and operated by the United Kingdom?",
+    "answers": [
+      "M4 Sherman",
+      "T-34",
+      "Tiger H1",
+      "Tog II"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "Which German field marshal was known as the `Desert Fox`?",
+    "answers": [
+      "Ernst Busch",
+      "Wilhelm List",
+      "Wolfram Freiherr von Richthofen",
+      "Erwin Rommel"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "Who was the first ruler of Haiti after the country had gained its independence?",
+    "answers": [
+      "Alexandre Petion",
+      "Jean-Jacques Dessalines",
+      "Toussaint Louverture",
+      "Henri Christophe"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "In what prison was Adolf Hitler held in 1924?",
+    "answers": [
+      "Landsberg Prison",
+      "Spandau Prison",
+      "Hohenasperg",
+      "Ebrach Abbey"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "During the Mongolian invasions of Japan, what were the Mongol boats mostly stopped by?",
+    "answers": [
+      "Typhoons",
+      "Samurai",
+      "Economic depression",
+      "Tornados"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "When did the United States formally declare war on Japan, entering World War II?",
+    "answers": [
+      "June 22, 1941",
+      "June 6, 1944",
+      "September 1, 1939",
+      "December 8, 1941"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "The assassination of which royal led to the start of World War I?",
+    "answers": [
+      "King Charles I",
+      "Archduke Franz Ferdinand",
+      "Nicholas II",
+      "Louis Mountbatten"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Which one of these rulers did not belong to the Habsburg dynasty?",
+    "answers": [
+      "Francis Joseph",
+      "Philip II",
+      "Charles V",
+      "Philip V"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "In what year did the Battle of Verdun take place?",
+    "answers": [
+      "1917",
+      "1916",
+      "1918",
+      "1915"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "In 1453, which important city fell?",
+    "answers": [
+      "Constantinople",
+      "Rome",
+      "Hamburg",
+      "Athens"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "During WWII, in 1945, the United States dropped atomic bombs on the two Japanese cities of Hiroshima and what other city?",
+    "answers": [
+      "Nagasaki",
+      "Tokyo",
+      "Kawasaki",
+      "Kagoshima"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "What battle was the longest in World War I, lasting approximately 303 days?",
+    "answers": [
+      "Battle of Stalingrad",
+      "Battle of Verdun ",
+      "Battle of Passchendaele",
+      "Battle of Amiens"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "In 1720, England was in massive debt and became involved in the South Sea Bubble. Who was the main mastermind behind it?",
+    "answers": [
+      "Robert Harley",
+      "John Churchill",
+      "John Blunt",
+      "Daniel Defoe"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": " What Russian automatic gas-operated assault rifle was developed in the Soviet Union in 1947, and is still popularly used today?",
+    "answers": [
+      "AK-47",
+      "MG 42",
+      "RPK",
+      "M16"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "What day did the Battle of Gettysburg begin?",
+    "answers": [
+      "Apr 30, 1863",
+      "July 1, 1863",
+      "July 21, 1861",
+      "September 17, 1862"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "Which Apollo mission was the last one in NASA's Apollo program?",
+    "answers": [
+      "Apollo 11",
+      "Apollo 15",
+      "Apollo 13",
+      "Apollo 17"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "What was the last colony the UK ceded marking the end of the British Empire?",
+    "answers": [
+      "India",
+      "Hong Kong",
+      "Australia",
+      "Ireland"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Which Irish village in County Mayo built a tourism industry on the back of an alleged appearance by the Virgin Mary in 1879?",
+    "answers": [
+      "Swinford",
+      "Knock",
+      "Turlough",
+      "Ballycastle"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "What was the original name of New York City?",
+    "answers": [
+      "New Amsterdam",
+      "New Rome",
+      "New London",
+      "New Paris"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "When is the Ides of March?",
+    "answers": [
+      "March 31",
+      "March 15",
+      "March 1",
+      "March 14"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "Which of the following countries was not an axis power during World War II?",
+    "answers": [
+      "Germany",
+      "Italy",
+      "Japan",
+      " Soviet Union"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "Which of these countries remained neutral during World War II?",
+    "answers": [
+      "Switzerland",
+      "France",
+      "Italy",
+      "United Kingdom"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "The collapse of the Soviet Union took place in which year?",
+    "answers": [
+      "1992",
+      "1991",
+      "1891",
+      "1990"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Who is attributed credit for recording the epic poem The Odyssey?",
+    "answers": [
+      "Odysseus",
+      "Homer",
+      "Socrates",
+      "Aristotle"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Which of the following years is commonly referred to as the \"Year Without a Summer\"?",
+    "answers": [
+      "1813",
+      "1808",
+      "1816",
+      "1823"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Which historical conflict killed the most people?",
+    "answers": [
+      "Taiping Rebellion",
+      "Mongol conquests",
+      "World War II",
+      "Three Kingdoms War"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "In 1547 who became the 1st Tsar of Russia",
+    "answers": [
+      "Mikhail Romanov",
+      "Alexis of Russia",
+      "Peter the Great",
+      "Ivan the Terrible"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "Who was the first man to travel into outer space?",
+    "answers": [
+      "Neil Armstrong",
+      "Buzz Aldrin",
+      "Virgil Ivan \"Gus\" Grissom",
+      "Yuri Gagarin"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "The first Legoland park was opened in 1968 in which of these cities?",
+    "answers": [
+      "Nagoya, Japan",
+      "Carlsbad, California",
+      "Winter Haven, Florida",
+      "Billund, Denmark"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "The country of Belize borders which country?",
+    "answers": [
+      "Kenya",
+      "Perú",
+      "Guatemala",
+      "Laos"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "Which ocean borders the west coast of the United States?",
+    "answers": [
+      "Atlantic",
+      "Arctic",
+      "Pacific",
+      "Indian"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "What is Laos?",
+    "answers": [
+      "River",
+      "Country",
+      "City",
+      "Region"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "What is the 15th letter of the Greek alphabet?",
+    "answers": [
+      "Sigma (&Sigma;)",
+      "Pi (&Pi;)",
+      "Omicron (&Omicron;)",
+      "Nu (&Nu;)"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "On a London Underground map, what colour is the Circle Line?",
+    "answers": [
+      "Green",
+      "Red",
+      "Blue",
+      "Yellow"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "What is the capital of Ecuador?",
+    "answers": [
+      "Bogota",
+      "Quito",
+      "Santiago",
+      "Santa Fé"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "Which country has three capital cities?",
+    "answers": [
+      "United Kingdom",
+      "Somalia",
+      "China",
+      "South Africa"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "Which of the following is a castle?",
+    "answers": [
+      "Elizabeth Castle",
+      "Olivia Castle",
+      "Frank Castle",
+      "Richard Castle"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "What North American tourist attraction is served by the \"Maid of the Mist\" tour company?",
+    "answers": [
+      "Niagara Falls",
+      "Whistler, British Columbia",
+      "Yosemite National Park",
+      "Disney World"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "Which of these is NOT a real tectonic plate?",
+    "answers": [
+      "Atlantic Plate",
+      "North American Plate",
+      "Eurasian Plate",
+      "Nazca Plate"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "What is the largest country in the world?",
+    "answers": [
+      "Russia",
+      "Canada",
+      "China",
+      "United States"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "On which continent does the Andes mountain range lie?",
+    "answers": [
+      "South America",
+      "Europe",
+      "Asia",
+      "Africa"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Which country does Austria not border?",
+    "answers": [
+      "Slovenia",
+      "Switzerland",
+      "Slovakia",
+      "France"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Which of these is NOT an Australian state or territory?",
+    "answers": [
+      "Queensland",
+      "Victoria",
+      "Alberta",
+      "New South Wales"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "What is the largest Muslim country in the world?",
+    "answers": [
+      "Indonesia",
+      "Iran",
+      "Pakistan",
+      "Saudi Arabia"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "The Gambia is a nation found on which continent?",
+    "answers": [
+      "Europe",
+      "Africa",
+      "South America",
+      "Asia"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "Which one of these countries borders with Poland?",
+    "answers": [
+      "Netherlands",
+      "Norway",
+      "Lithuania",
+      "France"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "Which country was NOT formerly part of Yugoslavia?",
+    "answers": [
+      "Croatia",
+      "Serbia",
+      "Albania",
+      "Macedonia"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "What is the name of the formerly rich fishing grounds off the island of Newfoundland, Canada?",
+    "answers": [
+      "Grand Banks",
+      "Hudson Bay",
+      "Mariana Trench",
+      "Great Barrier Reef"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "Which is not a country in Africa?",
+    "answers": [
+      "Liberia",
+      "Senegal",
+      "Guyana",
+      "Somalia"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Which US state is also known as the \"Lone Star State\"?",
+    "answers": [
+      "Alabama",
+      "Tennessee",
+      "Kentucky",
+      "Texas"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "What colour is the circle on the Japanese flag?",
+    "answers": [
+      "Red",
+      "Black",
+      "White",
+      "Yellow"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Which US state is nicknamed \"The Golden State\"?",
+    "answers": [
+      "New Mexico",
+      "Alaska",
+      "Florida",
+      "California"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Harvard University is located in which city?",
+    "answers": [
+      "Cambridge",
+      "Providence",
+      "Washington D.C.",
+      "New York"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "Which of the following is not a megadiverse country - one that harbors a high number of the earth's endemic species?",
+    "answers": [
+      "South Africa",
+      "Mexico",
+      "Thailand",
+      "Peru"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "In which English county is the city of Portsmouth?",
+    "answers": [
+      "Hampshire",
+      "Buckinghamshire",
+      "Surrey",
+      "Oxfordshire"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "What island in the Canary Islands was the scene of one of the worst air disasters in history with the collision of two jumbo jets?",
+    "answers": [
+      "Tenerife",
+      "Fuerteventura",
+      "Maui",
+      "Gran Canaria"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "What is the largest freshwater lake by volume?",
+    "answers": [
+      "Lake Baikal",
+      "Lake Superior",
+      "Lake Michigan",
+      "Lake Huron"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "Where is Timbuktu located?",
+    "answers": [
+      "Mauritania, Africa",
+      "Azerbaijan, Asia",
+      "Mali, Africa",
+      "Bangladesh, Asia"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "How many islands does Kuwait have?",
+    "answers": [
+      "3",
+      "6",
+      "9",
+      "2"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "What is the capital of Bangladesh?",
+    "answers": [
+      "Khulna",
+      "London",
+      "Lahore",
+      "Dhaka"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "In which country is the city of Rio de Janeiro?",
+    "answers": [
+      "Peru",
+      "Brazil",
+      "Chile",
+      "Venezuela"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "What is the capital of Jamaica?",
+    "answers": [
+      "San Juan",
+      "Port-au-Prince",
+      "Kingston",
+      "Bridgetown"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "What is the capital of Romania?",
+    "answers": [
+      "Bratislava",
+      "Belgrade",
+      "Budapest",
+      "Bucharest"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "Kuala Lumpur is the capital of which country?",
+    "answers": [
+      "Singapore",
+      "Malaysia",
+      "Thailand",
+      "Indonesia"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "What is the name of the capital of Turkey?",
+    "answers": [
+      "Izmir",
+      "Istanbul",
+      "Ankara",
+      "Bursa"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "Which is the only US state located entirely within the Appalachia region?",
+    "answers": [
+      "Pennsylvania",
+      "Kentucky",
+      "Alabama",
+      "West Virginia"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "What country is not a part of Scandinavia?",
+    "answers": [
+      "Norway",
+      "Finland",
+      "Denmark",
+      "Sweden"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "What is the largest city and commercial capital of Sri Lanka?",
+    "answers": [
+      "Kandy",
+      "Negombo",
+      "Colombo",
+      "Moratuwa"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Where is the city of Haarlem located?",
+    "answers": [
+      "United States",
+      "The Netherlands",
+      "Switzerland",
+      "Germany"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "What is the capital of the US State of New York?",
+    "answers": [
+      "New York",
+      "Rochester",
+      "Albany",
+      "Buffalo"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "Which of these African regions does *not* directly border the Democratic Republic of The Congo?",
+    "answers": [
+      "Central African Republic",
+      "Zambia",
+      "Tanzania",
+      "Sudan"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "Which Borough is the farthest in the north of New York City?",
+    "answers": [
+      "Queens",
+      "Brooklyn",
+      "Manhattan",
+      "Bronx"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "Which of these places is a location in Cornwall?",
+    "answers": [
+      "Barcelona",
+      "Alicante",
+      "Lisbon",
+      "Madrid"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "Which is the largest city in Morocco?",
+    "answers": [
+      "Sale",
+      "Casablanca",
+      "Fes",
+      "Rabat"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "Which is the smallest country in the world?",
+    "answers": [
+      "Monaco City",
+      "Titania",
+      "Lesotho",
+      "Vatican City"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "What African country has Portuguese as its official language?",
+    "answers": [
+      "Togo",
+      "Botswana",
+      "Gabon",
+      "Mozambique"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Which of the following landlocked countries is entirely contained within another country?",
+    "answers": [
+      "Luxembourg",
+      "Burkina Faso",
+      "Lesotho",
+      "Mongolia"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Which country is completely landlocked by South Africa?",
+    "answers": [
+      "Swaziland",
+      "Lesotho",
+      "Zimbabwe",
+      "Botswana"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "The prefix Sino- (As in Sino-American) is used to refer to what nationality?",
+    "answers": [
+      "Russian",
+      "Japanese",
+      "Chinese",
+      "Indian"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "Which of the following Japanese islands is the biggest?",
+    "answers": [
+      "Shikoku",
+      "Kyushu",
+      "Honshu",
+      "Hokkaido"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "In which Indian city can the Taj Mahal be found?",
+    "answers": [
+      "Mumbai",
+      "Thane",
+      "Agra",
+      "Faridabad"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "How many countries does Mexico border?",
+    "answers": [
+      "4",
+      "2",
+      "3",
+      "1"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "Which US state has the highest population?",
+    "answers": [
+      "California",
+      "Texas",
+      "Florida",
+      "New York"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Which country ranks first in the number of historically active volcanoes?",
+    "answers": [
+      "Indonesia",
+      "India",
+      "Japan",
+      "USA"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Which islands below have been claimed by both Japan and Russia?",
+    "answers": [
+      "Paracel Islands",
+      "Kuril Islands",
+      "Spratly Islands",
+      "Chagos Islands"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "How many countries share a land border with Luxembourg?",
+    "answers": [
+      "5",
+      "4",
+      "2",
+      "3"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "The Svalbard Archipelago is a dependency of which country?",
+    "answers": [
+      "Norway",
+      "Iceland",
+      "Russia",
+      "Denmark"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "The Andaman and Nicobar Islands in South East Asia are controlled by which country?",
+    "answers": [
+      "India",
+      "Indonesia",
+      "Thailand",
+      "Vietnam"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "Ouagadougou is the capital of which African country?",
+    "answers": [
+      "Senegal",
+      "Zambia",
+      "Central African Republic",
+      "Burkina Faso"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "Who was the King of Gods in Ancient Greek mythology?",
+    "answers": [
+      "Hermes",
+      "Zeus",
+      "Poseidon",
+      "Apollo"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "In most traditions, who was the wife of Zeus?",
+    "answers": [
+      "Hera",
+      "Aphrodite",
+      "Hestia",
+      "Athena"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "Who in Greek mythology, who led the Argonauts in search of the Golden Fleece?",
+    "answers": [
+      "Castor",
+      "Odysseus",
+      "Daedalus",
+      "Jason"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "Which Greek & Roman god was known as the god of music, truth and prophecy, healing, the sun and light, plague, poetry, and more?",
+    "answers": [
+      "Athena",
+      "Apollo",
+      "Aphrodite",
+      "Artemis"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "Who is the god of war in Polynesian mythology?",
+    "answers": [
+      "Māui",
+      "Hina",
+      "'Oro",
+      "Kohara"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "According to Japanese folklore, what is the favorite food of the Kappa.",
+    "answers": [
+      "Kabocha",
+      "Nasu",
+      "Cucumbers",
+      "Soba"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "The Hippogriff, not to be confused with the Griffon, is a magical creature with the front half of an eagle, and the back half of what?",
+    "answers": [
+      "A Tiger",
+      "A Dragon",
+      "A Lion",
+      "A Horse"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "Which Norse God has a horse named Sleipnir?",
+    "answers": [
+      "Frigg",
+      "Balder",
+      "Thor",
+      "Odin"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "Nidhogg is a mythical creature from what mythology?",
+    "answers": [
+      "Greek",
+      "Norse",
+      "Hindu",
+      "Egyptian"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "Talos, the mythical giant bronze man, was the protector of which island?",
+    "answers": [
+      "Sardinia",
+      "Sicily",
+      "Cyprus",
+      "Crete"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Which of the following is not true about the life of Tiresias?",
+    "answers": [
+      "Sailed with the Argonauts to find the golden fleece",
+      "Athena turned him into a woman, and then years later back into a man",
+      "Revealed to Oedipus that Oedipus had married his own mother",
+      "Hera blinded him after he agreed with Zeus in an argument"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Who was the only god from Greece who did not get a name change in Rome?",
+    "answers": [
+      "Zeus",
+      "Demeter",
+      "Apollo",
+      "Athena"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "How many heads does Cerberus have?",
+    "answers": [
+      "5",
+      "1",
+      "3",
+      "2"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "What mytological creatures have women's faces and vultures' bodies?",
+    "answers": [
+      "Nymph",
+      "Lilith",
+      "Mermaids",
+      "Harpies"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "A minotaur is half human half what?",
+    "answers": [
+      "Cow",
+      "Eagle",
+      "Bull",
+      "Horse"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "In Norse Mythology, what is the name of the symbol commonly referred to as the \"Tree of Life\"?",
+    "answers": [
+      "Odin's Roots",
+      "Ymir",
+      "Tree of the Earth",
+      "Yggdrasil"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "What animal did Queen Pasipahe sleep with before she gave birth to the Minotaur in Greek Mythology?",
+    "answers": [
+      "Horse",
+      "Bull",
+      "Pig",
+      "Ox"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "Who did Hippomenes defeat in a footrace?",
+    "answers": [
+      "Theseus",
+      "Jason",
+      "Peleus",
+      "Atalanta"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "Who is a minor god that is protector and creator of various arts, such as cheese making and bee keeping.",
+    "answers": [
+      "Carme",
+      "Autonoe",
+      "Cephisso",
+      "Aristaeus"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "The greek god Poseidon was the god of what?",
+    "answers": [
+      "The Sea",
+      "Fire",
+      "Sun",
+      "War"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Which of these mythological creatures is said to be half-man and half-horse?",
+    "answers": [
+      "Gorgon",
+      "Pegasus",
+      "Centaur",
+      "Minotaur"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Which figure from Greek mythology traveled to the underworld to return his wife Eurydice to the land of the living?",
+    "answers": [
+      "Perseus",
+      "Daedalus",
+      "Orpheus",
+      "Hercules"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "The ancient Roman god of war was commonly known as which of the following?",
+    "answers": [
+      "Jupiter",
+      "Mars",
+      "Ares",
+      "Juno"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "This Greek goddess's name was chosen for the dwarf planet responsible for discord on Pluto's classification amongst astronomers.",
+    "answers": [
+      "Dysnomia",
+      "Eris",
+      "Ceres",
+      "Charon"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "What is the name of the Greek god of peaceful deaths?",
+    "answers": [
+      "Tartarus",
+      "Thanatos",
+      "Moros",
+      "Hades"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "In Greek Mythology, who killed Achilles?",
+    "answers": [
+      "Hector",
+      "Paris",
+      "Pericles",
+      "Helen"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "Who is the father of Icarus, who flew too close to the sun?",
+    "answers": [
+      "Zeus",
+      "Daedalus",
+      "Minos",
+      "Perseus"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "An Ankh is the Egyptian Hieroglyph for what?",
+    "answers": [
+      "Hatred",
+      "Poison",
+      "Life",
+      "Love"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "According to the Egyptian Myth of Osiris, who murdered Osiris?",
+    "answers": [
+      "Anhur",
+      "Ra",
+      "Horus",
+      "Set"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "In Greek mythology, Persephone must return to the underworld because she had eaten what kind of seeds?",
+    "answers": [
+      "Sunflower",
+      "Orange",
+      "Pomegranate",
+      "Fig"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "In Greek mythology, who is the god of wine?",
+    "answers": [
+      "Demeter",
+      "Apollo",
+      "Dionysus",
+      "Hephaestus"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "The Nike apparel and footwear brand takes it's name from the Greek goddess of what?",
+    "answers": [
+      "Courage",
+      "Strength",
+      "Victory",
+      "Honor"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "What mythology did the god \"Apollo\" come from?",
+    "answers": [
+      "Greek and Chinese",
+      "Greek, Roman and Norse",
+      "Roman and Spanish",
+      "Greek and Roman"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "In Norse Mythology, Baldr was killed by Loki with a magical spear made from what plant?",
+    "answers": [
+      "Mistletoe",
+      "Wolf's Bane",
+      "Buckthorn",
+      "Hemlock"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "Hera is god of...",
+    "answers": [
+      "Marriage",
+      "War",
+      "Agriculture",
+      "Sea"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "Which greek god/goddess tossed a golden apple with the words \"for the fairest\" into the middle of the feast of the gods?",
+    "answers": [
+      "Artemis",
+      "Ares",
+      "Hades",
+      "Eris"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "In African mythology, Anansi is a trickster and storyteller who takes the shape of which animal?",
+    "answers": [
+      "Monkey",
+      "Wild dog",
+      "Spider",
+      "Crocodile"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "This Greek mythological figure is the god/goddess of battle strategy (among other things).",
+    "answers": [
+      "Ares",
+      "Athena",
+      "Apollo",
+      "Artemis"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "The Norse god Odin has two pet crows named \"Huginn\" and \"Muninn\".  What do their names mean?",
+    "answers": [
+      "Thought & Memory",
+      "War & Learning",
+      "Power & Peace",
+      "Sleeping & Waking"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Which church's interior in Vatican City was designed in 1503 by renaissance architects including Bramante, Michelangelo and Bernini?",
+    "answers": [
+      "St. Peter's Basilica",
+      "St. Mark's Basilica",
+      "The Duomo of Florence",
+      "Catania Cathedral"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "Neptune's greek name was...",
+    "answers": [
+      "Ares",
+      "Poseidon",
+      "Apollo",
+      "Zeus"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "What is the name of the Greek god of blacksmiths?",
+    "answers": [
+      "Hephaestus",
+      "Artagatus",
+      "Vulcan",
+      "Dyntos"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "What is the name of the wildman that Gilgamesh befriends and goes on adventures with?",
+    "answers": [
+      "Enkidu",
+      "Inanna",
+      "Ishtar",
+      "Agga"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "Which of these Roman gods doesn't have a counterpart in Greek mythology?",
+    "answers": [
+      "Janus",
+      "Vulcan",
+      "Juno",
+      "Mars"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "According to Algonquian folklore, how does one transform into a Wendigo?",
+    "answers": [
+      "Participating in cannibalism.",
+      "Excessive mutilation of animal corpses.",
+      "Performing a ritual involving murder.",
+      "Drinking the blood of many slain animals."
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "In Norse mythology, what is the name of the serpent which eats the roots of the ash tree Yggdrasil?",
+    "answers": [
+      "Odin",
+      "Nidhogg",
+      "Bragi",
+      "Ymir"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "In Greek Mythology, who was the daughter of King Minos?",
+    "answers": [
+      "Ariel",
+      "Alana",
+      "Athena",
+      "Ariadne"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Nephelococcygia is the practice of doing what?",
+    "answers": [
+      "Finding shapes in clouds",
+      "Sleeping with your eyes open",
+      "Breaking glass with your voice",
+      "Swimming in freezing water"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "When was \"YouTube\" founded?",
+    "answers": [
+      "July 19, 2009",
+      "May 22, 2004",
+      "September 12, 2005",
+      "February 14, 2005"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Disney's Haunted Mansion is home to a trio of Hitchhiking Ghosts. Which of these is NOT one of them?",
+    "answers": [
+      "Ezra",
+      "Phineas",
+      "Gus",
+      "Harry"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "What is the name of the first human being in Norse mythology?",
+    "answers": [
+      "Ask",
+      "Asmund",
+      "Ake",
+      "Asger"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Which of the following is not one of the Greek Fates?",
+    "answers": [
+      "Narcissus",
+      "Lachesis",
+      "Atropos",
+      "Clotho"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "The Maori hold that which island nation was founded by Kupe, who discovered it under a long white cloud?",
+    "answers": [
+      "Hawaii",
+      "Fiji",
+      "New Zealand",
+      "Vanuatu"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Who was the Roman god of fire?",
+    "answers": [
+      "Jupiter",
+      "Apollo",
+      "Vulcan",
+      "Mercury"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "What was the punishment for Sysiphus's craftiness?",
+    "answers": [
+      "Tied to a boulder for eternity, being pecked by birds.",
+      "Cursed to roll a boulder up a hill for eternity.",
+      "To fell a tree that regenerated after every axe swing.",
+      "Standing in a lake filled with water he could not drink."
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "Which of the following is NOT a god in Norse Mythology.",
+    "answers": [
+      "Tyr",
+      "Jens",
+      "Loki",
+      "Snotra"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "Who is the Egyptian god of reproduction and lettuce?",
+    "answers": [
+      "Menu",
+      "Min",
+      "Mut",
+      "Meret"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "Which musician has collaborated with American producer Porter Robinson and released the 2016 song \"Shelter\"?",
+    "answers": [
+      "deadmau5",
+      "Mat Zo",
+      "Zedd",
+      "Madeon"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "What was the third country to have a McDonald's restaurant?",
+    "answers": [
+      "Japan",
+      "Australia",
+      "Costa Rica",
+      "France"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "Sciophobia is the fear of what?",
+    "answers": [
+      "Eating",
+      "Transportation",
+      "Shadows",
+      "Bright lights"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "Which painting was not made by Vincent Van Gogh?",
+    "answers": [
+      "Starry Night",
+      "The Ninth Wave",
+      "Bedroom In Arles",
+      "Café Terrace at Night"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "What is a fundamental element of the Gothic style of architecture?",
+    "answers": [
+      "coffered ceilings",
+      "pointed arch",
+      "internal frescoes",
+      "fa&ccedil;ades surmounted by a pediment "
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "Who painted the Mona Lisa?",
+    "answers": [
+      "Leonardo da Vinci",
+      "Claude Monet",
+      "Vincent van Gogh",
+      "Pablo Picasso"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "Which artist is famous for cutting off his ear?",
+    "answers": [
+      "Vincent van Gogh",
+      "Michelangelo",
+      "Salvador Dali",
+      "Rembrandt"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "Which artist painted \"The Treachery of Images,\" a painting of a pipe with the description \"this is not a pipe\"?",
+    "answers": [
+      "Magritte",
+      "Matisse",
+      "Modigliani",
+      "Munch "
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "Which artist's studio was known as 'The Factory'?",
+    "answers": [
+      "Peter Blake",
+      "Roy Lichtenstein",
+      "Andy Warhol",
+      "David Hockney"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "Who painted the painting \"Nighthawks\"?",
+    "answers": [
+      "Edward Hopper",
+      "Salvador Dali",
+      "Johannes Vermeer",
+      "Vincent van Gogh"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "What was the major distinction between the English and French Gothic styles of architecture?",
+    "answers": [
+      "Hemispherical Domes",
+      "Fan vaulting",
+      "Gargoyles",
+      "Pinnacles"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "What year did Albrecht D&uuml;rer create the painting \"The Young Hare\"?",
+    "answers": [
+      "1702",
+      "1602",
+      "1502",
+      "1402"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "Paul Gauguin moved to which country in 1895?",
+    "answers": [
+      "Tahiti",
+      "Atuona",
+      "Lithuania",
+      "France"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Who sculpted the statue of David?",
+    "answers": [
+      "Gian Lorenzo Bernini",
+      "Michelangelo",
+      "Auguste Rodin",
+      "Donatello"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "What is the name of the Japanese art of folding paper into decorative shapes and figures?",
+    "answers": [
+      "Haiku",
+      "Origami",
+      "Ukiyo-e",
+      "Sumi-e"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Which artist painted the late 15th century mural 'The Last Supper'?",
+    "answers": [
+      "Luca Pacioli",
+      "Piero della Francesca",
+      "Leonardo da Vinci",
+      "Paolo Uccello"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Who painted \"Swans Reflecting Elephants\", \"Sleep\", and \"The Persistence of Memory\"?",
+    "answers": [
+      "Salvador Dali",
+      "Edgar Degas",
+      "Jackson Pollock",
+      "Vincent van Gogh"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "Which of these are the name of a famous marker brand?",
+    "answers": [
+      "Marx",
+      "Dopix",
+      "Cofix",
+      "Copic"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "Which artist's style was to use small different colored dots to create a picture?",
+    "answers": [
+      "Paul Cézanne",
+      "Henri Rousseau",
+      "Vincent Van Gogh",
+      "Georges Seurat"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": " What color is produced by mixing black and white?",
+    "answers": [
+      "White",
+      "Grey",
+      "Black",
+      "Brown"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "What year was the Mona Lisa finished?",
+    "answers": [
+      "1504",
+      "1511",
+      "1487",
+      "1523"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "How many paint and pastel versions of \"The Scream\" is Norwegian painter Edvard Munch believed to have produced?",
+    "answers": [
+      "4",
+      "1",
+      "3",
+      "2"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Who painted \"The Starry Night\"?",
+    "answers": [
+      "Vincent van Gogh",
+      "Edvard Munch",
+      "Pablo Picasso",
+      "Claude Monet"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Which Van Gogh painting depicts the view from his asylum in Saint-Rémy-de-Provence in southern France?",
+    "answers": [
+      "The Starry Night",
+      "The Sower with Setting Sun",
+      "Wheatfields with Crows",
+      "The Church at Auvers"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "What is the world's oldest known piece of fiction?",
+    "answers": [
+      "Papyrus of Ani",
+      "Rosetta Stone",
+      "Epic of Gilgamesh",
+      "Code of Hammurabi"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "What is another name for La Gioconda / La Joconde?",
+    "answers": [
+      "The Mona Lisa",
+      "The Starry Night",
+      "Sunflowers",
+      "The Girl with a Pearl Earring"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Who painted The Starry Night?",
+    "answers": [
+      "Vincent van Gogh",
+      "Michelangelo",
+      "Leonardo da Vinci",
+      "Pablo Picasso"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "What nationality was the famous artist Pablo Picasso?",
+    "answers": [
+      "French",
+      "Spanish",
+      "German",
+      "Italian"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "The painting \"Guernica\" by Pablo Picasso expressed emotions of dread in response to which war?",
+    "answers": [
+      "The Crimean War",
+      "Spanish-American War",
+      "World War I",
+      "Spanish Civil War"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "Which of these is not an additional variation of the color purple?",
+    "answers": [
+      "Palatinate",
+      "Byzantium",
+      "Kobicha",
+      "Pomp and Power"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "Who painted the epic mural Guernica?",
+    "answers": [
+      "Francisco Goya",
+      "Henri Matisse",
+      "Pablo Picasso",
+      "Leonardo da Vinci"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "Which of the following languages does NOT use gender as a part of its grammar?",
+    "answers": [
+      "Turkish",
+      "Polish",
+      "Danish",
+      "German"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "Before the 19th Century, the \"Living Room\" was originally called the...",
+    "answers": [
+      "Sitting Room",
+      "Loft",
+      "Open Room",
+      "Parlor"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "Who painted the Sistine Chapel?",
+    "answers": [
+      "Leonardo da Vinci",
+      "Raphael",
+      "Michelangelo",
+      "Pablo Picasso"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "Who painted the biblical fresco The Creation of Adam?",
+    "answers": [
+      "Michelangelo",
+      "Caravaggio",
+      "Leonardo da Vinci",
+      "Rembrandt"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "Which one of these colors are not featured in Mondrian's Broadway Boogie-Woogie?",
+    "answers": [
+      "Red",
+      "Blue",
+      "Yellow",
+      "Green"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "What nationality was the surrealist painter Salvador Dali?",
+    "answers": [
+      "Italian",
+      "Portuguese",
+      "French",
+      "Spanish"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Painter Piet Mondrian (1872 - 1944) was a part of what movement?",
+    "answers": [
+      "Impressionism",
+      "Precisionism",
+      "Cubism",
+      "Neoplasticism"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "What nationality was the famous artist Van Gogh?",
+    "answers": [
+      "French",
+      "Dutch",
+      "Russian",
+      "Polish"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Who painted \"American Gothic\"?",
+    "answers": [
+      "Anita Malfatti",
+      "Grant Wood",
+      "Marc Chagall",
+      "Pablo Picasso"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "What is the most commonly used noun in the English language?",
+    "answers": [
+      "Water",
+      "Home",
+      "Man",
+      "Time"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Which one of these Swedish companies was founded in 1943?",
+    "answers": [
+      "H & M",
+      "Clas Ohlson",
+      "IKEA",
+      "Lindex"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Which of the following chemicals are found in eggplant seeds?",
+    "answers": [
+      "Psilocybin",
+      "Cyanide",
+      "Mescaline",
+      "Nicotine"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "Which of these paintings did Johannes Vermeer not paint?",
+    "answers": [
+      "Bacchus",
+      "The Milkmaid",
+      "Girl with a Pearl Earring",
+      "The Lacemaker"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "Which time signature is commonly known as \"Cut Time?\"",
+    "answers": [
+      "3/4",
+      "6/8",
+      "2/2",
+      "4/4"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "What were Marcel Duchamp's readymades?",
+    "answers": [
+      "a series focused on color and light as opposed to line and shape",
+      "utilitarian objects elevated to the status of art",
+      "a group of identical steel boxes jutting from the wall ",
+      "paintings with a barely visible outlined square"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "Which Greek sculptor designed the Athena Parthenos statue inside the Parthenon?",
+    "answers": [
+      "Phidias",
+      "Hesiod",
+      "Scopas",
+      "Praxiteles"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Which art movement was Pablo Picasso known for co-founding?",
+    "answers": [
+      "Expressionism",
+      "Cubism",
+      "Impressionism",
+      "Futurism"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "When was Salvador Dali's painting, \"The Persistence of Memory,\" completed?",
+    "answers": [
+      "1931",
+      "1929",
+      "1932",
+      "1934"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Albrecht D&uuml;rer's birthplace and place of death were in...",
+    "answers": [
+      "Berlin",
+      "Bamberg",
+      "N&uuml;rnberg",
+      "Augsburg"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "What is the airspeed velocity of an unladen swallow?",
+    "answers": [
+      "200 MPH",
+      "15 MPH",
+      "24 MPH",
+      "20 MPH"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Originally another word for poppy, coquelicot is a shade of what?",
+    "answers": [
+      "Red",
+      "Blue",
+      "Pink",
+      "Green"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Which of the following is not another name for the eggplant?",
+    "answers": [
+      "Potimarron",
+      "Guinea Squash",
+      "Brinjal",
+      "Melongene"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Who painted \"The Scream\"?",
+    "answers": [
+      "Vincent Van Gogh",
+      "Edvard Munch",
+      "Picasso",
+      "Henri Matisse"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Who designed the Chupa Chups logo?",
+    "answers": [
+      "Andy Warhol",
+      "Pablo Picasso",
+      "Vincent van Gogh",
+      "Salvador Dali"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Which one of these paintings is not by Caspar David Friedrich?",
+    "answers": [
+      "The Sea of Ice",
+      "Wanderer above the Sea of Fog",
+      "The Black Sea",
+      "The Monk by the Sea"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "In \"Last Supper\" by Leonardo Da Vinci, what two colors were the robes worn by Jesus?",
+    "answers": [
+      "Red and Blue",
+      "Red and Black",
+      "Red and White",
+      "Red and Yellow"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "What French sculptor designed the Statue of Liberty? ",
+    "answers": [
+      "Auguste Rodin",
+      "Henri Matisse",
+      "Jean-Léon Gér&ocirc;me",
+      "Frédéric Auguste Bartholdi"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "What was the first successful and commercially viable photographic technique?",
+    "answers": [
+      "Collodion process",
+      "The Daguerreotype",
+      "The Turin Shroud",
+      "Kodachrome film"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "The painting \"The Starry Night\" by Vincent van Gogh was part of which art movement?",
+    "answers": [
+      "Impressionism",
+      "Post-Impressionism",
+      "Neoclassical",
+      "Romanticism"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "What is the romanized Korean word for \"heart\"?",
+    "answers": [
+      "Segseu",
+      "Aejeong",
+      "Jeongsin",
+      "Simjang"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "Who is the author of Jurassic Park?",
+    "answers": [
+      "Peter Benchley",
+      "Michael Crichton",
+      "Irvine Welsh",
+      "Chuck Paluhniuk"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "What is the famous Papa John's last name?",
+    "answers": [
+      "Williams",
+      "ANDERSON",
+      "Chowder",
+      "Schnatter"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "How many legs do butterflies have?",
+    "answers": [
+      "4",
+      "6",
+      "2",
+      "0"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "Which breed of dog is traditionally associated with firefighters?",
+    "answers": [
+      "German Shepard",
+      "Mastiff",
+      "Great Dane",
+      "Dalmatians"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "What is Grumpy Cat's real name?",
+    "answers": [
+      "Tardar Sauce",
+      "Broccoli",
+      "Minnie",
+      "Sauce"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "EASY",
+    "text": "By definition, where does an abyssopelagic animal live?",
+    "answers": [
+      "On top of a mountain",
+      "Inside a tree",
+      "In the desert",
+      "At the bottom of the ocean"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "What is the name for a male bee that comes from an unfertilized egg?",
+    "answers": [
+      "Worker",
+      "Male",
+      "Drone",
+      "Soldier"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "Cashmere is the wool from which kind of animal?",
+    "answers": [
+      "Sheep",
+      "Goat",
+      "Llama",
+      "Camel"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "MEDIUM",
+    "text": "\"Decapods\" are an order of ten-footed crustaceans.  Which of these are NOT decapods?",
+    "answers": [
+      "Krill",
+      "Lobsters",
+      "Crabs",
+      "Shrimp"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "What is the name of the copper-rich protein that creates the blue blood in the Antarctic octopus?",
+    "answers": [
+      "Cytochrome",
+      "Hemocyanin",
+      "Iron",
+      "Methionine"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "How many known living species of hyenas are there?",
+    "answers": [
+      "2",
+      "6",
+      "8",
+      "4"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "PHILIPPINES",
+    "difficulty": "HARD",
+    "text": "To which biological phylum do all mammals, birds and reptiles belong?",
+    "answers": [
+      "Placazoa",
+      "Echinodermata",
+      "Annelida",
+      "Chordata"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "What color is a Steller's Jay?",
+    "answers": [
+      "blue and white",
+      "blue and grey",
+      "blue and black",
+      "grey and black"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "Which is the national animal of India?",
+    "answers": [
+      "Lion",
+      "Horse",
+      "Tiger",
+      "Camel"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "What is the name of a rabbit's abode?",
+    "answers": [
+      "Burrow",
+      "Nest",
+      "Den",
+      "Dray"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "EASY",
+    "text": "What is the collective noun for a group of crows?",
+    "answers": [
+      "Pack",
+      "Murder",
+      "Herd",
+      "Gaggle"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "Which dog breed is named after a region in Croatia",
+    "answers": [
+      "Pekingnese",
+      "Pomeranian",
+      "Chihuahua ",
+      "Dalmatian"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "What are the scales on all snakes and most lizards are made of?",
+    "answers": [
+      "Ecdysis",
+      "Epidermis",
+      "Keratin",
+      "Ankyloglossia"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "MEDIUM",
+    "text": "What type of animal is a natterjack?",
+    "answers": [
+      "Toad",
+      "Bird",
+      "Fish",
+      "Insect"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "Which species of Brown Bear is not extinct?",
+    "answers": [
+      "California Grizzly Bear",
+      "Syrian Brown Bear",
+      "Mexican Grizzly Bear",
+      "Atlas Bear"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "Which of these is a colony of polyps and not a jellyfish?",
+    "answers": [
+      "Sea Nettle",
+      "Portuguese Man-of-War",
+      "Irukandji",
+      "Sea Wasp"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "UNITED_STATES",
+    "difficulty": "HARD",
+    "text": "What scientific family does the Aardwolf belong to?",
+    "answers": [
+      "Eupleridae",
+      "Hyaenidae",
+      "Felidae",
+      "Canidae"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "How many teeth does an adult rabbit have?",
+    "answers": [
+      "28",
+      "30",
+      "24",
+      "26"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Snakes and lizards are known to flick their tongue, this behavior is to?",
+    "answers": [
+      "Capture scent particles",
+      "Taste the sweet air",
+      "Threaten other species",
+      "Attract female mates"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Which class of animals are newts members of?",
+    "answers": [
+      "Fish",
+      "Mammals",
+      "Amphibian",
+      "Reptiles"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "EASY",
+    "text": "Hippocampus is the Latin name for which marine creature?",
+    "answers": [
+      "Octopus",
+      "Seahorse",
+      "Whale",
+      "Dolphin"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "The dish Fugu, is made from what family of fish?",
+    "answers": [
+      "Bass",
+      "Pufferfish",
+      "Salmon",
+      "Mackerel"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "What dog breed is one of the oldest breeds of dog and has flourished since before 400 BCE.",
+    "answers": [
+      "Pugs",
+      "Chihuahua",
+      "Bulldogs",
+      "Boxers"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "MEDIUM",
+    "text": "What is the name of the family that the domestic cat is a member of?",
+    "answers": [
+      "Felis",
+      "Felinae",
+      "Felidae",
+      "Cat"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "What is the collective noun for vultures?",
+    "answers": [
+      "Ambush",
+      "Wake",
+      "Building",
+      "Gaze"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "Unlike on most salamanders, this part of a newt is flat?",
+    "answers": [
+      "Feet",
+      "Teeth",
+      "Tail",
+      "Head"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "GREAT_BRITAIN",
+    "difficulty": "HARD",
+    "text": "What is the scientific name of the cheetah?",
+    "answers": [
+      "Lynx rufus",
+      "Acinonyx jubatus",
+      "Panthera onca",
+      "Felis catus"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "What colour is the female blackbird?",
+    "answers": [
+      "Black",
+      "White",
+      "Brown",
+      "Yellow"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "What is the scientific name for modern day humans?",
+    "answers": [
+      "Homo Ergaster",
+      "Homo Sapiens",
+      "Homo Erectus",
+      "Homo Neanderthalensis"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "What do you call a baby bat?",
+    "answers": [
+      "Chick",
+      "Pup",
+      "Kid",
+      "Cub"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "EASY",
+    "text": "Wombats are native to which Country?",
+    "answers": [
+      "Palau",
+      "Australia",
+      "Papua New Guinea",
+      "New Zealand"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "What is the average lifespan of a domestic rabbit?",
+    "answers": [
+      "1-2 years",
+      "14-20 years",
+      "8-12 years",
+      "4-7 years"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "A carnivorous animal eats flesh, what does a nucivorous animal eat?",
+    "answers": [
+      "Fruit",
+      "Nuts",
+      "Nothing",
+      "Seaweed"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "MEDIUM",
+    "text": "What is the scientific name of the Common Chimpanzee?",
+    "answers": [
+      "Panthera leo",
+      "Pan paniscus",
+      "Pan troglodytes",
+      "Gorilla gorilla"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Which species is a \"mountain chicken\"?",
+    "answers": [
+      "Chicken",
+      "Frog",
+      "Horse",
+      "Fly"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "Chronic Wasting Disease (CWD) exclusively infects members of which family of animals?",
+    "answers": [
+      "Hominids",
+      "Felids",
+      "Cervids",
+      "Canids"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "CHINA",
+    "difficulty": "HARD",
+    "text": "What is the average amount of chinchillas born into a single litter?",
+    "answers": [
+      "10-15",
+      "5-8",
+      "2-3",
+      "15-18"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "What is the fastest  land animal?",
+    "answers": [
+      "Pronghorn Antelope",
+      "Thomson's Gazelle",
+      "Lion",
+      "Cheetah"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "Which of these animals are not real?",
+    "answers": [
+      "Nemean Lion",
+      "Sea Dragon",
+      "Giant Squid",
+      "Tasmanian Devil"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "EASY",
+    "text": "The Kākāpō is a large, flightless, nocturnal parrot native to which country?",
+    "answers": [
+      "Madagascar",
+      "Australia",
+      "South Africa",
+      "New Zealand"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "What are rhino's horn made of?",
+    "answers": [
+      "Ivory",
+      "Bone",
+      "Keratin",
+      "Skin"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "What is the scientific name for the \"Polar Bear\"?",
+    "answers": [
+      "Polar Bear",
+      "Ursus Maritimus",
+      "Ursus Spelaeus",
+      "Ursus Arctos"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "MEDIUM",
+    "text": "Which animal was part of an Russian domestication experiment in 1959?",
+    "answers": [
+      "Alligators",
+      "Pigeons",
+      "Foxes",
+      "Bears"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "What is the Gray Wolf's scientific name?",
+    "answers": [
+      "Canis Lupus Lycaon",
+      "Canis Latrans",
+      "Canis Aureus",
+      "Canis Lupus"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "What scientific suborder does the family Hyaenidae belong to?",
+    "answers": [
+      "Ciconiiformes",
+      "Haplorhini",
+      "Feliformia",
+      "Caniformia"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "Which of the following is another name for the \"Poecilotheria Metallica Tarantula\"?",
+    "answers": [
+      "Gooty",
+      "Hopper",
+      "Woebegone",
+      "Silver Stripe"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "JAPAN",
+    "difficulty": "HARD",
+    "text": "What type of creature is a Bonobo?",
+    "answers": [
+      "Ape",
+      "Lion",
+      "Parrot",
+      "Wildcat"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Which of the following is true when alligators are behaving territorially?",
+    "answers": [
+      "Open their jaws while making a clicking noise",
+      "They run full force at the threat",
+      "They bellow while showing their tail and neck",
+      "Slap their tails on the ground"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "What is the fastest animal?",
+    "answers": [
+      "Golden Eagle",
+      "Horsefly",
+      "Peregrine Falcon",
+      "Cheetah"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "What is the collective noun for bears?",
+    "answers": [
+      "Husk",
+      "Drove",
+      "Tribe",
+      "Sloth"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "Which of the following is NOT a venomous snake?",
+    "answers": [
+      "Reticulated python",
+      "Yellow bellied sea snake",
+      "Black mamba",
+      "Malayan Krait"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "What is the scientific name of the Budgerigar?",
+    "answers": [
+      "Pyrrhura molinae",
+      "Ara macao",
+      "Nymphicus hollandicus",
+      "Melopsittacus undulatus"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "What bird is born with claws on its wing digits?",
+    "answers": [
+      "Cormorant",
+      "Cassowary",
+      "Hoatzin",
+      "Secretary bird"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "HARD",
+    "text": "What is the scientific name for the Bald Eagle?",
+    "answers": [
+      "Aquila Chrysaetos",
+      "Cyanocitta Cristata",
+      "Tyto Alba",
+      "Haliaeetus Leucocephalus "
+    ],
+    "correctIndex": 3
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "For what reason would a spotted hyena \"laugh\"?",
+    "answers": [
+      "Exhaustion",
+      "Nervousness",
+      "Aggression",
+      "Excitement"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "MEDIUM",
+    "text": "About how much of their body weight in food do sea otters eat every day?",
+    "answers": [
+      "25%",
+      "45%",
+      "10%",
+      "80%"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "country": "SOUTH_KOREA",
+    "difficulty": "EASY",
+    "text": "The buried remains of which English explorer of Australia were found in London  in January 2019? ",
+    "answers": [
+      "Matthew Flinders",
+      "Dirk Hartog",
+      "Abel Tasman",
+      "William Bourke"
+    ],
+    "correctIndex": 0
+  }
+]

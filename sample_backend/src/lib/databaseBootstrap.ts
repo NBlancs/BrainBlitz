@@ -1,7 +1,7 @@
 import { Client } from "pg";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { seedDatabase } from "./seedHelper.js";
+import { seedDatabase, expectedQuestionCount } from "./seedHelper.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -81,8 +81,8 @@ async function syncCategoriesIfDirty(databaseUrl: string) {
         console.warn("⚠️ Failed to check Question count, defaulting to 0:", qErr);
       }
       
-      if (hasExtra || hasMissing || questionCount < 360) {
-        console.log(`⚠️ Database categories/questions are out of sync (expected 360 questions, found ${questionCount}). Triggering seeding...`);
+      if (hasExtra || hasMissing || questionCount < expectedQuestionCount) {
+        console.log(`⚠️ Database categories/questions are out of sync (expected ${expectedQuestionCount} questions, found ${questionCount}). Triggering seeding...`);
         await seedDatabase();
         console.log("  ✅ Seeding complete. Database categories are now in sync.");
       } else {
