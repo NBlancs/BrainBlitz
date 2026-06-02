@@ -8,7 +8,12 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const fetchedQuestionsPath = path.resolve(__dirname, "./fetched-questions.json");
+let fetchedQuestionsPath = path.resolve(__dirname, "./fetched-questions.json");
+if (!fs.existsSync(fetchedQuestionsPath)) {
+  // If running compiled JS in dist/lib/ but the JSON file wasn't copied by tsc,
+  // resolve it in the src/lib directory relative to __dirname (/app/dist/lib -> /app/src/lib)
+  fetchedQuestionsPath = path.resolve(__dirname, "../../src/lib/fetched-questions.json");
+}
 const fetchedQuestions: SeedQuestion[] = JSON.parse(fs.readFileSync(fetchedQuestionsPath, "utf8"));
 
 type SeedQuestion = {
