@@ -84,33 +84,25 @@ export function CategoryScreen({ navigation }: Props) {
   // Difficulty & Hearts Lockout States
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [showHeartsGone, setShowHeartsGone] = useState(false);
-  const [cooldownText, setCooldownText] = useState("00:59:59");
   const [showCountryModal, setShowCountryModal] = useState(false);
+  const [tick, setTick] = useState(0);
 
-  const hearts = useGameStore((state) => state.hearts);
-  const heartsDepletedAt = useGameStore((state) => state.heartsDepletedAt);
-  const checkRefill = useGameStore((state) => state.checkRefill);
+  const getCategoryHearts = useGameStore((state) => state.getCategoryHearts);
+  const getCategoryHeartsDepletedAt = useGameStore((state) => state.getCategoryHeartsDepletedAt);
+  const setActiveCategory = useGameStore((state) => state.setActiveCategory);
+  const checkAllRefills = useGameStore((state) => state.checkAllRefills);
 
   // Check heart refills periodically and on navigation focus
   useEffect(() => {
-    checkRefill();
+    checkAllRefills();
     const interval = setInterval(() => {
-      checkRefill();
-      if (hearts === 0 && heartsDepletedAt) {
-        const elapsed = Date.now() - heartsDepletedAt;
-        const remainingMs = Math.max(0, 300000 - elapsed);
-        const hours = Math.floor(remainingMs / 3600000);
-        const minutes = Math.floor((remainingMs % 3600000) / 60000);
-        const seconds = Math.floor((remainingMs % 60000) / 1000);
-        setCooldownText(
-          [hours, minutes, seconds].map((v) => String(v).padStart(2, "0")).join(":")
-        );
-      }
+      checkAllRefills();
+      setTick((t) => t + 1);
     }, 1000);
 
     const subscription = AppState.addEventListener("change", (nextState) => {
       if (nextState === "active") {
-        checkRefill();
+        checkAllRefills();
       }
     });
 
@@ -118,14 +110,14 @@ export function CategoryScreen({ navigation }: Props) {
       clearInterval(interval);
       subscription.remove();
     };
-  }, [hearts, heartsDepletedAt, checkRefill]);
+  }, [checkAllRefills]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      checkRefill();
+      checkAllRefills();
     });
     return unsubscribe;
-  }, [navigation, checkRefill]);
+  }, [navigation, checkAllRefills]);
 
   const onSaveSettings = async () => {
     setDiscoveryStatus(null);
@@ -273,14 +265,7 @@ export function CategoryScreen({ navigation }: Props) {
           <View>
             <Text style={styles.kicker}>PLAYER</Text>
             <Text style={styles.welcome}>{user?.username}</Text>
-            {hearts === 0 ? (
-              <View style={styles.lockoutContainer}>
-                <Text style={styles.lockoutTitle}>⚠️ LOCKOUT ACTIVE ⚠️</Text>
-                <Text style={styles.lockoutSubtitle}>RECHARGING LIVES IN: {cooldownText}</Text>
-              </View>
-            ) : (
-              <Text style={styles.subtitle}>SELECT A MISSION TO START A 10-QUESTION ROUND.</Text>
-            )}
+            <Text style={styles.subtitle}>SELECT A MISSION TO START A 10-QUESTION ROUND.</Text>
           </View>
           <Pressable style={({ pressed }) => [styles.signOutButton, pressed && styles.signOutButtonPressed]} onPress={withClickSound(clearUser)}>
             <Text style={styles.signOutText}>SIGN OUT</Text>
@@ -295,33 +280,56 @@ export function CategoryScreen({ navigation }: Props) {
           data={data?.getCategories ?? []}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
-          renderItem={({ item, index }) => (
-            <AnimatedReveal delay={120 + index * 70} duration={220} fromY={10}>
-              <Pressable
-                style={({ pressed }) => [
-                  styles.card,
-                  pressed && hearts > 0 && styles.cardPressed,
-                  hearts === 0 && { opacity: 0.45 },
-                ]}
-                onPress={withClickSound(() => {
-                  if (hearts === 0) {
-                    setShowHeartsGone(true);
-                  } else {
-                    setSelectedCategory(item);
-                  }
-                })}
-              >
-                <View style={[styles.cardIconWrap, { backgroundColor: accentMap[item.icon] ?? theme.colors.primary }]}>
-                  <Text style={styles.cardIcon}>{iconMap[item.icon] ?? "🧠"}</Text>
-                </View>
-                <View style={styles.cardBody}>
-                  <Text style={styles.cardTitle}>{item.name.toUpperCase()}</Text>
-                  <Text style={styles.cardMeta}>{item.questionCount} QUESTIONS AVAILABLE</Text>
-                </View>
-                <Text style={styles.cardArrow}>{">"}</Text>
-              </Pressable>
-            </AnimatedReveal>
-          )}
+          renderItem={({ item, index }) => {
+            const catHearts = getCategoryHearts(item.id);
+            const catDepletedAt = getCategoryHeartsDepletedAt(item.id);
+            const isLocked = catHearts === 0;
+
+            let formattedCooldown = "";
+            if (isLocked && catDepletedAt) {
+              const elapsed = Date.now() - catDepletedAt;
+              const remainingMs = Math.max(0, 300000 - elapsed);
+              const minutes = Math.floor(remainingMs / 60000);
+              const seconds = Math.floor((remainingMs % 60000) / 1000);
+              formattedCooldown = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+            }
+
+            return (
+              <AnimatedReveal delay={120 + index * 70} duration={220} fromY={10}>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.card,
+                    pressed && !isLocked && styles.cardPressed,
+                    isLocked && { opacity: 0.6, borderColor: "#FF453A" },
+                  ]}
+                  onPress={withClickSound(() => {
+                    setActiveCategory(item.id);
+                    if (isLocked) {
+                      setShowHeartsGone(true);
+                    } else {
+                      setSelectedCategory(item);
+                    }
+                  })}
+                >
+                  <View style={[styles.cardIconWrap, { backgroundColor: isLocked ? "#444" : (accentMap[item.icon] ?? theme.colors.primary) }]}>
+                    <Text style={styles.cardIcon}>{isLocked ? "🔒" : (iconMap[item.icon] ?? "🧠")}</Text>
+                  </View>
+                  <View style={styles.cardBody}>
+                    <Text style={[styles.cardTitle, isLocked && { color: "#FF453A" }]}>
+                      {item.name.toUpperCase()} {isLocked && "(LOCKED)"}
+                    </Text>
+                    <Text style={styles.cardMeta}>
+                      {isLocked 
+                        ? `RECHARGING LIVES IN: ${formattedCooldown}` 
+                        : `${item.questionCount} QUESTIONS AVAILABLE`
+                      }
+                    </Text>
+                  </View>
+                  <Text style={styles.cardArrow}>{">"}</Text>
+                </Pressable>
+              </AnimatedReveal>
+            );
+          }}
         />
       </AnimatedReveal>
 

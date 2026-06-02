@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LeaderboardHubScreen } from "../screens/LeaderboardHubScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
+import { RulesScreen } from "../screens/RulesScreen";
 import { playClickSound } from "../lib/soundManager";
 import { theme } from "../theme";
 import { MainTabParamList } from "../types";
@@ -10,7 +11,7 @@ import { HomeStackNavigator } from "./HomeStackNavigator";
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
-type PixelIconName = "home" | "leaderboard" | "profile";
+type PixelIconName = "home" | "leaderboard" | "rules" | "profile";
 
 const ICONS: Record<PixelIconName, number[][]> = {
   home: [
@@ -26,6 +27,13 @@ const ICONS: Record<PixelIconName, number[][]> = {
     [1, 1, 1, 1, 1],
     [1, 0, 1, 0, 1],
     [1, 0, 0, 0, 1],
+  ],
+  rules: [
+    [1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 1],
+    [1, 1, 1, 0, 1],
+    [1, 1, 0, 0, 1],
+    [1, 1, 1, 1, 1],
   ],
   profile: [
     [0, 1, 1, 1, 0],
@@ -103,6 +111,10 @@ export function MainTabNavigator() {
             return <PixelTabIcon name="leaderboard" focused={focused} />;
           }
 
+          if (route.name === "RulesTab") {
+            return <PixelTabIcon name="rules" focused={focused} />;
+          }
+
           return <PixelTabIcon name="profile" focused={focused} />;
         },
       })}
@@ -130,6 +142,18 @@ export function MainTabNavigator() {
         }}
         options={{
           title: "LEADERBOARD",
+        }}
+      />
+      <Tab.Screen
+        name="RulesTab"
+        component={RulesScreen}
+        listeners={{
+          tabPress: () => {
+            void playClickSound();
+          },
+        }}
+        options={{
+          title: "RULES",
         }}
       />
       <Tab.Screen

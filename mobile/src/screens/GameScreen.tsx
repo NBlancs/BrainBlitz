@@ -55,6 +55,7 @@ export function GameScreen({ route, navigation }: Props) {
 
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [feedbackType, setFeedbackType] = useState<"correct" | "wrong" | null>(null);
+  const [heartRegained, setHeartRegained] = useState(false);
   const questionStartRef = useRef<number>(Date.now());
   const answeredQuestionIdRef = useRef<string | null>(null);
   const correctFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -137,6 +138,7 @@ export function GameScreen({ route, navigation }: Props) {
       }
 
       answeredQuestionIdRef.current = questionId;
+      setHeartRegained(false);
       submitAnswer({
         questionId,
         answerId: null,
@@ -211,6 +213,7 @@ export function GameScreen({ route, navigation }: Props) {
     } else {
       void playWrongSound();
       setFeedbackType("wrong");
+      setHeartRegained(false);
     }
 
     if (correctFeedbackTimeoutRef.current) {
@@ -219,10 +222,12 @@ export function GameScreen({ route, navigation }: Props) {
 
     correctFeedbackTimeoutRef.current = setTimeout(() => {
       setFeedbackType(null);
+      setHeartRegained(false);
       correctFeedbackTimeoutRef.current = null;
     }, 600);
 
     const elapsed = Math.min(Date.now() - questionStartRef.current, QUESTION_TIME_MS);
+    const oldHearts = useGameStore.getState().hearts;
     submitAnswer({
       questionId,
       answerId: answer.id,
@@ -231,6 +236,10 @@ export function GameScreen({ route, navigation }: Props) {
     });
 
     const currentHearts = useGameStore.getState().hearts;
+    if (currentHearts > oldHearts) {
+      setHeartRegained(true);
+    }
+
     if (currentHearts === 0) {
       completeRound();
       return;
@@ -398,7 +407,14 @@ export function GameScreen({ route, navigation }: Props) {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             {feedbackType === "correct" ? (
-              <Image source={require("../assets/check.png")} style={styles.checkImage} resizeMode="contain" />
+              <View style={{ alignItems: "center" }}>
+                <Image source={require("../assets/check.png")} style={styles.checkImage} resizeMode="contain" />
+                {heartRegained && (
+                  <Text style={{ color: "#4CAF50", fontFamily: "Outfit-Bold", fontSize: 24, marginTop: 12, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 2 }}>
+                    ❤️ +1 LIFE!
+                  </Text>
+                )}
+              </View>
             ) : (
               <Image source={require("../assets/wrong.png")} style={styles.checkImage} resizeMode="contain" />
             )}
