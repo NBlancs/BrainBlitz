@@ -80,9 +80,7 @@ async function getLocalQuestions(
   difficulty: "EASY" | "MEDIUM" | "HARD",
   country: "PHILIPPINES" | "UNITED_STATES" | "GREAT_BRITAIN" | "CHINA" | "JAPAN" | "SOUTH_KOREA"
 ) {
-  // 1. Fetch up to 10 random questions matching country, categoryId, and difficulty
-  // Since we want to order randomly, we can use raw query or fetch and shuffle.
-  // Since there are only a few questions, findMany and shuffling in memory is very efficient and works perfectly.
+  // 1. Fetch questions matching country, categoryId, and difficulty
   const primaryQuestions = await prisma.question.findMany({
     where: {
       categoryId,
@@ -94,11 +92,27 @@ async function getLocalQuestions(
 
   let selectedQuestions = [...primaryQuestions];
 
-  // 2. If we have less than 10, fetch remaining from the same country and category but other difficulties
+  // 2. Fallback A: Fetch questions matching categoryId and difficulty (any country)
   if (selectedQuestions.length < 10) {
     const remainingCount = 10 - selectedQuestions.length;
-    const primaryIds = primaryQuestions.map((q) => q.id);
-    const fallbackQuestions = await prisma.question.findMany({
+    const primaryIds = selectedQuestions.map((q) => q.id);
+    const countryFallback = await prisma.question.findMany({
+      where: {
+        categoryId,
+        difficulty: difficulty as any,
+        id: { notIn: primaryIds },
+      },
+      include: { answers: true },
+      take: remainingCount,
+    });
+    selectedQuestions = [...selectedQuestions, ...countryFallback];
+  }
+
+  // 3. Fallback B: If still less than 10 (defensive), match categoryId and country (other difficulties)
+  if (selectedQuestions.length < 10) {
+    const remainingCount = 10 - selectedQuestions.length;
+    const primaryIds = selectedQuestions.map((q) => q.id);
+    const difficultyFallback = await prisma.question.findMany({
       where: {
         categoryId,
         country: country as any,
@@ -107,7 +121,22 @@ async function getLocalQuestions(
       include: { answers: true },
       take: remainingCount,
     });
-    selectedQuestions = [...selectedQuestions, ...fallbackQuestions];
+    selectedQuestions = [...selectedQuestions, ...difficultyFallback];
+  }
+
+  // 4. Fallback C: If still less than 10 (defensive), match categoryId (any country, any difficulty)
+  if (selectedQuestions.length < 10) {
+    const remainingCount = 10 - selectedQuestions.length;
+    const primaryIds = selectedQuestions.map((q) => q.id);
+    const absoluteFallback = await prisma.question.findMany({
+      where: {
+        categoryId,
+        id: { notIn: primaryIds },
+      },
+      include: { answers: true },
+      take: remainingCount,
+    });
+    selectedQuestions = [...selectedQuestions, ...absoluteFallback];
   }
 
   // Shuffle selected questions list and their answers
