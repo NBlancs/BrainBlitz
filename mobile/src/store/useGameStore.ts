@@ -126,8 +126,6 @@ export const useGameStore = create<GameState>()(
           currentIndex: 0,
           currentRemainingMs: QUESTION_TIME_MS,
           submissions: [],
-          difficulty: null,
-          country: null,
         }),
 
       setDifficulty: (difficulty) => set({ difficulty }),
