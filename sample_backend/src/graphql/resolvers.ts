@@ -92,23 +92,7 @@ async function getLocalQuestions(
 
   let selectedQuestions = [...primaryQuestions];
 
-  // 2. Fallback A: Fetch questions matching categoryId and difficulty (any country)
-  if (selectedQuestions.length < 10) {
-    const remainingCount = 10 - selectedQuestions.length;
-    const primaryIds = selectedQuestions.map((q) => q.id);
-    const countryFallback = await prisma.question.findMany({
-      where: {
-        categoryId,
-        difficulty: difficulty as any,
-        id: { notIn: primaryIds },
-      },
-      include: { answers: true },
-      take: remainingCount,
-    });
-    selectedQuestions = [...selectedQuestions, ...countryFallback];
-  }
-
-  // 3. Fallback B: If still less than 10 (defensive), match categoryId and country (other difficulties)
+  // 2. Fallback A: Match categoryId and country (other difficulties)
   if (selectedQuestions.length < 10) {
     const remainingCount = 10 - selectedQuestions.length;
     const primaryIds = selectedQuestions.map((q) => q.id);
@@ -122,6 +106,22 @@ async function getLocalQuestions(
       take: remainingCount,
     });
     selectedQuestions = [...selectedQuestions, ...difficultyFallback];
+  }
+
+  // 3. Fallback B: If still less than 10 (defensive), match categoryId and difficulty (any country)
+  if (selectedQuestions.length < 10) {
+    const remainingCount = 10 - selectedQuestions.length;
+    const primaryIds = selectedQuestions.map((q) => q.id);
+    const countryFallback = await prisma.question.findMany({
+      where: {
+        categoryId,
+        difficulty: difficulty as any,
+        id: { notIn: primaryIds },
+      },
+      include: { answers: true },
+      take: remainingCount,
+    });
+    selectedQuestions = [...selectedQuestions, ...countryFallback];
   }
 
   // 4. Fallback C: If still less than 10 (defensive), match categoryId (any country, any difficulty)

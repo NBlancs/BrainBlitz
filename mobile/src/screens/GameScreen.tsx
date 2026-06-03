@@ -139,21 +139,30 @@ export function GameScreen({ route, navigation }: Props) {
 
       answeredQuestionIdRef.current = questionId;
       setHeartRegained(false);
-      submitAnswer({
-        questionId,
-        answerId: null,
-        responseTimeMs: QUESTION_TIME_MS,
-        isCorrect: false,
-      });
+      void playWrongSound();
+      setFeedbackType("wrong");
 
-      const currentHearts = useGameStore.getState().hearts;
-      if (currentHearts === 0) {
-        completeRound();
-      } else if (isLastQuestion) {
-        completeRound();
-      } else {
-        advanceQuestion();
-      }
+      correctFeedbackTimeoutRef.current = setTimeout(() => {
+        setFeedbackType(null);
+        setHeartRegained(false);
+        correctFeedbackTimeoutRef.current = null;
+
+        submitAnswer({
+          questionId,
+          answerId: null,
+          responseTimeMs: QUESTION_TIME_MS,
+          isCorrect: false,
+        });
+
+        const currentHearts = useGameStore.getState().hearts;
+        if (currentHearts === 0) {
+          completeRound();
+        } else if (isLastQuestion) {
+          completeRound();
+        } else {
+          advanceQuestion();
+        }
+      }, 2000);
     }, 150);
 
     return () => {
@@ -207,9 +216,20 @@ export function GameScreen({ route, navigation }: Props) {
 
     void playClickSound();
 
-    if (answer.isCorrect) {
+    const isCorrect = answer.isCorrect;
+    const currentStoreState = useGameStore.getState();
+    const willRegainHeart = isCorrect &&
+                            (currentStoreState.consecutiveCorrect + 1 === 3) &&
+                            (currentStoreState.hearts < 3);
+
+    if (isCorrect) {
       void playCorrectSound();
       setFeedbackType("correct");
+      if (willRegainHeart) {
+        setHeartRegained(true);
+      } else {
+        setHeartRegained(false);
+      }
     } else {
       void playWrongSound();
       setFeedbackType("wrong");
@@ -220,37 +240,34 @@ export function GameScreen({ route, navigation }: Props) {
       clearTimeout(correctFeedbackTimeoutRef.current);
     }
 
+    const feedbackDuration = isCorrect ? 600 : 2000;
+
     correctFeedbackTimeoutRef.current = setTimeout(() => {
       setFeedbackType(null);
       setHeartRegained(false);
       correctFeedbackTimeoutRef.current = null;
-    }, 600);
 
-    const elapsed = Math.min(Date.now() - questionStartRef.current, QUESTION_TIME_MS);
-    const oldHearts = useGameStore.getState().hearts;
-    submitAnswer({
-      questionId,
-      answerId: answer.id,
-      responseTimeMs: elapsed,
-      isCorrect: answer.isCorrect,
-    });
+      const elapsed = Math.min(Date.now() - questionStartRef.current, QUESTION_TIME_MS);
+      submitAnswer({
+        questionId,
+        answerId: answer.id,
+        responseTimeMs: elapsed,
+        isCorrect,
+      });
 
-    const currentHearts = useGameStore.getState().hearts;
-    if (currentHearts > oldHearts) {
-      setHeartRegained(true);
-    }
+      const currentHearts = useGameStore.getState().hearts;
+      if (currentHearts === 0) {
+        completeRound();
+        return;
+      }
 
-    if (currentHearts === 0) {
-      completeRound();
-      return;
-    }
-
-    const isLastQuestion = currentIndex >= questions.length - 1;
-    if (isLastQuestion) {
-      completeRound();
-    } else {
-      advanceQuestion();
-    }
+      const isLastQuestion = currentIndex >= questions.length - 1;
+      if (isLastQuestion) {
+        completeRound();
+      } else {
+        advanceQuestion();
+      }
+    }, feedbackDuration);
   };
 
   const onSubmitRound = async () => {
@@ -404,21 +421,28 @@ export function GameScreen({ route, navigation }: Props) {
   return (
     <View style={styles.container}>
       <Modal transparent visible={feedbackType !== null} animationType="fade" statusBarTranslucent>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            {feedbackType === "correct" ? (
-              <View style={{ alignItems: "center" }}>
-                <Image source={require("../assets/check.png")} style={styles.checkImage} resizeMode="contain" />
-                {heartRegained && (
-                  <Text style={{ color: "#4CAF50", fontFamily: "Outfit-Bold", fontSize: 24, marginTop: 12, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 2 }}>
-                    ❤️ +1 LIFE!
-                  </Text>
-                )}
-              </View>
-            ) : (
+        <View style={[
+          styles.modalOverlay,
+          feedbackType === "wrong" && { backgroundColor: "rgba(0, 0, 0, 0.75)", padding: 24 }
+        ]}>
+          {feedbackType === "correct" ? (
+            <View style={styles.modalContent}>
+              <Image source={require("../assets/check.png")} style={styles.checkImage} resizeMode="contain" />
+              {heartRegained && (
+                <Text style={{ color: "#4CAF50", fontFamily: "Outfit-Bold", fontSize: 24, marginTop: 12, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 2 }}>
+                  ❤️ +1 LIFE!
+                </Text>
+              )}
+            </View>
+          ) : (
+            <View style={styles.wrongFeedbackCard}>
               <Image source={require("../assets/wrong.png")} style={styles.checkImage} resizeMode="contain" />
-            )}
-          </View>
+              <Text style={styles.correctAnswerLabel}>CORRECT ANSWER:</Text>
+              <Text style={styles.correctAnswerText}>
+                {currentQuestion?.answers.find((a) => a.isCorrect)?.text.toUpperCase()}
+              </Text>
+            </View>
+          )}
         </View>
       </Modal>
 
@@ -703,5 +727,32 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.mono,
     fontSize: 12,
     letterSpacing: 1,
+  },
+  wrongFeedbackCard: {
+    ...pixelBorder(4),
+    borderColor: theme.colors.danger,
+    backgroundColor: theme.colors.background,
+    width: "100%",
+    maxWidth: 320,
+    padding: 22,
+    alignItems: "center",
+    gap: 12,
+  },
+  correctAnswerLabel: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 12,
+    color: theme.colors.danger,
+    fontWeight: "700",
+    letterSpacing: 0.8,
+    marginTop: 8,
+    textAlign: "center",
+  },
+  correctAnswerText: {
+    fontFamily: theme.fonts.mono,
+    fontSize: 16,
+    color: theme.colors.border,
+    fontWeight: "700",
+    textAlign: "center",
+    lineHeight: 22,
   },
 });
