@@ -9,3 +9,5 @@ Backend Runtime: node.js + Fastify
 API Server: Mercurius (GraphQL for Fastify)
 
 Database: PostgreSQL + Prisma
+
+//Done
